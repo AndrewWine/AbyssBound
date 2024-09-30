@@ -1,50 +1,141 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class Enemy : Entity
+public class Enemy : MonoBehaviour
 {
-    public EnemyStateMachine StateMachine { get; private set; }
+    public Entity entity;
+    public EnemyState enemyState;
+    public EnemyStateMachine enemystateMachine;
+    public EnemyData enemyData;
+    public float distanceBattle;
 
-    [Header("States")]
-    public IdleState enemyIdleState;
-    public AttackState enemyattackState;
-    public HitState enemyHitState;
-    public DeathState enemyDeathState;
-    public WalkState enemyWalkState;
-    public ChasingState enemyChasingState;
-    public override void Flip()
+    public Vector2 CurrentVelocity { get; private set; }
+    private Vector2 workspace;
+
+    public void AnimationFinishTrigger()
     {
-        base.Flip();
+        enemystateMachine.CurrentState.AnimationFinishTrigger();
+    }
+    protected virtual void Awake()
+    {
+        entity.animator = GetComponentInChildren<Animator>();
+        entity.RB = GetComponent<Rigidbody2D>();
+        // Gán EntityData dựa trên EntityType
+        entity.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
     }
 
-    public override void SetVelocityX(float velocity)
+    protected virtual void Start()
     {
-        base.SetVelocityX(velocity);
+
+    }
+    protected virtual void Update()
+    {
+        CheckObject();
+        BattleDistanceCheck();
+        CanAttack();
+ 
     }
 
-    public override void SetVelocityY(float velocity)
+    public virtual void BattleDistanceCheck()
     {
-        base.SetVelocityY(velocity);
+
+    }
+    public virtual void Flip()
+    {
+        // Đảo chiều FacingDirection
+        entity.FacingDirection *= -1;
+        // Lật đối tượng bằng cách thay đổi góc quay (rotation) theo trục Y
+        Vector3 rotation = transform.eulerAngles;
+        rotation.y += 180f;
+        transform.eulerAngles = rotation;
+    }
+    public bool CanAttack()
+    {
+        if (Time.time >= enemyData.lastTimeAttacked + enemyData.attackCooldown)
+        {
+            enemyData.lastTimeAttacked = Time.time;
+            return true;
+        }
+        return false;
     }
 
-    public override void SetVelocityZero()
+
+    protected virtual void CheckObject()
     {
-        base.SetVelocityZero();
+        // Perform OverlapCircle to check for player
+        Collider2D playerCollider = Physics2D.OverlapCircle(entity.RB.position, 10f, entity.playerLayer);
+        if (playerCollider != null)
+        {
+            // Nếu phát hiện player, lấy Transform của player
+            entity.targetPlayer = playerCollider.transform;
+
+            // Di chuyển nhân vật về phía player
+            entity.playerDetected = true;
+        }
+        else entity.playerDetected = false;
+
+
+
+        // Log the result
+        Debug.Log("Player detected: " + entity.playerDetected);
+
+        // Ground check
+        entity.isGrounded = Physics2D.Raycast(entity.groundCheck.position, Vector2.down, enemyData.groundCheckDistance, enemyData.whatIsGround);
+        Debug.Log("Is Grounded: " + entity.isGrounded);
+
+        // Wall check
+        entity.isWall = Physics2D.Raycast(entity.wallCheck.position, Vector2.right * entity.FacingDirection, enemyData.WallCheckDistance, enemyData.whatIsGround);
+        Debug.Log("Is Wall: " + entity.isWall + " FacingDirection: " + entity.FacingDirection);
+
+        entity.isPlayer = Physics2D.Raycast(entity.PlayerCheck.position, Vector2.right * entity.FacingDirection, enemyData.PlayerCheckDistance, enemyData.whatIsPlayer);
+        Debug.Log("Is Wall: " + entity.isPlayer + " FacingDirection: " + entity.FacingDirection);
+
+    }
+    protected virtual void OnDrawGizmos()
+    {
+        // Set Gizmo color
+        Gizmos.color = Color.blue;
+
+        // Draw ground check ray
+        Vector3 groundCheckPosition = entity.groundCheck.position;
+        Gizmos.DrawLine(groundCheckPosition, groundCheckPosition + Vector3.down * enemyData.groundCheckDistance);
+
+        // Draw wall check ray  
+
+        Gizmos.DrawLine(entity.wallCheck.position, entity.wallCheck.position + Vector3.right * entity.FacingDirection * enemyData.WallCheckDistance);
+
+        //Draw player check ray
+        Gizmos.DrawLine(entity.PlayerCheck.position, entity.PlayerCheck.position + Vector3.right * entity.FacingDirection * enemyData.PlayerCheckDistance);
+
+        // Draw the overlap circle to visualize detection range
+        Gizmos.color = Color.yellow; // Change color for the overlap circle
+        Gizmos.DrawWireSphere(entity.RB.position, 10f); // Draw wire sphere to visualize the overlap range
+        Gizmos.DrawWireSphere(entity.attackCheck.position, enemyData.attackCheckRadius);
+
     }
 
-    protected override void Awake()
+
+
+    public virtual void SetVelocityZero()
     {
-        base.Awake();
+        entity.RB.velocity = Vector2.zero;
+        CurrentVelocity = Vector2.zero;
     }
 
-    protected override void Start()
+    public virtual void SetVelocityX(float velocity)
     {
-        base.Start();
+        workspace.Set(velocity, 0);
+        entity.RB.velocity = workspace;
+        CurrentVelocity = workspace;
     }
 
-    protected override void Update()
+    public virtual void SetVelocityY(float velocity)
     {
-        base.Update();
+        workspace.Set(CurrentVelocity.x, velocity);
+        entity.RB.velocity = workspace;
+        CurrentVelocity = workspace;
     }
 }

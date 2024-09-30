@@ -44,7 +44,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 13
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -113,10 +113,10 @@ TextureImporter:
       name: runattack1_0
       rect:
         serializedVersion: 2
-        x: 19
+        x: 12
         y: 76
-        width: 55
-        height: 50
+        width: 69
+        height: 44
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,8 +136,8 @@ TextureImporter:
         serializedVersion: 2
         x: 81
         y: 76
-        width: 55
-        height: 50
+        width: 69
+        height: 44
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,10 +155,10 @@ TextureImporter:
       name: runattack1_2
       rect:
         serializedVersion: 2
-        x: 159
+        x: 150
         y: 76
-        width: 55
-        height: 50
+        width: 69
+        height: 44
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,10 +176,10 @@ TextureImporter:
       name: runattack1_3
       rect:
         serializedVersion: 2
-        x: 24
-        y: 23
-        width: 55
-        height: 50
+        x: 12
+        y: 24
+        width: 69
+        height: 44
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: runattack1_4
       rect:
         serializedVersion: 2
-        x: 86
-        y: 23
-        width: 55
-        height: 50
+        x: 81
+        y: 24
+        width: 69
+        height: 44
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,12 +218,12 @@ TextureImporter:
       name: runattack1_5
       rect:
         serializedVersion: 2
-        x: 155
-        y: 23
-        width: 55
-        height: 50
+        x: 150
+        y: 24
+        width: 69
+        height: 44
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

@@ -22,8 +22,8 @@ public class Player : MonoBehaviour
     public void Update()
     {
         CheckOnDrawGizmos();
-        // Check if player should flip direction
         CheckIfShouldFlip(blackBoard.PlayerInputHandler.NormInputX);
+
 
         if (blackBoard.isGrounded)
         {
@@ -35,22 +35,16 @@ public class Player : MonoBehaviour
     public void CheckOnDrawGizmos()
     {
         // Ground check
-        blackBoard.isGrounded = Physics2D.Raycast(
-            blackBoard.groundCheck.position,
-            Vector2.down,
-            playerData.groundCheckDistance,
-            playerData.whatIsGround
-        );
+        blackBoard.isGrounded = Physics2D.Raycast(blackBoard.groundCheck.position,Vector2.down,playerData.groundCheckDistance,playerData.whatIsGround);
         Debug.Log("Is Grounded: " + blackBoard.isGrounded);
 
         // Wall check
-        blackBoard.isWall = Physics2D.Raycast(
-            blackBoard.wallCheck.position,
-            Vector2.right * blackBoard.FacingDirection,
-            playerData.WallCheckDistance,
-            playerData.whatIsGround
-        );
+        blackBoard.isWall = Physics2D.Raycast( blackBoard.wallCheck.position,Vector2.right * blackBoard.FacingDirection,playerData.WallCheckDistance, playerData.whatIsGround);
         Debug.Log("Is Wall: " + blackBoard.isWall + " FacingDirection: " + blackBoard.FacingDirection);
+
+        //Attack check
+        
+        
     }
 
     public void AnimationTrigger()
@@ -70,7 +64,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public virtual void Flip()
+    public  void Flip()
     {
         // Reverse FacingDirection
         blackBoard.FacingDirection *= -1;
@@ -81,6 +75,16 @@ public class Player : MonoBehaviour
         transform.localScale = newScale;
     }
 
+    public void CheckGizmosCondition()
+    {
+        // Ground check
+        blackBoard.isGrounded = Physics2D.Raycast(blackBoard.groundCheck.position, Vector2.down, playerData.groundCheckDistance, playerData.whatIsGround);
+        Debug.Log("Is Grounded: " + blackBoard.isGrounded);
+
+        // Wall check
+        blackBoard.isWall = Physics2D.Raycast(blackBoard.wallCheck.position, Vector2.right * blackBoard.FacingDirection, playerData.WallCheckDistance, playerData.whatIsGround);
+        Debug.Log("Is Wall: " + blackBoard.isWall + " FacingDirection: " + blackBoard.FacingDirection);
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
@@ -92,6 +96,8 @@ public class Player : MonoBehaviour
         // Draw wall check ray
         Vector3 wallCheckPosition = blackBoard.wallCheck.position;
         Gizmos.DrawLine(wallCheckPosition, wallCheckPosition + Vector3.right * blackBoard.FacingDirection * playerData.WallCheckDistance);
+
+        Gizmos.DrawWireSphere(blackBoard.attackCheck.position,playerData.attackCheckRadius);
     }
 
     public virtual void SetVelocityZero()

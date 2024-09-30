@@ -15,7 +15,6 @@ public class PlayerAirState : PlayerState
         {
             Debug.LogError("Animator is not assigned in BlackBoard!");
         }
-        player.SetVelocityY(blackBoard.RB.velocity.y * 3f);
     }
 
     public override void LogicUpdate()

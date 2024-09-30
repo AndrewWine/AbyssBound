@@ -29,6 +29,11 @@ public class Skeleton_Enemy : Enemy
         base.Awake();
     }
 
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+    }
+
     protected override void Start()
     {
         base.Start();

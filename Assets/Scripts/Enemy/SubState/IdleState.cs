@@ -5,7 +5,7 @@ public class IdleState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        enemy.animator.Play("Idle");
+        entity.animator.Play("Idle");
     }
 
     public override void Exit()
@@ -21,14 +21,14 @@ public class IdleState : EnemyState
         // Check for player detection in LogicUpdate
         if (PlayerCheck)
         {
-            enemystateMachine.ChangeState(enemy.enemyChasingState);
+            enemystateMachine.ChangeState(entity.battleState);
         }
     }
 
     public override void PhysicUpdate()
     {
         // Update PlayerCheck based on the raycast result
-        hit = Physics2D.Raycast(enemy.wallCheck.position, Vector2.right * enemy.FacingDirection, enemy.enemyData.WallCheckDistance, enemy.playerLayer);
+        hit = Physics2D.Raycast(entity.wallCheck.position, Vector2.right * entity.FacingDirection, entity.enemyData.WallCheckDistance, entity.playerLayer);
         PlayerCheck = hit.collider != null;
     }
 }

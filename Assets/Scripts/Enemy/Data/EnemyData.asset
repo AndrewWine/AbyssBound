@@ -12,12 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 757fd33a8e6b3a7459ac29dff1c4303f, type: 3}
   m_Name: EnemyData
   m_EditorClassIdentifier: 
-  MovementSpeed: 10
+  MovementSpeed: 1
   Hp: 0
   Damage: 0
   Armor: 0
-  groundCheckDistance: 0.3
-  WallCheckDistance: 5
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
+  attackCooldown: 0.4
+  lastTimeAttacked: 13.721381
+  attackCheckRadius: 1.7
+  groundCheckDistance: 0.3
+  WallCheckDistance: 3
+  PlayerCheckDistance: 2.5

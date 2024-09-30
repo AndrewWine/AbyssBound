@@ -12,7 +12,18 @@ public class EnemyData : ScriptableObject
     public float Armor;
 
     [Header("Check Variables")]
+
+    public LayerMask whatIsGround;
+    public LayerMask whatIsPlayer;
+
+    [Header("Attack Infor")]
+    public float attackCooldown;
+    public float lastTimeAttacked;
+
+    [Header("Radius")]
+    public float attackCheckRadius;
     public float groundCheckDistance = 0.3f;
     public float WallCheckDistance;
-    public LayerMask whatIsGround;
+    public float PlayerCheckDistance;
+
 }

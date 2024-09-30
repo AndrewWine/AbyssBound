@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  UsageTimer: 36.244633
-  PassingTime: 1.0159265
+  UsageTimer: 1.3501351
+  PassingTime: 80.21808
   dashCoolDown: 3
   dashSpeed: 45
   dashDuration: 0.1
   CountAttack: 0
   TimeCondition: 0
-  CountClick: 0
+  CountClick: 1
   SlideSpeed: 15
   slideCoolDown: 2
   slideDuration: 0.5
@@ -28,12 +28,13 @@ MonoBehaviour:
   amountOfJump: 2
   coyoteTime: 0
   wallSlideVelocity: 3
-  CurrentFacing: 1
+  CurrentFacing: -1
   startOffset: {x: 0, y: 0}
   stopOffset: {x: 0, y: 0}
   WallJumpForce: 10
   groundCheckDistance: 0.5
-  WallCheckDistance: 0.5
+  WallCheckDistance: 0.3
+  attackCheckRadius: 1.2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8

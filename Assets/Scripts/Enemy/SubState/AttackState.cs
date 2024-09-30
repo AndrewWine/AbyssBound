@@ -1,18 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AttackState : EnemyState
+﻿using UnityEngine;
+    public class AttackState : EnemyState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Enter()
     {
-        
+        base.Enter();
+        entity.animator.Play("Attack");
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void LogicUpdate()
     {
-        
+        base.LogicUpdate();
+
+        // Chỉ thay đổi trạng thái nếu animation đã kết thúc
+        if (isAnimationFinished)
+        {
+            enemystateMachine.ChangeState(entity.battleState);
+        }
+    }
+
+    public override void AnimationFinishTrigger()
+    {
+        base.AnimationFinishTrigger();
+        isAnimationFinished = true; // Đánh dấu rằng animation đã kết thúc
+        Debug.Log("Animation finished: " + isAnimationFinished);
+
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        enemyData.lastTimeAttacked = Time.time;
     }
 }

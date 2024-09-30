@@ -10,7 +10,7 @@ public class PlayerMoveState : PlayerState
         {
             blackBoard.animator.Play("Run");
         }
-
+        player.SetVelocityY(0);
     }
 
     public override void LogicUpdate()

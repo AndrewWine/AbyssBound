@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+﻿
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 public class BlackBoard : MonoBehaviour
 {
     #region Variable
-    [Header("Component")]
+    [Header("Collision")]
     public PlayerInputHandler PlayerInputHandler;
     public Animator animator;
     public Rigidbody2D RB;
+    public PlayerData playerData;
 
 
     [Header("Int Variable")]
@@ -22,10 +20,15 @@ public class BlackBoard : MonoBehaviour
     public bool DashInput;
     public bool isWall;
     public bool isGrounded;
+    public bool WallDetected;
 
     [Header("Transform")]
     [SerializeField] public Transform groundCheck;
     [SerializeField] public Transform wallCheck;
+    public Transform attackCheck;
+
+
+
 
     [Header("ColliderSize")]
     public Vector2 originalColliderSize;
