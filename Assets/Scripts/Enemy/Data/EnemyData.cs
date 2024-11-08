@@ -6,13 +6,10 @@ public class EnemyData : ScriptableObject
     [Header("Moving")]
     public float MovementSpeed = 5;
 
-    [Header("Index")]
-    public float Hp;
-    public float Damage;
-    public float Armor;
+    public float damage = 10;
+    public float magicDamage;
 
     [Header("Check Variables")]
-
     public LayerMask whatIsGround;
     public LayerMask whatIsPlayer;
 

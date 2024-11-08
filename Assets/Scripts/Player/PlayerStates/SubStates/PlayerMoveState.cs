@@ -6,11 +6,11 @@ public class PlayerMoveState : PlayerState
     {
         base.Enter();
         // Chạy animation Run
-        if(blackBoard.isGrounded)
+        if(blackboard.isGrounded)
         {
-            blackBoard.animator.Play("Run");
+            blackboard.animator.Play("Run");
         }
-        player.SetVelocityY(0);
+        blackboard.player.SetVelocityY(0);
     }
 
     public override void LogicUpdate()
@@ -18,42 +18,42 @@ public class PlayerMoveState : PlayerState
         base.LogicUpdate();
 
         // Chuyển sang trạng thái Idle nếu không còn đầu vào di chuyển
-        if (blackBoard.PlayerInputHandler.NormInputX == 0 && blackBoard.isGrounded)
+        if (blackboard.PlayerInputHandler.NormInputX == 0 && blackboard.isGrounded)
         {
-            stateMachine.ChangeState(blackBoard.idleState);
+            stateMachine.ChangeState(blackboard.idleState);
         }
 
         // Chuyển sang trạng thái Jump nếu nhấn phím nhảy
-        if (blackBoard.PlayerInputHandler.JumpInput)
+        if (blackboard.PlayerInputHandler.JumpInput)
         {
-            stateMachine.ChangeState(blackBoard.JumpState);
+            stateMachine.ChangeState(blackboard.JumpState);
         }
 
         // Chuyển sang trạng thái Dash nếu điều kiện được thỏa mãn
-        if (blackBoard.PlayerInputHandler.DashInput )
+        if (blackboard.PlayerInputHandler.DashInput )
         {
-            stateMachine.ChangeState(blackBoard.DashState);
+            stateMachine.ChangeState(blackboard.DashState);
         }
 
-        if( !blackBoard.isGrounded)
+        if( !blackboard.isGrounded)
         {
-            stateMachine.ChangeState(blackBoard.AirState);
+            stateMachine.ChangeState(blackboard.AirState);
         }
 
-        if(blackBoard.PlayerInputHandler.SlideInput)
+        if(blackboard.PlayerInputHandler.SlideInput)
         {
-            stateMachine.ChangeState(blackBoard.SlideState);
+            stateMachine.ChangeState(blackboard.SlideState);
 
         }
-        if (blackBoard.PlayerInputHandler.LeftClick)
+        if (blackboard.PlayerInputHandler.LeftClick)
         {
-            if (playerData.CountClick == 2)
+            if (blackboard.playerData.CountClick % 2 == 0)
             {
-                stateMachine.ChangeState(blackBoard.runattack2);
+                stateMachine.ChangeState(blackboard.runattack2);
             }
-            if (playerData.CountClick == 1)
+            else 
             {
-                stateMachine.ChangeState(blackBoard.runattack1);
+                stateMachine.ChangeState(blackboard.runattack1);
 
             }
 
@@ -68,7 +68,7 @@ public class PlayerMoveState : PlayerState
 
         // Cập nhật vận tốc dựa trên đầu vào và dữ liệu từ PlayerData
 
-        float moveInput = blackBoard.PlayerInputHandler.NormInputX;
-        player.SetVelocityX(moveInput  * playerData.movementSpeed); // Sử dụng thuộc tính movementVelocity
+        float moveInput = blackboard.PlayerInputHandler.NormInputX;
+        blackboard.player.SetVelocityX(moveInput  * blackboard.playerData.movementSpeed); // Sử dụng thuộc tính movementVelocity
     }
 }

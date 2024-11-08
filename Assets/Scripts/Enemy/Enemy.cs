@@ -4,16 +4,19 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemi : MonoBehaviour
 {
-    public Entity entity;
+    [Header("Component")]
+    public EnemyBlackBoard entity;
     public EnemyState enemyState;
     public EnemyStateMachine enemystateMachine;
     public EnemyData enemyData;
-    public float distanceBattle;
+    public EntityFX fx { get; private set; }
+
 
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
+    public float distanceBattle;
 
     public void AnimationFinishTrigger()
     {
@@ -21,10 +24,12 @@ public class Enemy : MonoBehaviour
     }
     protected virtual void Awake()
     {
+        fx = GetComponent<EntityFX>();
         entity.animator = GetComponentInChildren<Animator>();
         entity.RB = GetComponent<Rigidbody2D>();
         // Gán EntityData dựa trên EntityType
         entity.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
+      
     }
 
     protected virtual void Start()
@@ -34,24 +39,24 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         CheckObject();
-        BattleDistanceCheck();
         CanAttack();
- 
     }
 
-    public virtual void BattleDistanceCheck()
+    public virtual void Damage()
     {
+        fx.StartCoroutine("FlashFX");
+        StartCoroutine("HitKnockback");
+        Debug.Log(gameObject.name + "was damaged!");
+    }
+    
+    protected virtual IEnumerator HitKnockback()
+    {
+        entity.isKnocked  = true;
+        entity.RB.velocity = new Vector2(entity.knockbackDirection.x * -entity.FacingDirection,entity.knockbackDirection.y);
+        yield return new WaitForSeconds(entity.knockbackDuration);
+        entity.isKnocked = false;
+    }
 
-    }
-    public virtual void Flip()
-    {
-        // Đảo chiều FacingDirection
-        entity.FacingDirection *= -1;
-        // Lật đối tượng bằng cách thay đổi góc quay (rotation) theo trục Y
-        Vector3 rotation = transform.eulerAngles;
-        rotation.y += 180f;
-        transform.eulerAngles = rotation;
-    }
     public bool CanAttack()
     {
         if (Time.time >= enemyData.lastTimeAttacked + enemyData.attackCooldown)
@@ -62,6 +67,35 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
+    public virtual void OpenCounterAttackWindow()
+    {
+        entity.canBeStunned = true;
+        entity.counterImage.SetActive(true);
+    }
+    public virtual void CloseCounterAttackWindow()
+    {
+        entity.canBeStunned = false;
+        entity.counterImage.SetActive(false);
+    }
+
+    public virtual bool CanBeStunned()
+    {
+        if(!entity.canBeStunned)
+        {
+            CloseCounterAttackWindow();
+            return true;
+        }
+        return false;
+    }
+    public virtual void Flip()
+    {
+        // Đảo chiều FacingDirection
+        entity.FacingDirection *= -1;
+        // Lật đối tượng bằng cách thay đổi góc quay (rotation) theo trục Y
+        Vector3 rotation = transform.eulerAngles;
+        rotation.y += 180f;
+        transform.eulerAngles = rotation;
+    }
 
     protected virtual void CheckObject()
     {
@@ -76,22 +110,15 @@ public class Enemy : MonoBehaviour
             entity.playerDetected = true;
         }
         else entity.playerDetected = false;
-
-
-
         // Log the result
-        Debug.Log("Player detected: " + entity.playerDetected);
 
         // Ground check
         entity.isGrounded = Physics2D.Raycast(entity.groundCheck.position, Vector2.down, enemyData.groundCheckDistance, enemyData.whatIsGround);
-        Debug.Log("Is Grounded: " + entity.isGrounded);
 
         // Wall check
         entity.isWall = Physics2D.Raycast(entity.wallCheck.position, Vector2.right * entity.FacingDirection, enemyData.WallCheckDistance, enemyData.whatIsGround);
-        Debug.Log("Is Wall: " + entity.isWall + " FacingDirection: " + entity.FacingDirection);
 
         entity.isPlayer = Physics2D.Raycast(entity.PlayerCheck.position, Vector2.right * entity.FacingDirection, enemyData.PlayerCheckDistance, enemyData.whatIsPlayer);
-        Debug.Log("Is Wall: " + entity.isPlayer + " FacingDirection: " + entity.FacingDirection);
 
     }
     protected virtual void OnDrawGizmos()
@@ -102,25 +129,21 @@ public class Enemy : MonoBehaviour
         // Draw ground check ray
         Vector3 groundCheckPosition = entity.groundCheck.position;
         Gizmos.DrawLine(groundCheckPosition, groundCheckPosition + Vector3.down * enemyData.groundCheckDistance);
-
         // Draw wall check ray  
-
         Gizmos.DrawLine(entity.wallCheck.position, entity.wallCheck.position + Vector3.right * entity.FacingDirection * enemyData.WallCheckDistance);
-
-        //Draw player check ray
-        Gizmos.DrawLine(entity.PlayerCheck.position, entity.PlayerCheck.position + Vector3.right * entity.FacingDirection * enemyData.PlayerCheckDistance);
-
         // Draw the overlap circle to visualize detection range
         Gizmos.color = Color.yellow; // Change color for the overlap circle
         Gizmos.DrawWireSphere(entity.RB.position, 10f); // Draw wire sphere to visualize the overlap range
+        Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(entity.attackCheck.position, enemyData.attackCheckRadius);
-
+        //Draw player check ray
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(entity.PlayerCheck.position, entity.PlayerCheck.position + Vector3.right * entity.FacingDirection * enemyData.PlayerCheckDistance);
     }
-
-
 
     public virtual void SetVelocityZero()
     {
+      
         entity.RB.velocity = Vector2.zero;
         CurrentVelocity = Vector2.zero;
     }
@@ -134,6 +157,8 @@ public class Enemy : MonoBehaviour
 
     public virtual void SetVelocityY(float velocity)
     {
+        if(entity.isKnocked)
+            return;
         workspace.Set(CurrentVelocity.x, velocity);
         entity.RB.velocity = workspace;
         CurrentVelocity = workspace;

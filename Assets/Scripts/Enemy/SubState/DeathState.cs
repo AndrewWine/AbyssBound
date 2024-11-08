@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class DeathState : EnemyState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Enter()
     {
-        
+        blackboard.animator.Play("Death");
+        base.Enter();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void LogicUpdate()
     {
-        
+        base.LogicUpdate();
     }
 }

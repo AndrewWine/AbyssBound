@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using Unity.Burst.CompilerServices;
+using UnityEngine;
 
 public class PlayerStateAttack3 : PlayerState
 {
     public override void Enter()
     {
         base.Enter();
-        blackBoard.animator.Play("Attack3"); // Phát animation Attack3
-        isAnimationFinished = false; // Đặt lại biến isAnimationFinished
-        blackBoard.PlayerInputHandler.LeftClick = false; // Reset click input để chuẩn bị cho combo tiếp theo
-        playerData.CountClick = 0;
+        blackboard.playerData.CountClick++;
+        blackboard.animator.Play("Attack3"); // Phát animation Attack3
+        blackboard.PlayerInputHandler.LeftClick = false; // Reset click input để chuẩn bị cho combo tiếp theo
     }
 
     public override void LogicUpdate()
@@ -21,21 +21,21 @@ public class PlayerStateAttack3 : PlayerState
             if (isAnimationFinished)
             {
 
-                if (blackBoard.PlayerInputHandler.NormInputX != 0 && blackBoard.isGrounded)
+                if (blackboard.PlayerInputHandler.NormInputX != 0 && blackboard.isGrounded)
                 {
-                    stateMachine.ChangeState(blackBoard.MoveState);
+                    stateMachine.ChangeState(blackboard.MoveState);
                 }
-                else if (blackBoard.PlayerInputHandler.DashInput)
+                else if (blackboard.PlayerInputHandler.DashInput)
                 {
-                    stateMachine.ChangeState(blackBoard.DashState);
+                    stateMachine.ChangeState(blackboard.DashState);
                 }
-                else if (blackBoard.PlayerInputHandler.JumpInput)
+                else if (blackboard.PlayerInputHandler.JumpInput)
                 {
-                    stateMachine.ChangeState(blackBoard.JumpState);
+                    stateMachine.ChangeState(blackboard.JumpState);
                 }
                 else
                 {
-                    stateMachine.ChangeState(blackBoard.idleState);
+                    stateMachine.ChangeState(blackboard.idleState);
                 }
             }
         }

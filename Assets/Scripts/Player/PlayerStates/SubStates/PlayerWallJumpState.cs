@@ -7,10 +7,10 @@ public class PlayerWallJumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.SetVelocityX(10 * -blackBoard.FacingDirection);
-        player.SetVelocityY(playerData.jumpVelocity * 2f);
-        blackBoard.animator.Play("jump");
-        playerData.amountOfJump --;
+        blackboard.player.SetVelocityX(10 * -blackboard.FacingDirection);
+        blackboard.player.SetVelocityY(blackboard.playerData.jumpVelocity * 2f);
+        blackboard.animator.Play("jump");
+        blackboard.playerData.amountOfJump --;
     }
 
     public override void Exit()
@@ -21,14 +21,14 @@ public class PlayerWallJumpState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if ( !blackBoard.isWall && !blackBoard.isGrounded )
+        if ( !blackboard.isWall && !blackboard.isGrounded )
         {
-            stateMachine.ChangeState(blackBoard.AirState);
+            stateMachine.ChangeState(blackboard.AirState);
         }
 
-        if(blackBoard.isGrounded )
+        if(blackboard.isGrounded )
         {
-            stateMachine.ChangeState(blackBoard.idleState);
+            stateMachine.ChangeState(blackboard.idleState);
 
         }
     }

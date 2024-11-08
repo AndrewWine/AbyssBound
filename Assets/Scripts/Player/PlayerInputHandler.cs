@@ -1,9 +1,15 @@
-﻿using UnityEngine;
-
+﻿using Unity.VisualScripting;
+using UnityEngine;
+using System;
 public class PlayerInputHandler : MonoBehaviour
 {
     public PlayerData playerData; // Reference to player data scriptable object
     public Player player;
+    public SkillsManager skillManager;
+    public PlayerStateMachine stateMachine;
+
+    public Action<int> UseMana;
+    public Action<int> UseStamina;
 
     // Input variables
     public Vector2 RawMovementInput { get; private set; }
@@ -11,10 +17,13 @@ public class PlayerInputHandler : MonoBehaviour
     public int NormInputY { get; private set; }
     public bool JumpInput { get; private set; }
     public bool JumpInputStop { get; private set; }
-    public bool DashInput { get; private set; }
+    public bool DashInput;
     public bool DashInputStop { get; private set; }
     public bool SlideInput { get; private set; }
     public bool LeftClick {  get; set; }
+    public bool RightClick { get; set; }
+    public bool PressedKeyQ;
+    private bool isDead = false; // Thêm biến isDead
 
     // Input hold times
     [SerializeField] private float inputHoldTime = 0.2f; // How long to hold the input
@@ -22,27 +31,56 @@ public class PlayerInputHandler : MonoBehaviour
     private float dashInputStartTime;
     private float slideInputStartTime;
     private float leftclickInputStartTime = 0;
+    private float righttclickInputStartTime = 0;
 
+    private void Awake()
+    {
+        player.isDeath += SetIsDead;
+    }
 
+    private void OnDisable()
+    {
+        player.isDeath -= SetIsDead;
+    }
     void Update()
     {
+        if (isDead) return; // Nếu isDead là true, không nhận input nữa
         // Check hold times for inputs
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
         CheckSlideInputHoldTime();
-
         OldInputFunction();
         JumpInputFunction();
         DashInputFunction();
         SlideInputFunction();
         LeftClickFunction();
-
-        
-
+        RightClickFunction();
+        AimSword();
+        ClonePlayer();
 
         playerData.UsageTimer += Time.deltaTime;
     }
+    public void ClonePlayer()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && playerData.CurrentMana > 0)
+        {
+            skillManager.ActivateDashCloneAttack();
+            UseMana?.Invoke(-15);
+        }
+    }
+    public void AimSword()
+    {
+        if(Input.GetKeyDown(KeyCode.Q) && playerData.CurrentStamina > 10)
+        {
+            PressedKeyQ = true;
+            UseStamina?.Invoke(-10);
 
+        }
+        else if(Input.GetKeyUp(KeyCode.Q))
+        {
+            PressedKeyQ = false;
+        }
+    }
     public void OldInputFunction()
     {
         // Capture raw movement input from the horizontal and vertical axes
@@ -54,9 +92,10 @@ public class PlayerInputHandler : MonoBehaviour
     }
     public void JumpInputFunction()
     {
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) && playerData.amountOfJump > 1)
-        {
+        if (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.Space) && playerData.amountOfJump > 1 && playerData.CurrentStamina > 5))
+        { 
             JumpInput = true;
+            UseStamina?.Invoke(-5);
             jumpInputStartTime = Time.time; // Record the time when the jump input was pressed
         }
     }   
@@ -64,46 +103,59 @@ public class PlayerInputHandler : MonoBehaviour
     public void DashInputFunction()
     {
         // Handle Dash input, and ensure the dash cooldown is respected
-        if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.UsageTimer >= playerData.dashCoolDown)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.CurrentStamina > 20)
         {
-            DashInput = true; // Allow dash
-            dashInputStartTime = Time.time; // Record the time when dash input was pressed
-            playerData.UsageTimer = 0; // Reset dash cooldown timer
-
+           skillManager.ActivateDash();
+           UseStamina?.Invoke(-20);
         }
     }
 
     public void SlideInputFunction()
     {
-        if (Input.GetKeyDown(KeyCode.S) && playerData.UsageTimer >= playerData.slideCoolDown)
+        if (Input.GetKeyDown(KeyCode.S) && playerData.UsageTimer >= playerData.slideCoolDown && playerData.CurrentStamina > 20)
         {
             SlideInput = true; // Allow slide
             slideInputStartTime = Time.time; // Record the time when slide input was pressed
             playerData.UsageTimer = 0; // Reset slide cooldown timer
-
+            UseStamina?.Invoke(-20);
         }
     }
 
+    public void RightClickFunction()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse1) && playerData.CurrentStamina > 20)
+        {
+            RightClick = true;
+            righttclickInputStartTime = playerData.UsageTimer;
+            UseStamina?.Invoke(-20);
+
+            playerData.PassingTime = righttclickInputStartTime;
+        }    
+    }
     public void LeftClickFunction()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && playerData.CurrentStamina > 2)
         {
             LeftClick = true;
+            UseStamina?.Invoke(-2);
             // Update CountClick and reset TimeAttack when player starts clicking
             leftclickInputStartTime = playerData.UsageTimer;
-
-            Debug.Log("countclick" +  playerData.CountClick);
-            if(playerData.CountClick > 3 || leftclickInputStartTime - playerData.PassingTime >= 1.5f)
-            {
-                playerData.CountClick = 0;
-            }
-
-            playerData.CountClick++;
             // If more than 2 clicks, reset CountClick for the next sequence
+            playerData.PassingTime = leftclickInputStartTime;   
 
-            playerData.PassingTime = leftclickInputStartTime;
+            // Reset LeftClick to prevent double counting
+
+           
+            
         }
+        if (playerData.UsageTimer - playerData.PassingTime >= 2.5f || playerData.CountClick > 3)
+        {
+            playerData.CountClick = 1; // Reset lại combo
+        }
+
+
     }
+
 
     // Method to reset Jump input after it's been used
     public void UseJumpInput() => JumpInput = false;
@@ -113,7 +165,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     // Method to reset Slide input after it's been used
     public void UseSlideInput() => SlideInput = false;
-    public void UseLeftClickInput() => LeftClick = false;
+    //public void UseLeftClickInput() => LeftClick = false;
 
     // Method to check if the jump input hold time has passed, and reset it if so
     private void CheckJumpInputHoldTime()
@@ -142,7 +194,10 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
- 
+    public void SetIsDead()
+    {
+        isDead = true;
+    }
 
-  
+
 }

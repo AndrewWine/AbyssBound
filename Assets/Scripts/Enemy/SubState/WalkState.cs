@@ -7,19 +7,19 @@ public class WalkState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        entity.animator.Play("Walk");
-        enemy.SetVelocityY(0);
+        blackboard.animator.Play("Walk");
+        blackboard.enemy.SetVelocityY(0);
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (entity.playerDetected)
+        if (blackboard.playerDetected)
         {
-            enemystateMachine.ChangeState(entity.battleState);
+            stateMachine.ChangeState(blackboard.enemybattleState);
         }
-        if (entity.isWall) enemy.Flip();
-        if(!entity.isGrounded) enemy.Flip();
+        if (blackboard.isWall) blackboard.enemy.Flip();
+        if(!blackboard.isGrounded) blackboard.enemy.Flip();
     }
 
     public override void PhysicUpdate()
@@ -27,8 +27,6 @@ public class WalkState : EnemyState
         base.PhysicUpdate();
 
         // Move the enemy in the current facing direction
-        enemy.SetVelocityX(enemyData.MovementSpeed * entity.FacingDirection); // Use movement speed property
-
-
+        blackboard.enemy.SetVelocityX(blackboard.enemyData.MovementSpeed * blackboard.FacingDirection); // Use movement speed property
     }
 }

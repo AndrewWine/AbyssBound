@@ -7,10 +7,10 @@ public class RunAttack2 : PlayerState
     public override void Enter()
     {
         base.Enter();
-        blackBoard.animator.Play("RunAttack2"); // Phát animation Attack3
+        blackboard.animator.Play("RunAttack2"); // Phát animation Attack3
         isAnimationFinished = false; // Đặt lại biến isAnimationFinished
-        blackBoard.PlayerInputHandler.LeftClick = false; // Reset click input để chuẩn bị cho combo tiếp theo
-        playerData.CountClick = 0;
+        blackboard.PlayerInputHandler.LeftClick = false; // Reset click input để chuẩn bị cho combo tiếp theo
+        blackboard.playerData.CountClick++;
     }
 
     public override void Exit()
@@ -26,21 +26,21 @@ public class RunAttack2 : PlayerState
             if (isAnimationFinished)
             {
 
-                if (blackBoard.PlayerInputHandler.NormInputX != 0 && blackBoard.isGrounded)
+                if (blackboard.PlayerInputHandler.NormInputX != 0 && blackboard.isGrounded)
                 {
-                    stateMachine.ChangeState(blackBoard.MoveState);
+                    stateMachine.ChangeState(blackboard.MoveState);
                 }
-                else if (blackBoard.PlayerInputHandler.DashInput)
+                else if (blackboard.PlayerInputHandler.DashInput)
                 {
-                    stateMachine.ChangeState(blackBoard.DashState);
+                    stateMachine.ChangeState(blackboard.DashState);
                 }
-                else if (blackBoard.PlayerInputHandler.JumpInput)
+                else if (blackboard.PlayerInputHandler.JumpInput)
                 {
-                    stateMachine.ChangeState(blackBoard.JumpState);
+                    stateMachine.ChangeState(blackboard.JumpState);
                 }
                 else
                 {
-                    stateMachine.ChangeState(blackBoard.idleState);
+                    stateMachine.ChangeState(blackboard.idleState);
                 }
             }
         }

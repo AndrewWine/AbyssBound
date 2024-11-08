@@ -8,21 +8,21 @@ public class BattleState : EnemyState
     public override void Enter()
     {
         base.Enter();
-        entity.animator.Play("Walk");
-        previousX = entity.RB.position.x; // Lưu tọa độ X ban đầu khi vào trạng thái
+        blackboard.animator.Play("Walk");
+        previousX = blackboard.RB.position.x; // Lưu tọa độ X ban đầu khi vào trạng thái
     }
 
     public override void LogicUpdate()
     {
 
-        if (!entity.playerDetected)
+        if (!blackboard.playerDetected)
         {
-            enemystateMachine.ChangeState(entity.enemyWalkState);
+            stateMachine.ChangeState(blackboard.enemyWalkState);
         }
-        if (entity.isPlayer)
+        if (blackboard.isPlayer)
         {
-            Debug.Log("Danh dc roi");
-                enemystateMachine.ChangeState(entity.enemyAttackState);
+          
+                stateMachine.ChangeState(blackboard.enemyAttackState);
         }
     }
 
@@ -31,23 +31,23 @@ public class BattleState : EnemyState
         base.PhysicUpdate();
 
         // Lấy vị trí hiện tại của enemy
-        float currentX = entity.RB.position.x;
+        float currentX = blackboard.RB.position.x;
 
         // Nếu hướng di chuyển thay đổi, thực hiện lật (flip)
-        if ((currentX > previousX && entity.FacingDirection == -1) ||
-            (currentX < previousX && entity.FacingDirection == 1))
+        if ((currentX > previousX && blackboard.FacingDirection == -1) ||
+            (currentX < previousX && blackboard.FacingDirection == 1))
         {
-            enemy.Flip();
+            blackboard.enemy.Flip();
         }
 
         // Lưu lại vị trí X hiện tại để so sánh với khung hình tiếp theo
         previousX = currentX;
 
-        // Di chuyển kẻ địch về phía player
-        Vector2 targetPosition = new Vector2(entity.targetPlayer.position.x, entity.RB.position.y);
-        Vector2 newPosition = Vector2.MoveTowards(entity.RB.position, targetPosition, enemyData.MovementSpeed * 3f * Time.deltaTime);
-        entity.RB.MovePosition(newPosition);
-        Vector2 playerPosition = entity.targetPlayer.position;
+        // Di chuyển kẻ địch về phía playerPos
+        Vector2 targetPosition = new Vector2(blackboard.targetPlayer.position.x, blackboard.RB.position.y);
+        Vector2 newPosition = Vector2.MoveTowards(blackboard.RB.position, targetPosition, blackboard.enemyData.MovementSpeed * 3f * Time.deltaTime);
+        blackboard.RB.MovePosition(newPosition);
+        Vector2 playerPosition = blackboard.targetPlayer.position;
     
     }
 

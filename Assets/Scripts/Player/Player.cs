@@ -1,30 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public BlackBoard blackBoard;
+    [Header("Component")]
+    public PlayerBlackBoard blackBoard;
     public PlayerState playerState;
     public PlayerStateMachine stateMachine;
     public PlayerData playerData;
+    public UnitHP unitHP;
+    public Stats stats;
+    public System.Action isDeath;
+
+
+    private int currentHP;
+    private float staminaRegenTimer = 0f; // Timer to track the elapsed time
+    private float regenInterval = 1f;   // Interval of 0.5 seconds
+
+    public EntityFX fx { get; private set; }
 
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
 
     public void Awake()
     {
-        // Initialize FacingDirection based on the current player rotation or default
-        blackBoard.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
+        blackBoard = GetComponent<PlayerBlackBoard>();
+        fx = GetComponent<EntityFX>();
+        StatsInitialization();
+        //ebug.Log("Total Damage: " + playerData.DMG.GetValue());
+        unitHP.BeingHit += TakeDamage;
+
+    }
+    private void OnDisable()
+    {
+        unitHP.BeingHit -= TakeDamage;
+
     }
 
     public void Update()
     {
         CheckOnDrawGizmos();
         CheckIfShouldFlip(blackBoard.PlayerInputHandler.NormInputX);
-
-
+        RegenStamina();
+        Death();
         if (blackBoard.isGrounded)
         {
             // Reset jumps when grounded
@@ -32,20 +53,57 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void CheckOnDrawGizmos()
+    #region Regen 
+    public void RegenStamina()
     {
-        // Ground check
-        blackBoard.isGrounded = Physics2D.Raycast(blackBoard.groundCheck.position,Vector2.down,playerData.groundCheckDistance,playerData.whatIsGround);
-        Debug.Log("Is Grounded: " + blackBoard.isGrounded);
+        if (playerData.CurrentStamina < playerData.MaxStamina)
+        {
+            staminaRegenTimer += Time.deltaTime;
 
-        // Wall check
-        blackBoard.isWall = Physics2D.Raycast( blackBoard.wallCheck.position,Vector2.right * blackBoard.FacingDirection,playerData.WallCheckDistance, playerData.whatIsGround);
-        Debug.Log("Is Wall: " + blackBoard.isWall + " FacingDirection: " + blackBoard.FacingDirection);
+            if (staminaRegenTimer >= regenInterval)
+            {
+                playerData.CurrentStamina += 5; // Regenerate 5 stamina points
+                if (playerData.CurrentStamina > playerData.MaxStamina)
+                {
+                    playerData.CurrentStamina = playerData.MaxStamina; // Cap at MaxStamina
+                }
 
-        //Attack check
-        
-        
+                
+                staminaRegenTimer = 0f; // Reset the timer after regeneration
+            }
+        }
     }
+
+    #endregion
+    #region stats initialization
+    public void StatsInitialization()
+    {
+        playerData.CurrentMana = playerData.MaxMana;
+        playerData.CurrentStamina = playerData.MaxStamina;
+        playerData.Damage = 10.0f;
+        playerData.evasion = 0.0f;
+        playerData.CritChance = 0.0f;
+        playerData.CritPower = 1.5f;
+        playerData.armor = 0;
+        playerData.magicArmor = 0;
+        playerData.movementSpeed = 3;
+        playerData.MagicDamage = 10;
+
+        blackBoard.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
+        unitHP.CurrentHP = unitHP.MaxHP;
+
+
+    }
+    #endregion
+    #region Damage
+
+   
+    public void TakeDamage()
+    {
+        //currentHP = Mathf.Clamp(currentHP, 0, playerData.HP.GetValue()); // Đảm bảo không âm và không vượt quá max HP
+        fx.StartCoroutine("FlashFX");
+    }
+
 
     public void AnimationTrigger()
     {
@@ -54,7 +112,17 @@ public class Player : MonoBehaviour
             stateMachine.CurrentState.AnimationFinishTrigger();
         }
     }
-
+    #endregion
+    #region DeathState
+    public void Death()
+    {
+        if(unitHP.CurrentHP <= 0 )
+        {
+            stateMachine.ChangeState(blackBoard.playerDeathState);
+        }
+    }
+    #endregion
+    #region Flip
     // Improved flip logic
     public void CheckIfShouldFlip(int xInput)
     {
@@ -74,7 +142,20 @@ public class Player : MonoBehaviour
         newScale.x *= -1;
         transform.localScale = newScale;
     }
+    #endregion
+    #region Check & DrawGizmos
+    public void CheckOnDrawGizmos()
+    {
+        // Ground check
+        blackBoard.isGrounded = Physics2D.Raycast(blackBoard.groundCheck.position, Vector2.down, playerData.groundCheckDistance, playerData.whatIsGround);
 
+        // Wall check
+        blackBoard.isWall = Physics2D.Raycast(blackBoard.wallCheck.position, Vector2.right * blackBoard.FacingDirection, playerData.WallCheckDistance, playerData.whatIsGround);
+
+        //Attack check
+
+
+    }
     public void CheckGizmosCondition()
     {
         // Ground check
@@ -86,6 +167,7 @@ public class Player : MonoBehaviour
         Debug.Log("Is Wall: " + blackBoard.isWall + " FacingDirection: " + blackBoard.FacingDirection);
     }
     private void OnDrawGizmos()
+
     {
         Gizmos.color = Color.yellow;
 
@@ -96,10 +178,11 @@ public class Player : MonoBehaviour
         // Draw wall check ray
         Vector3 wallCheckPosition = blackBoard.wallCheck.position;
         Gizmos.DrawLine(wallCheckPosition, wallCheckPosition + Vector3.right * blackBoard.FacingDirection * playerData.WallCheckDistance);
-
-        Gizmos.DrawWireSphere(blackBoard.attackCheck.position,playerData.attackCheckRadius);
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(blackBoard.attackCheck.position, playerData.attackCheckRadius);
     }
-
+    #endregion
+    #region Setvelocity
     public virtual void SetVelocityZero()
     {
         blackBoard.RB.velocity = Vector2.zero;
@@ -119,4 +202,5 @@ public class Player : MonoBehaviour
         blackBoard.RB.velocity = workspace;
         CurrentVelocity = workspace;
     }
+    #endregion
 }

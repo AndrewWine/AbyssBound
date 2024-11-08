@@ -12,29 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fa814db9a11e8498a246a06b171e71, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  UsageTimer: 1.3501351
-  PassingTime: 80.21808
+  movementSpeed: 10
+  UsageTimer: 8.026356
+  PassingTime: 273.63596
   dashCoolDown: 3
-  dashSpeed: 45
-  dashDuration: 0.1
+  dashSpeed: 35
+  dashDuration: 0.2
   CountAttack: 0
   TimeCondition: 0
-  CountClick: 1
-  SlideSpeed: 15
-  slideCoolDown: 2
-  slideDuration: 0.5
+  CountClick: 2
+  SlideSpeed: 20
+  slideCoolDown: 0
+  slideDuration: 0.2
   jumpVelocity: 15
   amountOfJump: 2
-  coyoteTime: 0
+  coyoteTime: 0.2
   wallSlideVelocity: 3
   CurrentFacing: -1
   startOffset: {x: 0, y: 0}
   stopOffset: {x: 0, y: 0}
-  WallJumpForce: 10
-  groundCheckDistance: 0.5
+  WallJumpForce: 0
+  attackMovement: []
+  counterAttackDuration: 0.2
+  groundCheckDistance: 0.3
   WallCheckDistance: 0.3
-  attackCheckRadius: 1.2
+  attackCheckRadius: 1.5
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  damage:
+    modifiers: 0a00000000000000000000000000000000000000
+  strength:
+    modifiers: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  agility:
+    modifiers: 
+  intelligent:
+    modifiers: 
+  stamina:
+    modifiers: 
+  maxHealth:
+    modifiers: 
+  currentHealth: 0

@@ -4,7 +4,7 @@
     public override void Enter()
     {
         base.Enter();
-        entity.animator.Play("Attack");
+        blackboard.animator.Play("Attack");
     }
 
     public override void LogicUpdate()
@@ -14,7 +14,7 @@
         // Chỉ thay đổi trạng thái nếu animation đã kết thúc
         if (isAnimationFinished)
         {
-            enemystateMachine.ChangeState(entity.battleState);
+            stateMachine.ChangeState(blackboard.enemyWalkState);
         }
     }
 
@@ -29,6 +29,6 @@
     public override void Exit()
     {
         base.Exit();
-        enemyData.lastTimeAttacked = Time.time;
+        blackboard.enemyData.lastTimeAttacked = Time.time;
     }
 }

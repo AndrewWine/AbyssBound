@@ -6,9 +6,9 @@ public class PlayerStateAttack2 : PlayerState
     public override void Enter()
     {
         base.Enter();
-        blackBoard.animator.Play("Attack2");
-        isAnimationFinished = false;
-        blackBoard.PlayerInputHandler.LeftClick = false; // Reset click input để chuẩn bị cho combo tiếp theo
+        blackboard.animator.Play("Attack2");
+        blackboard.playerData.CountClick++;
+        blackboard.PlayerInputHandler.LeftClick = false; // Reset click input để chuẩn bị cho combo tiếp theo
     }
 
     public override void LogicUpdate()
@@ -17,21 +17,21 @@ public class PlayerStateAttack2 : PlayerState
         if (isAnimationFinished)
         {
 
-            if (blackBoard.PlayerInputHandler.NormInputX != 0 && blackBoard.isGrounded)
+            if (blackboard.PlayerInputHandler.NormInputX != 0 && blackboard.isGrounded)
             {
-                stateMachine.ChangeState(blackBoard.MoveState);
+                stateMachine.ChangeState(blackboard.MoveState);
             }
-            else if (blackBoard.PlayerInputHandler.DashInput)
+            else if (blackboard.PlayerInputHandler.DashInput)
             {
-                stateMachine.ChangeState(blackBoard.DashState);
+                stateMachine.ChangeState(blackboard.DashState);
             }
-            else if (blackBoard.PlayerInputHandler.JumpInput)
+            else if (blackboard.PlayerInputHandler.JumpInput)
             {
-                stateMachine.ChangeState(blackBoard.JumpState);
+                stateMachine.ChangeState(blackboard.JumpState);
             }
             else
             {
-                stateMachine.ChangeState(blackBoard.idleState);
+                stateMachine.ChangeState(blackboard.idleState);
             }
         }
     }

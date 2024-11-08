@@ -15,55 +15,55 @@ public class PlayerJumpState : PlayerState
 
         // Check if player is grounded again
       
-        if (blackBoard.isGrounded)
+        if (blackboard.isGrounded)
         {
             // Reset jump count when grounded (2 for double jump)
-            playerData.amountOfJump = 1;
+            blackboard.playerData.amountOfJump = 1;
 
             // Change state to Idle or Move based on input
-            if (blackBoard.PlayerInputHandler.NormInputX != 0)
+            if (blackboard.PlayerInputHandler.NormInputX != 0)
             {
-                stateMachine.ChangeState(blackBoard.MoveState);
+                stateMachine.ChangeState(blackboard.MoveState);
             }
             else
             {
-                stateMachine.ChangeState(blackBoard.idleState);
+                stateMachine.ChangeState(blackboard.idleState);
             }
         }
         else
         {
             // If falling, switch to Air state
-            if (blackBoard.RB.velocity.y < 0)
+            if (blackboard.RB.velocity.y < 0)
             {
-                stateMachine.ChangeState(blackBoard.AirState);
+                stateMachine.ChangeState(blackboard.AirState);
             }
         }
 
         // Check if Dash input is pressed
-        if (blackBoard.PlayerInputHandler.DashInput)
+        if (blackboard.PlayerInputHandler.DashInput)
         {
-            stateMachine.ChangeState(blackBoard.DashState);
+            stateMachine.ChangeState(blackboard.DashState);
         }
     }
 
     private void PerformJump()
     {
-        if (playerData.amountOfJump > 0)
+        if (blackboard.playerData.amountOfJump > 0)
         {
             // Reduce the jump count
-            playerData.amountOfJump--;
+            blackboard.playerData.amountOfJump--;
 
             // Play jump animation
-            blackBoard.animator.Play("jump");
+            blackboard.animator.Play("jump");
 
             // Apply vertical jump velocity
-            player.SetVelocityY(playerData.jumpVelocity);
+            blackboard.player.SetVelocityY(blackboard.playerData.jumpVelocity);
 
             // Handle wall jump with special velocity changes
-            if (blackBoard.wallCheck)
+            if (blackboard.wallCheck)
             {
-                player.SetVelocityX(5 * blackBoard.PlayerInputHandler.NormInputX);
-                player.SetVelocityY(playerData.jumpVelocity );
+                blackboard.player.SetVelocityX(5 * blackboard.PlayerInputHandler.NormInputX);
+                blackboard.player.SetVelocityY(blackboard.playerData.jumpVelocity );
 
             }
         }
@@ -73,9 +73,9 @@ public class PlayerJumpState : PlayerState
     {
         base.PhysicUpdate();
         // Update falling velocity if necessary
-        if (player.blackBoard.RB.velocity.y < 0)
+        if (blackboard.RB.velocity.y < 0)
         {
-            player.SetVelocityY(player.blackBoard.RB.velocity.y);
+            blackboard.player.SetVelocityY(blackboard.RB.velocity.y);
         }
     }
 }

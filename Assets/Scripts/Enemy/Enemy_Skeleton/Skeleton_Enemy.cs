@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Skeleton_Enemy : Enemy
 {
+    public override bool CanBeStunned()
+    {
+        if(base.CanBeStunned())
+        {
+
+            enemystateMachine.ChangeState(entity.enemystunState);
+            return true;
+        }    
+        return false;
+    }
+
     public override void Flip()
     {
         base.Flip();
@@ -24,6 +35,11 @@ public class Skeleton_Enemy : Enemy
         base.SetVelocityZero();
     }
 
+    public override void TakeDamage()
+    {
+        base.TakeDamage();
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -34,10 +50,7 @@ public class Skeleton_Enemy : Enemy
         base.OnDrawGizmos();
     }
 
-    protected override void Start()
-    {
-        base.Start();
-    }
+  
 
     protected override void Update()
     {

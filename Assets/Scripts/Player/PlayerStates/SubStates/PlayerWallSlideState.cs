@@ -5,9 +5,9 @@ public class PlayerWallSlideState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        blackBoard.animator.Play("Wall-Slide");
-        playerData.CurrentFacing = blackBoard.FacingDirection ;
-        playerData.amountOfJump = 1;
+        blackboard.animator.Play("Wall-Slide");
+        blackboard.playerData.CurrentFacing = blackboard.FacingDirection ;
+        blackboard.playerData.amountOfJump = 1;
 
     }
 
@@ -19,37 +19,37 @@ public class PlayerWallSlideState : PlayerState
         if (Input.GetKeyDown(KeyCode.Space))
         {
            
-          stateMachine.ChangeState(blackBoard.JumpState);
+          stateMachine.ChangeState(blackboard.JumpState);
             
         }
 
         // Kiểm tra hướng quay mặt của nhân vật so với tường
-        if ( !blackBoard.isWall && blackBoard.PlayerInputHandler.NormInputX == 0)
+        if ( !blackboard.isWall && blackboard.PlayerInputHandler.NormInputX == 0)
         {
           
                 // Nhân vật quay hướng ngược với tường, chuyển sang trạng thái rơi
-                stateMachine.ChangeState(blackBoard.AirState);  // Hoặc FallState
+                stateMachine.ChangeState(blackboard.AirState);  // Hoặc FallState
                 return;
         }
 
-        else if (blackBoard.PlayerInputHandler.NormInputX * blackBoard.FacingDirection != 0 && blackBoard.isWall)
+        else if (blackboard.PlayerInputHandler.NormInputX * blackboard.FacingDirection != 0 && blackboard.isWall)
         {
             // Nếu nhân vật vẫn dính vào tường, giảm tốc độ rơi
-            player.SetVelocityY(blackBoard.RB.velocity.y * 0.8f);
+            blackboard.player.SetVelocityY(blackboard.RB.velocity.y * 0.8f);
             
         }
 
-        if (!blackBoard.isWall )
+        if (!blackboard.isWall )
         {
 
             // Nhân vật quay hướng ngược với tường, chuyển sang trạng thái rơi
-            stateMachine.ChangeState(blackBoard.AirState);  // Hoặc FallState
+            stateMachine.ChangeState(blackboard.AirState);  // Hoặc FallState
             return;
         }
         // Kiểm tra nếu nhân vật chạm đất
-        if (blackBoard.isGrounded)
+        if (blackboard.isGrounded)
         {
-            stateMachine.ChangeState(blackBoard.idleState);
+            stateMachine.ChangeState(blackboard.idleState);
         }
     }
 }

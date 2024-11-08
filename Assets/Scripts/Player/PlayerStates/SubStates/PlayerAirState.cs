@@ -7,13 +7,13 @@ public class PlayerAirState : PlayerState
         base.Enter();
 
         // Chơi animation "Fall" khi vào trạng thái trên không
-        if (blackBoard.animator != null)
+        if (blackboard.animator != null)
         {
-            blackBoard.animator.Play("Fall");
+            blackboard.animator.Play("Fall");
         }
         else
         {
-            Debug.LogError("Animator is not assigned in BlackBoard!");
+            Debug.LogError("Animator is not assigned in Playerblackboard!");
         }
     }
 
@@ -22,37 +22,37 @@ public class PlayerAirState : PlayerState
         base.LogicUpdate();
 
         // Kiểm tra nếu nhân vật đã chạm đất
-        if (blackBoard.isGrounded)
+        if (blackboard.isGrounded)
         {
-            if (blackBoard.PlayerInputHandler.NormInputX != 0)
+            if (blackboard.PlayerInputHandler.NormInputX != 0)
             {
-                stateMachine.ChangeState(blackBoard.MoveState);
+                stateMachine.ChangeState(blackboard.MoveState);
             }
             else
             {
-                stateMachine.ChangeState(blackBoard.idleState);
+                stateMachine.ChangeState(blackboard.idleState);
             }
         }
-        if (blackBoard.PlayerInputHandler.JumpInput && playerData.amountOfJump > 0)
+        if (blackboard.PlayerInputHandler.JumpInput && blackboard.playerData.amountOfJump > 0)
         {
             // Nếu người chơi có input nhảy và còn lượt nhảy, thực hiện double jump
-            stateMachine.ChangeState(blackBoard.JumpState);
+            stateMachine.ChangeState(blackboard.JumpState);
         }
         
-        if( blackBoard.JumpInput && blackBoard.isWall)
+        if( blackboard.JumpInput && blackboard.isWall)
         {
-            stateMachine.ChangeState(blackBoard.WallJumpState);
+            stateMachine.ChangeState(blackboard.WallJumpState);
 
         }
         // Chuyển sang trạng thái Dash nếu điều kiện được thỏa mãn
-        if (blackBoard.PlayerInputHandler.DashInput )
+        if (blackboard.PlayerInputHandler.DashInput )
         {
-            stateMachine.ChangeState(blackBoard.DashState);
+            stateMachine.ChangeState(blackboard.DashState);
         }
 
-        if (blackBoard.isWall)
+        if (blackboard.isWall)
         {
-            stateMachine.ChangeState(blackBoard.WallSlideState);
+            stateMachine.ChangeState(blackboard.WallSlideState);
         }
     }
 

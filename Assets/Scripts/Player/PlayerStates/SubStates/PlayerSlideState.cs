@@ -16,28 +16,28 @@ public class PlayerSlideState : PlayerState
         base.Enter();
 
         // Lấy Collider của nhân vật
-        capsuleCollider = blackBoard.GetComponent<CapsuleCollider2D>();
+        capsuleCollider = blackboard.GetComponent<CapsuleCollider2D>();
 
         if (capsuleCollider != null)
         {
             // Lưu kích thước và offset gốc
-            blackBoard.originalColliderSize = capsuleCollider.size;
-            blackBoard.originalColliderOffset = capsuleCollider.offset;
+            blackboard.originalColliderSize = capsuleCollider.size;
+            blackboard.originalColliderOffset = capsuleCollider.offset;
 
             // Đặt kích thước mới chỉ thay đổi theo trục Y
-            capsuleCollider.size = new Vector2(blackBoard.originalColliderSize.x, slideColliderHeight);
+            capsuleCollider.size = new Vector2(blackboard.originalColliderSize.x, slideColliderHeight);
 
             // Đặt offset mới chỉ thay đổi theo trục Y
-            capsuleCollider.offset = new Vector2(blackBoard.originalColliderOffset.x, slideColliderOffsetY);
+            capsuleCollider.offset = new Vector2(blackboard.originalColliderOffset.x, slideColliderOffsetY);
         }
 
         // Play animation Slide
-        blackBoard.animator.Play("Slide");
+        blackboard.animator.Play("Slide");
 
         // Đặt vận tốc trượt cho nhân vật
-        player.SetVelocityX(playerData.SlideSpeed * blackBoard.FacingDirection);
-        startTime = playerData.slideDuration; // Đặt thời gian slide từ playerData
-        playerData.UsageTimer = 0; // Đặt lại timer sau khi slide
+        blackboard.player.SetVelocityX(blackboard.playerData.SlideSpeed * blackboard.FacingDirection);
+        startTime = blackboard.playerData.slideDuration; // Đặt thời gian slide từ playerData
+        blackboard.playerData.UsageTimer = 0; // Đặt lại timer sau khi slide
     }
 
     public override void LogicUpdate()
@@ -46,18 +46,18 @@ public class PlayerSlideState : PlayerState
         startTime -= Time.deltaTime;
 
         // Use Slide input and block further slide input
-        blackBoard.PlayerInputHandler.UseSlideInput();
+        blackboard.PlayerInputHandler.UseSlideInput();
 
         // Check if the slide should end
-        if (startTime <= 0 || blackBoard.PlayerInputHandler.NormInputX == 0 || (!blackBoard.isGrounded && Input.GetKeyUp(KeyCode.S)))
+        if (startTime <= 0 || blackboard.PlayerInputHandler.NormInputX == 0 || (!blackboard.isGrounded && Input.GetKeyUp(KeyCode.S)))
         {
-            if (blackBoard.PlayerInputHandler.NormInputX != 0)
+            if (blackboard.PlayerInputHandler.NormInputX != 0)
             {
-                stateMachine.ChangeState(blackBoard.MoveState);
+                stateMachine.ChangeState(blackboard.MoveState);
             }
             else
             {
-                stateMachine.ChangeState(blackBoard.idleState);
+                stateMachine.ChangeState(blackboard.idleState);
             }
         }
     }
@@ -69,8 +69,8 @@ public class PlayerSlideState : PlayerState
         // Restore original collider size and offset when exiting the slide state
         if (capsuleCollider != null)
         {
-            capsuleCollider.size = blackBoard.originalColliderSize;
-            capsuleCollider.offset = blackBoard.originalColliderOffset;
+            capsuleCollider.size = blackboard.originalColliderSize;
+            capsuleCollider.offset = blackboard.originalColliderOffset;
         }
     }
     

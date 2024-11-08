@@ -8,12 +8,12 @@ public class PlayerDashState : PlayerState
         base.Enter();
 
         // Bắt đầu dash và khởi động lại cooldown
-        blackBoard.animator.Play("Dash");
-        startTime = playerData.dashDuration; // Đặt thời gian dash từ playerData
-        player.SetVelocityX(playerData.dashSpeed * blackBoard.FacingDirection);
-        player.SetVelocityY(0); // Ngăn nhân vật rơi trong khi dash (nếu cần)
-        playerData
-            .UsageTimer = 0; // Đặt lại timer sau khi dash
+        blackboard.animator.Play("Dash");
+        startTime = blackboard.playerData.dashDuration; // Đặt thời gian dash từ playerData
+        blackboard.player.SetVelocityX(blackboard.playerData.dashSpeed * blackboard.FacingDirection);
+        blackboard.player.SetVelocityY(0); // Ngăn nhân vật rơi trong khi dash (nếu cần)
+        blackboard.playerData.UsageTimer = 0; // Đặt lại timer sau khi dash
+      
     }
 
 
@@ -31,18 +31,18 @@ public class PlayerDashState : PlayerState
         startTime -= Time.deltaTime;
 
         // Sử dụng DashInput và chặn dash tiếp theo
-        blackBoard.PlayerInputHandler.UseDashInput();
+        blackboard.PlayerInputHandler.UseDashInput();
 
         // Kiểm tra nếu dash đã kết thúc
         if (startTime <= 0)
         {
-            if (blackBoard.RB.velocity.y < 0)
+            if (blackboard.RB.velocity.y < 0)
             {
-                stateMachine.ChangeState(blackBoard.AirState);
+                stateMachine.ChangeState(blackboard.AirState);
             }
             else
             { 
-            stateMachine.ChangeState(blackBoard.idleState); // Quay lại trạng thái idle khi dash kết thúc
+            stateMachine.ChangeState(blackboard.idleState); // Quay lại trạng thái idle khi dash kết thúc
             }
         }
     }
