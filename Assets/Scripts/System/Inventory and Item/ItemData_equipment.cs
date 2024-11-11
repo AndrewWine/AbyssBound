@@ -3,6 +3,7 @@ using UnityEngine;
 public enum EquipmentType
 {
     Weapon,
+    Helmets,
     Chest_Armor,
     Wrap_Armor,
     Shoes,
