@@ -6,7 +6,7 @@ public class Sword_Skill : Skill
     [SerializeField] private GameObject swordPrefab;
     [SerializeField] private Vector2 launchForce;
     [SerializeField] private float swordGravity;
-    [SerializeField] private float swordLifetime; // Thời gian tồn tại của kiếm
+    [SerializeField] private float swordLifetime;
 
     [Header("Cooldown")]
     [SerializeField] private float throwingCooldown;
@@ -20,10 +20,9 @@ public class Sword_Skill : Skill
     public Transform attackcheck;
 
     [Header("Game Object")]
-    private ObjectPool<SwordSkill_Controller> swordPool; // Tham chiếu đến pool kiếm
+    private ObjectPool<SwordSkill_Controller> swordPool;
     public Player player;
     private Vector2 finalDir;
-    private GameObject dot; // Chỉ cần một dot
 
     protected override void Awake()
     {
@@ -36,23 +35,28 @@ public class Sword_Skill : Skill
         // Initialize the object pool for swords
         swordPool = new ObjectPool<SwordSkill_Controller>(swordController, 1);
 
-        // Generate a single dot
-        GenerateDot();
+        // Ensure dotsParent is inactive at the start
+        DotsActive(false);
 
-        base.Start(); // Nếu có kế thừa lớp base
+        base.Start();
     }
 
     protected override void Update()
     {
+        // Khi bấm Q, di chuyển dotParent theo chuột
         if (Input.GetKey(KeyCode.Q))
         {
-            // Update the dot's position to follow the mouse cursor
-            if (dot != null)
+            // Di chuyển dotParent theo chuột
+            if (dotsParent != null)
             {
-                dot.transform.position = GetMousePosition();
+                dotsParent.position = GetMousePosition();
             }
+
+            // Hiện dotParent nếu nó chưa được hiển thị
+            DotsActive(true);
         }
 
+        // Khi thả Q và có thể sử dụng skill
         if (Input.GetKeyUp(KeyCode.Q) && CanUseSkill())
         {
             finalDir = new Vector2(AimDirection().normalized.x * launchForce.x, AimDirection().normalized.y * launchForce.y);
@@ -74,7 +78,7 @@ public class Sword_Skill : Skill
             newClone.gameObject.SetActive(true);
 
             // Calculate final direction with launch force
-            Vector2 lastDotPosition = dot.transform.position;
+            Vector2 lastDotPosition = dotsParent.position;
             finalDir = (lastDotPosition - (Vector2)player.transform.position).normalized * launchForce.magnitude;
 
             // Adjust the X direction to make the sword move faster on the X axis
@@ -89,6 +93,7 @@ public class Sword_Skill : Skill
             Debug.Log("Bạn chỉ có 1 kiếm");
         }
 
+        // Tắt dotParent sau khi tạo kiếm
         DotsActive(false);
     }
 
@@ -103,25 +108,17 @@ public class Sword_Skill : Skill
 
     public void DotsActive(bool isActive)
     {
-        // In this case, we're only using one dot, so we can activate/deactivate it.
-        if (dot != null)
+        // Kích hoạt hoặc tắt dotParent (chứa tất cả các dotPrefab)
+        if (dotsParent != null)
         {
-            dot.SetActive(isActive);
+            dotsParent.gameObject.SetActive(isActive);
         }
-    }
-
-    private void GenerateDot()
-    {
-        // Instantiate only one dot and set it to be inactive initially
-        dot = Instantiate(dotPrefab, player.transform.position, Quaternion.identity, dotsParent);
-        dot.SetActive(false); // Initially inactive
     }
 
     private Vector2 GetMousePosition()
     {
-        // Get the position of the mouse in the world space
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return mousePosition;
+        // Lấy vị trí chuột trong không gian thế giới
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     public override bool CanUseSkill()

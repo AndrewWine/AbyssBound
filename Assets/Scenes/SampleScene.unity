@@ -273,11 +273,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af356b095cbaf3045ac2e9137ffd3259, type: 3}
---- !u!1 &358411891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1232914059967618784, guid: 3143e2ad8d95cb240b9b90f248e86c2d, type: 3}
-  m_PrefabInstance: {fileID: 7593490085423233372}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &483923778 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7320563924093220148, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
@@ -553,41 +548,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 723842054633460583, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
   m_PrefabInstance: {fileID: 5375927772914278340}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1793271186}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 033744e9b1e186c4caae52e9623911cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1793271186 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4106207623589752893, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
-  m_PrefabInstance: {fileID: 5375927772914278340}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1793271191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1793271186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f03dd57feeba7944bde0bef75a670ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cooldown: 3
-  cooldownTimer: 3
-  skillsManager: {fileID: 1590124588}
-  swordPrefab: {fileID: 163321154}
-  launchForce: {x: 10, y: 2}
-  swordGravity: 0
-  swordLifetime: 0
-  throwingCooldown: 0
-  dotPrefab: {fileID: 1039652824}
-  dotsParent: {fileID: 1039652825}
-  attackcheck: {fileID: 78694917}
-  player: {fileID: 483923787}
 --- !u!1001 &3023359141511286133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -602,11 +568,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 256392245540680629, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 256392245540680629, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 256392245540680629, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 256392245540680629, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.003
+      objectReference: {fileID: 0}
+    - target: {fileID: 256392245540680629, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.072
       objectReference: {fileID: 0}
     - target: {fileID: 1087783628291903410, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -728,6 +706,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: ea9f95b42deccfe498ee9c80c99bdae4, type: 3}
+    - target: {fileID: 7727745655111649316, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 51f0ddad9f64b224eadf09eab4a6e436, type: 3}
+    - target: {fileID: 7727745655111649316, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727745655111649316, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727745655111649316, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8007578763275471893, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -981,31 +975,7 @@ PrefabInstance:
       propertyPath: playerInputHandler
       value: 
       objectReference: {fileID: 483923778}
-    - target: {fileID: 795574131630582232, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 483923787}
-    - target: {fileID: 795574131630582232, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
-      propertyPath: dotPrefab
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 795574131630582232, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
-      propertyPath: dotsParent
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 795574131630582232, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
-      propertyPath: swordPrefab
-      value: 
-      objectReference: {fileID: 358411891}
     - target: {fileID: 2819202502066696063, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
-      propertyPath: clonePrefab
-      value: 
-      objectReference: {fileID: 1539529880}
-    - target: {fileID: 2819202502066696063, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
-      propertyPath: cloneDuration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3325514466777607766, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
       propertyPath: clonePrefab
       value: 
       objectReference: {fileID: 1539529880}
@@ -1053,13 +1023,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5938004431679039026, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 483923787}
+    - target: {fileID: 5938004431679039026, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
+      propertyPath: dotPrefab
+      value: 
+      objectReference: {fileID: 1039652824}
+    - target: {fileID: 5938004431679039026, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
+      propertyPath: dotsParent
+      value: 
+      objectReference: {fileID: 1039652825}
+    - target: {fileID: 5938004431679039026, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
+      propertyPath: attackcheck
+      value: 
+      objectReference: {fileID: 78694917}
+    - target: {fileID: 5938004431679039026, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
+      propertyPath: swordPrefab
+      value: 
+      objectReference: {fileID: 163321154}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4106207623589752893, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1793271191}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bd94234259c43e4a976f8c963347d00, type: 3}
 --- !u!1001 &6794794556948959850
 PrefabInstance:
@@ -1129,6 +1116,18 @@ PrefabInstance:
     - target: {fileID: 891744489746879278, guid: 3143e2ad8d95cb240b9b90f248e86c2d, type: 3}
       propertyPath: m_Name
       value: Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 2161239896941336904, guid: 3143e2ad8d95cb240b9b90f248e86c2d, type: 3}
+      propertyPath: speed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2161239896941336904, guid: 3143e2ad8d95cb240b9b90f248e86c2d, type: 3}
+      propertyPath: ReturnSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2161239896941336904, guid: 3143e2ad8d95cb240b9b90f248e86c2d, type: 3}
+      propertyPath: bounceSpeed
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3757367369983724243, guid: 3143e2ad8d95cb240b9b90f248e86c2d, type: 3}
       propertyPath: m_IsTrigger
