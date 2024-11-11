@@ -59,6 +59,7 @@ public class SwordSkill_Controller : MonoBehaviour
         currentTransform = this.transform;
     }
 
+
     public void SetupSword(Vector2 direction, float gravityScale, float lifetime)
     {
         rb.velocity = direction; // Set sword velocity
@@ -79,7 +80,7 @@ public class SwordSkill_Controller : MonoBehaviour
     private void Update()
     {
         lifetimeTimer += Time.deltaTime;
-        if(lifetimeTimer > 10)
+        if (lifetimeTimer > 10)
         {
             ReturnToPool();
         }
@@ -150,7 +151,7 @@ public class SwordSkill_Controller : MonoBehaviour
             }
         }
         isReturning = true;
-        
+
     }
 
     private void FindNewBounceTargets()
@@ -169,7 +170,7 @@ public class SwordSkill_Controller : MonoBehaviour
         amountOfBounce = enemyTarget.Count * 2;
     }
 
-  
+
 
     private void ReturnToPool()
     {

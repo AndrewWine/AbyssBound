@@ -74,7 +74,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1878944489265871437}
   - component: {fileID: 723842054633460583}
-  - component: {fileID: 8874753451427570884}
+  - component: {fileID: 5850445965840913116}
+  - component: {fileID: 2819202502066696063}
   m_Layer: 0
   m_Name: SkillPlayerManager
   m_TagString: Untagged
@@ -116,7 +117,7 @@ MonoBehaviour:
   skillController: {fileID: 0}
   clonePrefab: {fileID: 0}
   swordPrefab: {fileID: 0}
---- !u!114 &8874753451427570884
+--- !u!114 &5850445965840913116
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,6 +126,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 4106207623589752893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22af0b0ce0cb6d545ac4b804a055280c, type: 3}
+  m_Script: {fileID: 11500000, guid: 59222bcd834c7984bbf7317807cd0c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 3
+  cooldownTimer: 3
+  skillsManager: {fileID: 723842054633460583}
+  dashCooldown: 3
+--- !u!114 &2819202502066696063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4106207623589752893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd79ed77152abe34a92324d2e5936f7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 3
+  cooldownTimer: 3
+  skillsManager: {fileID: 723842054633460583}
+  clonePrefab: {fileID: 0}
+  cloneDuration: 0.2
+  canAttack: 0

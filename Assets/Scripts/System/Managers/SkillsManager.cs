@@ -14,7 +14,6 @@ public class SkillsManager : MonoBehaviour
     public SwordSkill_Controller swordPrefab; // Sword prefab for pooling
 
     private ObjectPool<CloneSkill_Controller> clonePool;
-
     private ObjectPool<SwordSkill_Controller> swordPool;
 
     #region Skills
@@ -26,7 +25,7 @@ public class SkillsManager : MonoBehaviour
     private void Awake()
     {
         dash = GetComponent<Dash_Skill>();
-        clone = FindObjectOfType<CloneAttack>();
+        clone = GetComponent<CloneAttack>();
         player = FindObjectOfType<Player>();
         sword_Skill = FindObjectOfType<Sword_Skill>();
 
@@ -35,10 +34,7 @@ public class SkillsManager : MonoBehaviour
         swordPool = new ObjectPool<SwordSkill_Controller>(swordPrefab, 1); // Initial pool size is 1
       
     }
-    private void Start()
-    {
-        skillController.CallCatchState += ChangeCatchState;
-    }
+ 
     private void OnDestroy()
     {
         skillController.CallCatchState -= ChangeCatchState;
@@ -97,9 +93,6 @@ public class SkillsManager : MonoBehaviour
 
     public void ActivateThrowSword()
     {
-        SwordSkill_Controller cloneInstance = swordPool.Get();
-        cloneInstance.transform.position = player.transform.position; // Place clone at playerPos's position
-        cloneInstance.SetPool(swordPool); // Set the pool reference
         sword_Skill.CreateSword();
         Debug.Log("Active thanh cong");
     }

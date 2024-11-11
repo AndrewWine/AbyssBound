@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CatchSwordState : PlayerState
 {
@@ -14,8 +12,8 @@ public class CatchSwordState : PlayerState
     public override void AnimationFinishTrigger()
     {
         isAnimationFinished = true;
-        Debug.Log("CatchSword animation finished.");
         base.AnimationFinishTrigger();
+        Debug.Log("CatchSword animation finished.");
     }
 
     public override void LogicUpdate()
@@ -27,5 +25,4 @@ public class CatchSwordState : PlayerState
         }
         base.LogicUpdate();
     }
-
 }

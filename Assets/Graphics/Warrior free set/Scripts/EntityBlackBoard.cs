@@ -14,7 +14,7 @@ public abstract class EntityBlackboard : MonoBehaviour
     [Header("Transform")]
     [SerializeField] public Transform groundCheck;
     [SerializeField] public Transform wallCheck;
-    [SerializeField] public Transform PlayerCheck;
+    public Transform PlayerCheck;
 }
 
 

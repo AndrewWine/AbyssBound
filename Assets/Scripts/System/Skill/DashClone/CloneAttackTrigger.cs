@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationTriggersDamageOfPlayer : MonoBehaviour
+public class CloneAttackTrigger : MonoBehaviour
 {
+
     private Player player;
     private PlayerBlackBoard blackBoard;
+    [SerializeField] public Transform attackCheck;
+    [SerializeField] public float attackRadius;
 
     private void AnimationTrigger()
     {
@@ -35,7 +38,7 @@ public class AnimationTriggersDamageOfPlayer : MonoBehaviour
             return;
         }
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(blackBoard.attackCheck.position, player.playerData.attackCheckRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.position, attackRadius);
 
         foreach (var hit in colliders)
         {
@@ -61,3 +64,5 @@ public class AnimationTriggersDamageOfPlayer : MonoBehaviour
 
 
 }
+
+

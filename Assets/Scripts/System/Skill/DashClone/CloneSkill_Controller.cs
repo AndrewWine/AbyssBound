@@ -6,7 +6,7 @@ public class CloneSkill_Controller : MonoBehaviour
     public PlayerData playerData;
     private SpriteRenderer sr;
     private Animator animator;
-
+    public CloneAttackTrigger cloneAttackTrigger;
     [Header("Other variables")]
     [SerializeField] private float cloneDuration; // Duration of the clone's existence
     [SerializeField] private float colorLoosingSpeed;
@@ -14,14 +14,13 @@ public class CloneSkill_Controller : MonoBehaviour
 
     [Header("Transform")]
     private Transform closestEnemy;
-    [SerializeField] private Transform attackCheck;
-    [SerializeField] private float attackCheckRadius = 2f;
+
 
     private ObjectPool<CloneSkill_Controller> clonePool;
 
     private void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
 
@@ -69,7 +68,7 @@ public class CloneSkill_Controller : MonoBehaviour
     // Trigger attack and face closest enemy
     private void AttackTrigger()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.position, attackCheckRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(cloneAttackTrigger.attackCheck.position, cloneAttackTrigger.attackRadius);
         foreach (var hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null)
@@ -106,7 +105,7 @@ public class CloneSkill_Controller : MonoBehaviour
     }
 
     // Wait 1-2 seconds after animation ends before returning clone to pool
-  /*  private IEnumerator ReturnToPoolAfterDelay(float delay)
+    private IEnumerator ReturnToPoolAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         ReturnToPool();
@@ -116,11 +115,25 @@ public class CloneSkill_Controller : MonoBehaviour
     {
         // Delay before returning to pool
         StartCoroutine(ReturnToPoolAfterDelay(0.5f)); // Adjust delay as needed (1.5 seconds here)
-    }*/
+    }
 
-    // Set the pool reference (called by CloneAttack)
+    private void OnDrawGizmos()
+
+    {
+        Gizmos.color = Color.yellow;
+
+        // Draw ground check ray
+       
+        
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(cloneAttackTrigger.attackCheck.position, cloneAttackTrigger.attackRadius);
+    }
+
+    //Set the pool reference (called by CloneAttack)
     public void SetPool(ObjectPool<CloneSkill_Controller> pool)
     {
         clonePool = pool;
     }
+
+
 }
