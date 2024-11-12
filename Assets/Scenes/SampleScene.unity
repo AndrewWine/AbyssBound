@@ -7449,6 +7449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 840545562}
   - component: {fileID: 840545561}
+  - component: {fileID: 840545563}
   m_Layer: 0
   m_Name: Inventory
   m_TagString: Untagged
@@ -7474,6 +7475,7 @@ MonoBehaviour:
   inventorySlotParent: {fileID: 2011776324}
   stashSlotParent: {fileID: 787481408}
   equipmentSlotParent: {fileID: 1114040806}
+  characterStats: {fileID: 840545563}
 --- !u!4 &840545562
 Transform:
   m_ObjectHideFlags: 0
@@ -7489,6 +7491,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &840545563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840545560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3752fe0be1ba35548aa19b69b7f8b647, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 07fd336f866cecb4293f0b04a36b68d6, type: 2}
+  inputHandler: {fileID: 483923778}
 --- !u!1 &847206311
 GameObject:
   m_ObjectHideFlags: 0
@@ -19366,6 +19382,10 @@ PrefabInstance:
     - target: {fileID: 4710944658039709120, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 152.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6337192558622441681, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
+      propertyPath: CurrentHP
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6505698809129926340, guid: d2a9957885bf4544a956a0c57e49313c, type: 3}
       propertyPath: m_AnchoredPosition.x

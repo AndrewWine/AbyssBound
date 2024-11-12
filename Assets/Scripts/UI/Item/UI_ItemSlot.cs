@@ -36,7 +36,7 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         itemImage.color = Color.clear;
         itemText.text = "";
     }
-    public void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData eventData)
     {
         if (item != null && item.data.itemtype == ItemType.Equipment)
         {

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fa814db9a11e8498a246a06b171e71, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  UsageTimer: 8.026356
-  PassingTime: 273.63596
+  UsageTimer: 31.291391
+  PassingTime: 29.129808
   dashCoolDown: 3
   dashSpeed: 35
   dashDuration: 0.2
@@ -40,16 +39,30 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  damage:
-    modifiers: 0a00000000000000000000000000000000000000
-  strength:
-    modifiers: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
-  agility:
-    modifiers: 
-  intelligent:
-    modifiers: 
-  stamina:
-    modifiers: 
-  maxHealth:
-    modifiers: 
-  currentHealth: 0
+  MaxMana: 30
+  CurrentMana: 30
+  MaxStamina: 50
+  CurrentStamina: 7
+  strength: 0
+  agility: 0
+  intelligence: 0
+  vitallity: 0
+  Damage: 130
+  MagicDamage: 10
+  CritChance: 300
+  CritPower: 1.5
+  armor: 0
+  magicArmor: 0
+  evasion: 0
+  movementSpeed: 3
+  staminaRegenRate: 3
+  hpRegenRate: 30
+  manaRegenRate: 0
+  lifesteal: 0
+  canIgnite: 0
+  canFreaze: 0
+  canShock: 0
+  Ignite: 0
+  Freaze: 0
+  Shock: 0
+  Chill: 0

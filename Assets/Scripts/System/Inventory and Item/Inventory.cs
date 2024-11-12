@@ -18,6 +18,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform stashSlotParent;
     [SerializeField] private Transform equipmentSlotParent;
 
+    [SerializeField]public CharacterStats characterStats;
+
 
     private UI_ItemSlot[] inventoryItemSlot;
     private UI_ItemSlot[] stashItemSlot;
@@ -38,8 +40,15 @@ public class Inventory : MonoBehaviour
         equipment = new List<InventoryItem>();
         equipmentDictionory = new Dictionary<ItemData_equipment, InventoryItem>();
         equipmentSlot = equipmentSlotParent.GetComponentsInChildren<UI_EquipmentSlot>();
-
+        characterStats = GetComponent<CharacterStats>();
+        characterStats = GetComponent<CharacterStats>();
+        if (characterStats == null)
+        {
+            Debug.LogError("CharacterStats is not assigned in Inventory.");
+            return;
+        }
     }
+
 
     private void Start()
     {
@@ -115,6 +124,31 @@ public class Inventory : MonoBehaviour
         UpdateSlotUI();
     }
 
+
+    private void ApplyItemStats(ItemData_equipment item, bool isEquipping)
+    {
+        float multiplier = isEquipping ? 1 : -1;
+
+        // Update stats based on item stats with appropriate casting for integer-based stats
+        characterStats.OnChangeDamage((int)((item.Damage + item.strength) * multiplier));  // Cast to int
+        characterStats.OnChangeMagicDamage((int)((item.MagicDamage + item.intelligence * 2) * multiplier));  // Cast to int
+        characterStats.OnChangeCritChance(item.CritChance  * multiplier);
+        characterStats.OnChangeCritPower(item.CritPower * multiplier);
+        characterStats.OnChangeArmor((int)(item.armor * multiplier));  // Cast to int
+        characterStats.OnChangeMagicArmor((int)(item.magicArmor * multiplier));  // Cast to int
+        characterStats.OnChangeEvasion();
+        characterStats.OnChangeMovementSpeed(item.movementSpeed * multiplier);
+
+        // Additional effects
+        characterStats.OnChangeCanIgnite(item.canIgnite * multiplier);
+        characterStats.OnChangeCanFreeze(item.canFreaze * multiplier);
+        characterStats.OnChangeCanShock(item.canShock * multiplier);
+        characterStats.OnChangeHpRegenRate(item.hpRegenRate * multiplier);
+        characterStats.OnChangeManaRegenRate(item.manaRegenRate * multiplier);
+        characterStats.OnChangeStaminaRegenRate(item.staminaRegenRate * multiplier);
+    }
+
+
     private void EquipItem(ItemData _item)
     {
         ItemData_equipment newEquipment = _item as ItemData_equipment;
@@ -144,17 +178,21 @@ public class Inventory : MonoBehaviour
             equipmentDictionory[newEquipment] = newItem;
             RemoveItem(_item);
 
+            ApplyItemStats(newEquipment, true);
+
             UpdateSlotUI();
         }
     }
+     
 
-
-    private void UnEquipItem(ItemData_equipment itemToRemove)
+    public void UnEquipItem(ItemData_equipment itemToRemove)
     {
         if (equipmentDictionory.TryGetValue(itemToRemove, out InventoryItem value))
         {
             equipment.Remove(value);
             equipmentDictionory.Remove(itemToRemove);
+            ApplyItemStats(itemToRemove, false);
+
         }
     }
 
@@ -171,7 +209,7 @@ public class Inventory : MonoBehaviour
             stashDictionary.Add(item, newItem);
         }
     }
-
+    
     public void RemoveItem(ItemData item)
     {
         if (inventoryDictionory.TryGetValue(item, out InventoryItem value))

@@ -6,12 +6,13 @@ public class CharacterStats : MonoBehaviour
 {
     public PlayerData playerData;
     public PlayerInputHandler inputHandler;
+
     private void Awake()
     {
-       playerData.CurrentMana = playerData.MaxMana;
-       playerData.CurrentStamina = playerData.MaxStamina;
-       inputHandler.UseStamina += OnCurrentStaminaChange;
-       inputHandler.UseMana += OnCurrentManaChange;
+        playerData.CurrentMana = playerData.MaxMana;
+        playerData.CurrentStamina = playerData.MaxStamina;
+        inputHandler.UseStamina += OnCurrentStaminaChange;
+        inputHandler.UseMana += OnCurrentManaChange;
     }
 
     private void OnDisable()
@@ -24,46 +25,44 @@ public class CharacterStats : MonoBehaviour
     {
         playerData.CurrentMana += amount;
     }
+
     public void OnCurrentStaminaChange(int amount)
     {
         playerData.CurrentStamina += amount;
     }
 
-
-    public void OnChangeMaxMana()
+    public void OnChangeMaxMana(int amount = 0)
     {
         if (playerData.MaxMana > 0)
         {
-            playerData.MaxMana += 2 * playerData.intelligence;
+            playerData.MaxMana += amount > 0 ? amount : 2 * playerData.intelligence;
             if (playerData.MaxMana < playerData.CurrentMana)
             {
                 playerData.CurrentMana = playerData.MaxMana;
             }
-
         }
     }
 
-    public void OnChangeMaxStamina()
+    public void OnChangeMaxStamina(int amount = 0)
     {
         if (playerData.MaxStamina > 0)
         {
-            playerData.MaxStamina += 3 * playerData.vitallity;
+            playerData.MaxStamina += amount > 0 ? amount : 3 * playerData.vitallity;
             if (playerData.MaxStamina < playerData.CurrentStamina)
             {
                 playerData.CurrentStamina = playerData.MaxStamina;
             }
-
         }
     }
 
-    public void OnChangeDamage()
+    public void OnChangeDamage(int amount)
     {
-        playerData.Damage += playerData.strength;
+        playerData.Damage += amount > 0 ? amount : playerData.strength;
     }
 
-    public void OnChangeMagicDamage()
+    public void OnChangeMagicDamage(int amount = 0)
     {
-        playerData.MagicDamage += playerData.intelligence;
+        playerData.MagicDamage += amount > 0 ? amount : playerData.intelligence;
     }
 
     public void OnChangeArmor(int amount)
@@ -75,19 +74,20 @@ public class CharacterStats : MonoBehaviour
     {
         playerData.magicArmor += amount;
     }
-    public void OnChangeEvasion()
+
+    public void OnChangeEvasion(float amount = 0)
     {
-        playerData.evasion += playerData.agility / 10;
+        playerData.evasion += amount > 0 ? amount : playerData.agility / 10f;
     }
 
-    public void OnChangeCritChance()
+    public void OnChangeCritChance(float amount = 0)
     {
-        playerData.CritChance += playerData.agility / 10;
+        playerData.CritChance += amount > 0 ? amount : playerData.agility / 10f;
     }
 
-    public void OnChangeCritPower()
+    public void OnChangeCritPower(float amount = 0)
     {
-        playerData.CritPower += playerData.strength / 10;
+        playerData.CritPower += amount > 0 ? amount : playerData.strength / 10f;
     }
 
     public void OnChangeMovementSpeed(float amount)
@@ -99,14 +99,29 @@ public class CharacterStats : MonoBehaviour
     {
         playerData.canIgnite += amount;
     }
-    public void OnChangeCanFreaze(float amount)
+
+    public void OnChangeCanFreeze(float amount)
     {
         playerData.canFreaze += amount;
     }
+
     public void OnChangeCanShock(float amount)
     {
         playerData.canShock += amount;
     }
 
+    public void OnChangeHpRegenRate(float amount)
+    {
+        playerData.hpRegenRate += amount;
+    }
 
+    public void OnChangeManaRegenRate(float amount)
+    {
+        playerData.manaRegenRate += amount;
+    }
+
+    public void OnChangeStaminaRegenRate(float amount)
+    {
+        playerData.staminaRegenRate += amount;
+    }
 }

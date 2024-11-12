@@ -15,4 +15,27 @@ MonoBehaviour:
   itemtype: 1
   itemName: Wooden sword
   icon: {fileID: -440586251, guid: 9c7355b0cb8a5024bba44738f70d9e74, type: 3}
+  strength: 10
+  agility: 10
+  intelligence: 0
+  vitallity: 0
+  Damage: 30
+  MagicDamage: 0
+  CritChance: 100
+  CritPower: 0
+  armor: 0
+  magicArmor: 0
+  evasion: 0
+  movementSpeed: 0
+  staminaRegenRate: 0
+  hpRegenRate: 10
+  manaRegenRate: 0
+  lifesteal: 10
+  canIgnite: 0
+  canFreaze: 0
+  canShock: 0
+  Ignite: 0
+  Freaze: 0
+  Shock: 0
+  Chill: 0
   equipmentType: 0

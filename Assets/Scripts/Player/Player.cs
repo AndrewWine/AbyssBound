@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
 
     private int currentHP;
-    private float staminaRegenTimer = 0f; // Timer to track the elapsed time
+    private float RegenTimer = 0f; // Timer to track the elapsed time
     private float regenInterval = 1f;   // Interval of 0.5 seconds
 
     public EntityFX fx { get; private set; }
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     {
         blackBoard = GetComponent<PlayerBlackBoard>();
         fx = GetComponent<EntityFX>();
-        StatsInitialization();
+        PlayerStatsInfor();
         //ebug.Log("Total Damage: " + playerData.DMG.GetValue());
         unitHP.BeingHit += TakeDamage;
 
@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
         CheckOnDrawGizmos();
         CheckIfShouldFlip(blackBoard.PlayerInputHandler.NormInputX);
         RegenStamina();
+        RegenHP();
         Death();
         if (blackBoard.isGrounded)
         {
@@ -58,36 +59,62 @@ public class Player : MonoBehaviour
     {
         if (playerData.CurrentStamina < playerData.MaxStamina)
         {
-            staminaRegenTimer += Time.deltaTime;
+            RegenTimer += Time.deltaTime;
 
-            if (staminaRegenTimer >= regenInterval)
+            if (RegenTimer >= regenInterval)
             {
-                playerData.CurrentStamina += 5; // Regenerate 5 stamina points
+                playerData.CurrentStamina += playerData.staminaRegenRate; // Regenerate 5 stamina points
                 if (playerData.CurrentStamina > playerData.MaxStamina)
                 {
                     playerData.CurrentStamina = playerData.MaxStamina; // Cap at MaxStamina
                 }
 
                 
-                staminaRegenTimer = 0f; // Reset the timer after regeneration
+                RegenTimer = 0f; // Reset the timer after regeneration
+            }
+        }
+    }
+
+    public void RegenHP()
+    {
+        if (unitHP.CurrentHP < unitHP.MaxHP)
+        {
+            RegenTimer += Time.deltaTime;
+
+            if (RegenTimer >= regenInterval)
+            {
+                unitHP.CurrentHP += playerData.lifesteal * playerData.Damage; // Regenerate 5 stamina points
+                if (playerData.CurrentStamina > playerData.MaxStamina)
+                {
+                    playerData.CurrentStamina = playerData.MaxStamina; // Cap at MaxStamina
+                }
+
+
+                RegenTimer = 0f; // Reset the timer after regeneration
             }
         }
     }
 
     #endregion
     #region stats initialization
-    public void StatsInitialization()
+    public void PlayerStatsInfor()
     {
-        playerData.CurrentMana = playerData.MaxMana;
-        playerData.CurrentStamina = playerData.MaxStamina;
-        playerData.Damage = 10.0f;
-        playerData.evasion = 0.0f;
-        playerData.CritChance = 0.0f;
-        playerData.CritPower = 1.5f;
+        playerData.CurrentMana = playerData.MaxMana ;
+        playerData.CurrentStamina = playerData.MaxStamina ;
+        playerData.MaxMana = playerData.intelligence * 2 +30;
+        playerData.MaxStamina = playerData.vitallity * 3 + 50;
+        unitHP.MaxHP = playerData.vitallity * 5 + 100;
+        playerData.Damage = playerData.strength + 10;
+        playerData.evasion = playerData.agility * 0.1f;
+        playerData.CritChance = playerData.agility * 0.1f ;
+        playerData.CritPower = playerData.strength*0.1f + 1.5f;
+        playerData.movementSpeed = 3 + playerData.agility * 0.1f;
+        playerData.MagicDamage = 10;
+
+        //stats just can change by item
         playerData.armor = 0;
         playerData.magicArmor = 0;
-        playerData.movementSpeed = 3;
-        playerData.MagicDamage = 10;
+        playerData.staminaRegenRate = 3;
 
         blackBoard.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
         unitHP.CurrentHP = unitHP.MaxHP;

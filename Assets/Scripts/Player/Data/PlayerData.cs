@@ -80,6 +80,8 @@ public class PlayerData : ScriptableObject
 
     [Header("Buff")]
     public float staminaRegenRate;
+    public float hpRegenRate;
+    public float manaRegenRate;
 
     [Header("Effect")]
     public float lifesteal;
