@@ -31,7 +31,7 @@ public class CharacterStats : MonoBehaviour
         playerData.CurrentStamina += amount;
     }
 
-    public void OnChangeMaxMana(int amount = 0)
+    public void OnChangeMaxMana(int amount )
     {
         if (playerData.MaxMana > 0)
         {
@@ -43,7 +43,7 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-    public void OnChangeMaxStamina(int amount = 0)
+    public void OnChangeMaxStamina(int amount )
     {
         if (playerData.MaxStamina > 0)
         {

@@ -59,12 +59,15 @@ public class Inventory : MonoBehaviour
     {
         ItemData.getItem += AddItem;
         UI_ItemSlot.NotifyEquipItem += EquipItem;
+        UI_EquipmentSlot.NotifyEquipItem += UnEquipItem;
     }
 
     private void OnDisable()
     {
         ItemData.getItem -= AddItem;
         UI_ItemSlot.NotifyEquipItem -= EquipItem;
+        UI_EquipmentSlot.NotifyEquipItem -= UnEquipItem;
+
     }
 
     private void UpdateSlotUI()
@@ -185,8 +188,10 @@ public class Inventory : MonoBehaviour
     }
      
 
-    public void UnEquipItem(ItemData_equipment itemToRemove)
+    public void UnEquipItem(ItemData _item)
     {
+        ItemData_equipment itemToRemove = _item as ItemData_equipment;
+
         if (equipmentDictionory.TryGetValue(itemToRemove, out InventoryItem value))
         {
             equipment.Remove(value);
