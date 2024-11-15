@@ -15,4 +15,27 @@ MonoBehaviour:
   itemtype: 1
   itemName: Stolen Sword
   icon: {fileID: 1526008332, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  strength: 5
+  agility: 3
+  intelligence: 0
+  vitallity: 0
+  Damage: 12
+  MagicDamage: 0
+  CritChance: 0
+  CritPower: 0
+  armor: 0
+  magicArmor: 0
+  evasion: 0
+  movementSpeed: 0
+  staminaRegenRate: 0
+  hpRegenRate: 0
+  manaRegenRate: 0
+  lifesteal: 0
+  canIgnite: 0
+  canFreaze: 0
+  canShock: 0
+  Ignite: 0
+  Freaze: 0
+  Shock: 0
+  Chill: 0
   equipmentType: 0

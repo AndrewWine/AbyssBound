@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
 
     private int currentHP;
     private float RegenTimer = 0f; // Timer to track the elapsed time
-    private float regenInterval = 1f;   // Interval of 0.5 seconds
+    private float regenInterval = 0.1f;   // Interval of 0.5 seconds
 
     public EntityFX fx { get; private set; }
 
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour
         //stats just can change by item
         playerData.armor = 0;
         playerData.magicArmor = 0;
-        playerData.staminaRegenRate = 3;
+        playerData.staminaRegenRate = 1;
 
         blackBoard.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
         unitHP.CurrentHP = unitHP.MaxHP;

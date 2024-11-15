@@ -59,14 +59,14 @@ public class Inventory : MonoBehaviour
     {
         ItemData.getItem += AddItem;
         UI_ItemSlot.NotifyEquipItem += EquipItem;
-        UI_EquipmentSlot.NotifyEquipItem += UnEquipItem;
+        //UI_EquipmentSlot.NotifyEquipItem += UnEquipItem;
     }
 
     private void OnDisable()
     {
         ItemData.getItem -= AddItem;
         UI_ItemSlot.NotifyEquipItem -= EquipItem;
-        UI_EquipmentSlot.NotifyEquipItem -= UnEquipItem;
+        //UI_EquipmentSlot.NotifyEquipItem -= UnEquipItem;
 
     }
 
@@ -131,11 +131,13 @@ public class Inventory : MonoBehaviour
     private void ApplyItemStats(ItemData_equipment item, bool isEquipping)
     {
         float multiplier = isEquipping ? 1 : -1;
+        
+        Debug.Log("Applying stats: " + item.name + " with multiplier: " + multiplier);
 
-        // Update stats based on item stats with appropriate casting for integer-based stats
+        // Reset the stats to the base value (can be retrieved from the character or item)
         characterStats.OnChangeDamage((int)((item.Damage + item.strength) * multiplier));  // Cast to int
         characterStats.OnChangeMagicDamage((int)((item.MagicDamage + item.intelligence * 2) * multiplier));  // Cast to int
-        characterStats.OnChangeCritChance(item.CritChance  * multiplier);
+        characterStats.OnChangeCritChance(item.CritChance * multiplier);
         characterStats.OnChangeCritPower(item.CritPower * multiplier);
         characterStats.OnChangeArmor((int)(item.armor * multiplier));  // Cast to int
         characterStats.OnChangeMagicArmor((int)(item.magicArmor * multiplier));  // Cast to int
@@ -152,6 +154,8 @@ public class Inventory : MonoBehaviour
     }
 
 
+
+
     private void EquipItem(ItemData _item)
     {
         ItemData_equipment newEquipment = _item as ItemData_equipment;
@@ -159,7 +163,7 @@ public class Inventory : MonoBehaviour
         {
             InventoryItem newItem = new InventoryItem(newEquipment);
 
-            // Kiểm tra và tháo bỏ item cũ nếu có
+            // Check and remove old item if already equipped
             ItemData_equipment oldEquipment = null;
 
             foreach (KeyValuePair<ItemData_equipment, InventoryItem> item in equipmentDictionory)
@@ -173,33 +177,33 @@ public class Inventory : MonoBehaviour
             if (oldEquipment != null)
             {
                 UnEquipItem(oldEquipment);
-                AddItem(oldEquipment);
+                AddItem(oldEquipment);  // Re-add the old item back to inventory or stash
             }
 
-            // Thêm item mới vào equipment
+            // Add new item to equipment
             equipment.Add(newItem);
             equipmentDictionory[newEquipment] = newItem;
             RemoveItem(_item);
 
-            ApplyItemStats(newEquipment, true);
+            ApplyItemStats(newEquipment, true);  // Apply stats of the new equipment
 
             UpdateSlotUI();
         }
     }
-     
 
-    public void UnEquipItem(ItemData _item)
+    public void UnEquipItem(ItemData_equipment itemToRemove)
     {
-        ItemData_equipment itemToRemove = _item as ItemData_equipment;
-
         if (equipmentDictionory.TryGetValue(itemToRemove, out InventoryItem value))
         {
+            ApplyItemStats(itemToRemove, false);  // Revert the stats of the item being unequipped
+
             equipment.Remove(value);
             equipmentDictionory.Remove(itemToRemove);
-            ApplyItemStats(itemToRemove, false);
 
+            UpdateSlotUI();
         }
     }
+
 
     private void AddToStash(ItemData item)
     {

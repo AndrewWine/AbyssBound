@@ -28,12 +28,12 @@ public class CharacterStats : MonoBehaviour
 
     public void OnCurrentStaminaChange(int amount)
     {
-        playerData.CurrentStamina += amount;
+        if(playerData.CurrentStamina > amount) playerData.CurrentStamina += amount;
     }
 
     public void OnChangeMaxMana(int amount )
     {
-        if (playerData.MaxMana > 0)
+        if (playerData.MaxMana > amount)
         {
             playerData.MaxMana += amount > 0 ? amount : 2 * playerData.intelligence;
             if (playerData.MaxMana < playerData.CurrentMana)
@@ -57,7 +57,7 @@ public class CharacterStats : MonoBehaviour
 
     public void OnChangeDamage(int amount)
     {
-        playerData.Damage += amount > 0 ? amount : playerData.strength;
+        playerData.Damage += amount  ;
     }
 
     public void OnChangeMagicDamage(int amount = 0)
