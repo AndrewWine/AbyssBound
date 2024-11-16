@@ -41,11 +41,15 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         if (item != null && item.data.itemtype == ItemType.Equipment)
         {
             NotifyEquipItem?.Invoke(item.data);
+            Debug.Log("Trang bi Item");
+            CleanUpSlot();
+
         }
         else if(item == null)
         {
             Debug.Log("Chưa trang bị Item");
         } 
+    
             
     }
 }
