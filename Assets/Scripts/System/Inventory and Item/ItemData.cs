@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public enum ItemType
 {
@@ -57,4 +58,6 @@ public class ItemData : ScriptableObject
     public bool Shock; // Cause unable to move increase crit chance (target still able to attack)
     public bool Chill; //slowdown movementspeed have ability to become Freaze, if target is Chill and player attack with ability freaze then freaze target
 
+    [Header("Craft Requirments")]
+    public List<InventoryItem> craftingMaterials;
 }

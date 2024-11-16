@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -27,6 +28,7 @@ public class Inventory : MonoBehaviour
 
 
     private UI_ItemSlot NotifyEquipItem;
+
 
     private void Awake()
     {
@@ -60,6 +62,7 @@ public class Inventory : MonoBehaviour
         ItemData.getItem += AddItem;
         UI_ItemSlot.NotifyEquipItem += EquipItem;
         UI_EquipmentSlot.NotifyUnequipItem += UnEquipItem;
+        UI_CraftSlot.NotifyCraftingItem += CanCraft;  // Đăng ký vào sự kiện
     }
 
     private void OnDisable()
@@ -67,9 +70,11 @@ public class Inventory : MonoBehaviour
         ItemData.getItem -= AddItem;
         UI_ItemSlot.NotifyEquipItem -= EquipItem;
         UI_EquipmentSlot.NotifyUnequipItem -= UnEquipItem;
+        UI_CraftSlot.NotifyCraftingItem -= CanCraft;  // Hủy đăng ký sự kiện
 
     }
 
+   
     private void UpdateSlotUI()
     {
         for (int i = 0; i <equipmentSlot.Length; i++)
@@ -180,15 +185,13 @@ public class Inventory : MonoBehaviour
             if (oldEquipment != null)
             {
                 UnEquipItem(oldEquipment); // Gọi hàm UnEquipItem để hủy bỏ chỉ số và cập nhật UI
-                AddItem(oldEquipment);    // Thêm lại trang bị cũ vào inventory
             }
 
             // Thêm trang bị mới vào danh sách
             equipment.Add(newItem);
             equipmentDictionory[newEquipment] = newItem;
-
-            // Xóa trang bị mới khỏi inventory
-            RemoveItem(_item);
+            // Loại bỏ call AddItem ở đây để tránh vòng lặp vô hạn
+            RemoveItem(_item); // Xóa trang bị mới khỏi inventory
 
             // Áp dụng chỉ số của trang bị mới
             ApplyItemStats(newEquipment, true);
@@ -212,12 +215,13 @@ public class Inventory : MonoBehaviour
             equipmentDictionory.Remove(itemToRemove);
 
             // Thêm lại trang bị vào inventory
-            AddItem(itemToRemove);
+            AddItem(itemToRemove); // Lưu ý: Chỉ thêm lại vào inventory, không gọi EquipItem
 
             // Cập nhật giao diện
             UpdateSlotUI();
         }
     }
+
 
 
 
@@ -277,4 +281,52 @@ public class Inventory : MonoBehaviour
             inventoryDictionory.Add(_item, newItem);
         }
     }
+
+
+
+    // Phương thức kiểm tra khả năng chế tạo
+    public void CanCraft(ItemData _itemToCraft, List<InventoryItem> _requireMaterials)
+    {
+        List<InventoryItem> materialsToRemove = new List<InventoryItem>();
+
+        // Kiểm tra nguyên liệu cần thiết
+        for (int i = 0; i < _requireMaterials.Count; i++)
+        {
+            if (stashDictionary.TryGetValue(_requireMaterials[i].data, out InventoryItem stashvalue))
+            {
+                if (stashvalue.stackSize < _requireMaterials[i].stackSize)
+                {
+                    // Nếu không đủ nguyên liệu, trả về false
+                    Debug.Log("Not enough materials");
+                }
+                else
+                {
+                    // Nếu đủ nguyên liệu, thêm vào danh sách để xóa
+                    materialsToRemove.Add(stashvalue);
+                    AddToInventory(_itemToCraft); // Thêm vật phẩm mới vào kho
+
+                    Debug.Log("Here is your item: " + _itemToCraft.name);
+
+                }
+            }
+            else
+            {
+                // Nếu không tìm thấy nguyên liệu trong kho
+                Debug.Log("Not enough materials");
+            }
+        }
+
+        // Nếu tất cả nguyên liệu có sẵn, tiến hành xóa và chế tạo vật phẩm
+        for (int i = 0; i < materialsToRemove.Count; i++)
+        {
+            RemoveItem(materialsToRemove[i].data); // Xóa nguyên liệu
+        }
+
+        // Thông báo thành công chế tạo vật phẩm
+    }
+
+
+
+
+
 }
