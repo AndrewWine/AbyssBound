@@ -1,30 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
+
 public class UI_EquipmentSlot : UI_ItemSlot
 {
-    public static Action<ItemData> NotifyUnequipItem;
-    public Action<ItemData> NotifyAddToInventory;
+    public static Action<ItemData_equipment> NotifyUnequipItem;
     public EquipmentType slotType;
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        base.OnPointerDown(eventData);
-        if (item != null && item.data != null)
+        if (item != null && item.data is ItemData_equipment equipmentData)
         {
-            NotifyUnequipItem?.Invoke(item.data);
+            NotifyUnequipItem?.Invoke(equipmentData);
+            NotifyEquipItem?.Invoke(item.data);
+            Debug.Log("Thao trang bi");
             CleanUpSlot();
-           
         }
     }
-
 
     private void OnValidate()
     {
         gameObject.name = "Equipment slot -" + slotType.ToString();
-   
-       
     }
 }

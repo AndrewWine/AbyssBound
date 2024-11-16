@@ -59,14 +59,14 @@ public class Inventory : MonoBehaviour
     {
         ItemData.getItem += AddItem;
         UI_ItemSlot.NotifyEquipItem += EquipItem;
-        //UI_EquipmentSlot.NotifyEquipItem += UnEquipItem;
+        UI_EquipmentSlot.NotifyUnequipItem += UnEquipItem;
     }
 
     private void OnDisable()
     {
         ItemData.getItem -= AddItem;
         UI_ItemSlot.NotifyEquipItem -= EquipItem;
-        //UI_EquipmentSlot.NotifyEquipItem -= UnEquipItem;
+        UI_EquipmentSlot.NotifyUnequipItem -= UnEquipItem;
 
     }
 
@@ -156,14 +156,15 @@ public class Inventory : MonoBehaviour
 
 
 
-    private void EquipItem(ItemData _item)
+    // Hàm trang bị item
+    public void EquipItem(ItemData _item)
     {
-        ItemData_equipment newEquipment = _item as ItemData_equipment;
-        if (newEquipment != null)
+        // Chuyển kiểu sang ItemData_equipment để kiểm tra
+        if (_item is ItemData_equipment newEquipment)
         {
             InventoryItem newItem = new InventoryItem(newEquipment);
 
-            // Check and remove old item if already equipped
+            // Kiểm tra xem có trang bị nào cùng loại (equipmentType) đang được sử dụng không
             ItemData_equipment oldEquipment = null;
 
             foreach (KeyValuePair<ItemData_equipment, InventoryItem> item in equipmentDictionory)
@@ -171,38 +172,53 @@ public class Inventory : MonoBehaviour
                 if (item.Key.equipmentType == newEquipment.equipmentType)
                 {
                     oldEquipment = item.Key;
+                    break; // Tìm thấy trang bị cũ, không cần kiểm tra thêm
                 }
             }
 
+            // Nếu có trang bị cũ, gỡ nó ra
             if (oldEquipment != null)
             {
-                UnEquipItem(oldEquipment);
-                AddItem(oldEquipment);  // Re-add the old item back to inventory or stash
+                UnEquipItem(oldEquipment); // Gọi hàm UnEquipItem để hủy bỏ chỉ số và cập nhật UI
+                AddItem(oldEquipment);    // Thêm lại trang bị cũ vào inventory
             }
 
-            // Add new item to equipment
+            // Thêm trang bị mới vào danh sách
             equipment.Add(newItem);
             equipmentDictionory[newEquipment] = newItem;
+
+            // Xóa trang bị mới khỏi inventory
             RemoveItem(_item);
 
-            ApplyItemStats(newEquipment, true);  // Apply stats of the new equipment
+            // Áp dụng chỉ số của trang bị mới
+            ApplyItemStats(newEquipment, true);
 
+            // Cập nhật giao diện
             UpdateSlotUI();
         }
     }
 
+    // Hàm gỡ trang bị
     public void UnEquipItem(ItemData_equipment itemToRemove)
     {
+        // Kiểm tra xem itemToRemove có tồn tại trong từ điển không
         if (equipmentDictionory.TryGetValue(itemToRemove, out InventoryItem value))
         {
-            ApplyItemStats(itemToRemove, false);  // Revert the stats of the item being unequipped
+            // Hủy bỏ các chỉ số của trang bị
+            ApplyItemStats(itemToRemove, false);
 
+            // Xóa trang bị khỏi danh sách và từ điển
             equipment.Remove(value);
             equipmentDictionory.Remove(itemToRemove);
 
+            // Thêm lại trang bị vào inventory
+            AddItem(itemToRemove);
+
+            // Cập nhật giao diện
             UpdateSlotUI();
         }
     }
+
 
 
     private void AddToStash(ItemData item)
