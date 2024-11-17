@@ -16,10 +16,14 @@ public class ItemData : ScriptableObject
     public Sprite icon;
     public static Action<ItemData> getItem;
 
+    [Range(0, 100)]
+    public float dropChance;
+
     public void PickUpItem()
     {
         getItem?.Invoke(this);
     }
+
 
 
     [Header("Major Stats")]

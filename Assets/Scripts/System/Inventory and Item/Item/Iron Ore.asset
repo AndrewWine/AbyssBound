@@ -15,6 +15,7 @@ MonoBehaviour:
   itemtype: 0
   itemName: Iron Ore
   icon: {fileID: -3612140, guid: 9c7355b0cb8a5024bba44738f70d9e74, type: 3}
+  dropChance: 50
   strength: 0
   agility: 0
   intelligence: 0

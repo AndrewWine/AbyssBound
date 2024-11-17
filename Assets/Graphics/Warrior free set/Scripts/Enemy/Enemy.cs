@@ -12,10 +12,13 @@ public class Enemy : MonoBehaviour
     public EnemyStateMachine enemystateMachine;
     public EnemyData enemyData;
     public UnitHP BeingHit;
-    public EntityFX fx { get; private set; }
-    
+    private ItemDrop myDropSystem;
 
-   
+    public EntityFX fx { get; private set; }
+
+
+    private bool isDead = false; // Cờ kiểm tra trạng thái chết
+
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
     public float distanceBattle;
@@ -31,7 +34,7 @@ public class Enemy : MonoBehaviour
         entity.RB = GetComponent<Rigidbody2D>();
         // Gán EntityData dựa trên EntityType
         entity.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
-
+        myDropSystem = GetComponent<ItemDrop>();
         BeingHit.BeingHit += TakeDamage;
     }
 
@@ -41,12 +44,20 @@ public class Enemy : MonoBehaviour
     }
     protected virtual void Update()
     {
-        if(BeingHit.CurrentHP <= 0)
-        {
-            enemystateMachine.ChangeState(entity.enemyDeathState);
-        }
+        Death();
         CheckObject();
         CanAttack();
+    }
+
+    private void Death()
+    {
+        // Chỉ thực hiện khi enemy chưa chết
+        if (!isDead && BeingHit.CurrentHP <= 0)
+        {
+            isDead = true; // Đánh dấu enemy đã chết
+            enemystateMachine.ChangeState(entity.enemyDeathState);
+            myDropSystem.GenerateDrop(); // Gọi phương thức rơi đồ
+        }
     }
 
     public virtual void TakeDamage()

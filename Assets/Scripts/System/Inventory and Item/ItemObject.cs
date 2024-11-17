@@ -2,22 +2,32 @@
 
 public class ItemObject : MonoBehaviour
 {
-    private SpriteRenderer sr;
+    [SerializeReference] private Rigidbody2D rb;
     [SerializeField] private ItemData itemData;
-
-    private void OnValidate()
+    private void SetupVisuals()
     {
+        if(itemData == null)
+        {
+            return;
+        }
         GetComponent<SpriteRenderer>().sprite = itemData.icon;
         gameObject.name = "Item object - " + itemData.name;
+ 
     }
+     
    
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    public void SetupItem(ItemData _itemData, Vector2 _velocity)
     {
-        if (collision.gameObject.GetComponent<Player>() != null)
-        {
-            itemData.PickUpItem();  // Kích hoạt sự kiện thêm vào inventory
-            Debug.Log("Picked up item " + itemData.itemName);
-            Destroy(gameObject);  // Xóa object sau khi nhặt
-        }
+        itemData = _itemData;
+        rb.velocity = _velocity;
+
+        SetupVisuals();
+    }
+    public void PickupItem()
+    {
+        itemData.PickUpItem();  // Kích hoạt sự kiện thêm vào inventory
+        Debug.Log("Picked up item " + itemData.itemName);
+        Destroy(gameObject);  // Xóa object sau khi nhặt
     }
 }

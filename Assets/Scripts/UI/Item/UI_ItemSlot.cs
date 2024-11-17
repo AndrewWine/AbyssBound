@@ -10,6 +10,8 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemText;
     public  static Action<ItemData> NotifyEquipItem;
+    public static Action<ItemData> NotifyRemoveItem;
+
     public InventoryItem item;
 
     public void UpdateSlot(InventoryItem _newItem)
@@ -48,7 +50,12 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler
         else if(item == null)
         {
             Debug.Log("Chưa trang bị Item");
-        } 
+        }
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            NotifyRemoveItem?.Invoke(item.data);
+        }    
     
             
     }
