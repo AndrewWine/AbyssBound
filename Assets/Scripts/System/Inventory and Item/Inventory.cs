@@ -21,15 +21,13 @@ public class Inventory : MonoBehaviour
 
     [SerializeField]public CharacterStats characterStats;
 
-
+    //Oserver
     private UI_ItemSlot[] inventoryItemSlot;
     private UI_ItemSlot[] stashItemSlot;
     private UI_EquipmentSlot[] equipmentSlot;
-    
-
     private UI_ItemSlot NotifyEquipItem;
     private UI_ItemSlot NotifyRemoveItem;
-
+    public Action UpdateStats;
 
 
     private void Awake()
@@ -120,6 +118,7 @@ public class Inventory : MonoBehaviour
                 stashItemSlot[i].UpdateSlot(stash[i]);
             }
         }
+     
     }
 
     public void AddItem(ItemData item)
@@ -144,6 +143,8 @@ public class Inventory : MonoBehaviour
         Debug.Log("Applying stats: " + item.name + " with multiplier: " + multiplier);
 
         // Reset the stats to the base value (can be retrieved from the character or item)
+        characterStats.OnChangeMaxStamina((int)(item.vitallity * 3 * multiplier));
+        characterStats.OnChangeMaxMana((int)(item.intelligence * multiplier));
         characterStats.OnChangeDamage((int)((item.Damage + item.strength) * multiplier));  // Cast to int
         characterStats.OnChangeMagicDamage((int)((item.MagicDamage + item.intelligence * 2) * multiplier));  // Cast to int
         characterStats.OnChangeCritChance(item.CritChance * multiplier);
@@ -160,6 +161,7 @@ public class Inventory : MonoBehaviour
         characterStats.OnChangeHpRegenRate(item.hpRegenRate * multiplier);
         characterStats.OnChangeManaRegenRate(item.manaRegenRate * multiplier);
         characterStats.OnChangeStaminaRegenRate(item.staminaRegenRate * multiplier);
+        UpdateStats?.Invoke();
     }
 
 
