@@ -56,6 +56,12 @@ public class Sword_Skill : Skill
             DotsActive(true);
         }
 
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            DotsActive(false);
+
+        }
+
         // Khi thả Q và có thể sử dụng skill
         if (Input.GetKeyUp(KeyCode.Q) && CanUseSkill())
         {

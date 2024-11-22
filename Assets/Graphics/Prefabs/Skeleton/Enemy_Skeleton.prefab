@@ -399,7 +399,6 @@ GameObject:
   - component: {fileID: 5015013223879564413}
   - component: {fileID: 6899410182807284532}
   - component: {fileID: 3734924147319862794}
-  - component: {fileID: 4012256892148179387}
   - component: {fileID: 4430530368772632371}
   - component: {fileID: 4397803083451975429}
   - component: {fileID: 7210906363579201784}
@@ -515,18 +514,6 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 95c425d138c3fb442a9c7e195266b45c, type: 2}
   BeingHit: {fileID: 7210906363579201784}
   distanceBattle: 0
---- !u!114 &4012256892148179387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4487378377800627639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae70ec514df5d9e4caf83a09a5a30b5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4430530368772632371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,6 +610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbe5b39cbb91bc4cb66a08de14d491e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amountOfItems: 0
+  possibleItemDrop: []
   dropPrefab: {fileID: 1994577373792236157, guid: 55d1d780f04f2a445b43551482416bae, type: 3}
   item: {fileID: 11400000, guid: 35c11ade953d30c40b7e9a26c7ede5f5, type: 2}
 --- !u!1 &4922734322651650100

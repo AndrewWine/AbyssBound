@@ -31,33 +31,45 @@ public class AnimationFinishTriggerEnemy : MonoBehaviour
 
         if (entity == null || entity.attackCheck == null)
         {
-            Debug.LogError("attackCheck không được gán trong EnemyBlackBoard.");
+            Debug.LogError("attackCheck is not assigned in EnemyBlackBoard.");
             return;
         }
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(entity.attackCheck.position, enemyData.attackCheckRadius);
+        Debug.Log($"Số lượng collider phát hiện được: {colliders.Length}");
 
         foreach (var hit in colliders)
         {
-            UnitHP unitHP = hit.GetComponent<UnitHP>();
+            CharacterStats unitHP = hit.GetComponent<CharacterStats>();
             Player player = hit.GetComponent<Player>();
+            Debug.Log($"Đối tượng: {hit.name}, Có CharacterStats: {unitHP != null}, Có Player: {player != null}");
 
-            if (player != null && unitHP != null )
-            { 
-                if(Random.Range(0, 100) > player.playerData.evasion)
+            if (player != null && unitHP != null)
+            {
+                // Log evasion check
+                float roll = Random.Range(0, 100);
+                Debug.Log($"Evasion chance: {player.playerData.evasion}, Roll: {roll}");
+
+                if (roll > player.playerData.evasion)
                 {
-                   
-                    if (enemyData.damage > 0) unitHP.OnCurrentHPChange(enemyData.damage - player.playerData.armor);
-                    if (enemyData.magicDamage > 0) unitHP.OnCurrentHPChange(enemyData.damage - player.playerData.magicArmor);
+                    float physicalDamage = Mathf.Max(0, enemyData.damage - player.playerData.armor);
+                    float magicDamage = Mathf.Max(0, enemyData.magicDamage - player.playerData.magicArmor);
+
+                    Debug.Log($"Physical Damage: {physicalDamage}, Magic Damage: {magicDamage}");
+
+                    if (physicalDamage > 0) unitHP.OnCurrentHPChange(-physicalDamage);
+                    if (magicDamage > 0) unitHP.OnCurrentHPChange(-magicDamage);
+
+                    Debug.Log($"Player HP after attack: {player.playerData.CurrentHP}");
                 }
                 else
                 {
-                    Debug.Log("Attack Miss");
+                    Debug.Log("Attack Missed!");
                 }
             }
-           
         }
     }
+
 
     private void AnimationFinishTrigger()
     {

@@ -19,6 +19,10 @@ public class Enemy : MonoBehaviour
 
     private bool isDead = false; // Cờ kiểm tra trạng thái chết
 
+    protected float lastStunTime;  // Thời gian bị stun gần nhất
+    public float stunCooldown = 2f; // Thời gian hồi trước khi có thể bị stun lại
+    protected bool canBeStunned = true; // Cờ kiểm tra stun
+
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
     public float distanceBattle;
@@ -93,9 +97,13 @@ public class Enemy : MonoBehaviour
 
     public virtual void OpenCounterAttackWindow()
     {
-        entity.canBeStunned = true;
-        entity.counterImage.SetActive(true);
+        if (!entity.canBeStunned && entity.isPlayer) // Chỉ mở nếu chưa kích hoạt và phát hiện người chơi
+        {
+            entity.canBeStunned = true;
+            entity.counterImage.SetActive(true);
+        }
     }
+
     public virtual void CloseCounterAttackWindow()
     {
         entity.canBeStunned = false;
@@ -104,13 +112,23 @@ public class Enemy : MonoBehaviour
 
     public virtual bool CanBeStunned()
     {
-        if(!entity.canBeStunned)
-        {
-            CloseCounterAttackWindow();
-            return true;
-        }
-        return false;
+        // Không thể bị stun nếu đang trong trạng thái stun
+        if (enemystateMachine.CurrentState == entity.enemystunState)
+            return false;
+
+        // Thời gian hồi trước khi có thể bị stun lại
+        if (Time.time < lastStunTime + stunCooldown)
+            return false;
+
+        // Các điều kiện khác (ví dụ: chỉ stun khi nhận sát thương từ counter)
+        if (!canBeStunned)
+            return false;
+
+        // Cập nhật thời gian bị stun gần nhất
+        lastStunTime = Time.time;
+        return true;
     }
+
     public virtual void Flip()
     {
         // Đảo chiều FacingDirection

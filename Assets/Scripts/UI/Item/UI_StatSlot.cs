@@ -5,7 +5,6 @@ using UnityEngine;
 public class UI_StatSlot : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
-    [SerializeField] private UnitHP unitHP;
     [SerializeField] private Inventory inventory;
     [SerializeField] private CharacterStats OnStatsChanged;
 
@@ -46,11 +45,6 @@ public class UI_StatSlot : MonoBehaviour
 
     private void Awake()
     {
-        if (playerData == null) playerData = FindObjectOfType<Player>().GetComponent<PlayerData>();
-        if (unitHP == null) unitHP = FindObjectOfType<Player>().GetComponent<UnitHP>();
-        if (inventory == null) inventory = FindObjectOfType<Player>().GetComponent<Inventory>();
-        if (OnStatsChanged == null) OnStatsChanged = FindObjectOfType<Player>().GetComponent<CharacterStats>();
-
         OnValidate();
     }
 
@@ -75,9 +69,9 @@ public class UI_StatSlot : MonoBehaviour
         agilityText.text = "Agility: " + playerData.agility.ToString();
         intelligenceText.text = "Intelligence: " + playerData.intelligence.ToString();
         vitalityText.text = "Vitality: " + playerData.vitallity.ToString();
-        HP.text = "HP: " + unitHP.CurrentHP.ToString();
-        MP.text = "MP: " + playerData.CurrentMana.ToString();
-        STM.text = "STM: " + playerData.CurrentStamina.ToString(); 
+        HP.text = "HP: " + playerData.MaxHP.ToString();
+        MP.text = "MP: " + playerData.MaxMana.ToString();
+        STM.text = "STM: " + playerData.MaxStamina.ToString(); 
         // Offensive Stats
         damageText.text = "Physic Damage: " + playerData.Damage.ToString();
         magicDamageText.text = "Magic Damage: " +playerData.MagicDamage.ToString();

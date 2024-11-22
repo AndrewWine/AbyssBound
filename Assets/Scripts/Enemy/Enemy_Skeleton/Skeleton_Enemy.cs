@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,14 +6,15 @@ public class Skeleton_Enemy : Enemy
 {
     public override bool CanBeStunned()
     {
-        if(base.CanBeStunned())
+        // Kiểm tra các điều kiện stun trong lớp cha
+        if (base.CanBeStunned())
         {
-
-            enemystateMachine.ChangeState(entity.enemystunState);
+            enemystateMachine.ChangeState(entity.enemystunState); // Chuyển sang trạng thái stun
             return true;
-        }    
+        }
         return false;
     }
+
 
     public override void Flip()
     {

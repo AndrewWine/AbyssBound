@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerBarUI : MonoBehaviour
 {
-    public UnitHP HP;
     public PlayerData playerData;
 
     [SerializeField] private Transform hpBar;
@@ -29,7 +28,7 @@ public class PlayerBarUI : MonoBehaviour
         STMslider = stmBar.GetComponentInChildren<Slider>();
 
         // Khởi tạo giá trị hiển thị bằng giá trị thực tế
-        displayedHP = HP.CurrentHP;
+        displayedHP = playerData.CurrentHP;
         displayedMP = playerData.CurrentMana;
         displayedStamina = playerData.CurrentStamina;
     }
@@ -42,8 +41,8 @@ public class PlayerBarUI : MonoBehaviour
     private void UpdatePlayerBarUI()
     {
         // Làm mượt giá trị HP
-        displayedHP = Mathf.Lerp(displayedHP, HP.CurrentHP, smoothSpeed * Time.deltaTime);
-        HPslider.maxValue = HP.MaxHP;
+        displayedHP = Mathf.Lerp(displayedHP, playerData.CurrentHP, smoothSpeed * Time.deltaTime);
+        HPslider.maxValue = playerData.MaxHP;
         HPslider.value = displayedHP;
 
         // Làm mượt giá trị MP

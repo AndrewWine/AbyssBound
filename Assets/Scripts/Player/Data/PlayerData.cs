@@ -52,6 +52,8 @@ public class PlayerData : ScriptableObject
     public LayerMask whatIsGround;
 
     [Header("Player Stats")]
+    public float MaxHP = 100f;
+    public float CurrentHP;
     public float MaxMana = 20;
     public float CurrentMana;
     public float MaxStamina = 30;

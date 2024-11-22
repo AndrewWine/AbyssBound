@@ -18645,7 +18645,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 07fd336f866cecb4293f0b04a36b68d6, type: 2}
-  unitHP: {fileID: 0}
   inventory: {fileID: 0}
   OnStatsChanged: {fileID: 0}
   strengthText: {fileID: 2251875349020024018}

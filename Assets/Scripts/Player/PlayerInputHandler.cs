@@ -65,7 +65,7 @@ public class PlayerInputHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && playerData.CurrentMana > 0)
         {
             skillManager.ActivateDashCloneAttack();
-            //UseMana?.Invoke(-10);
+            UseMana?.Invoke(-10);
         }
     }
     public void AimSword()

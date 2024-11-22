@@ -12,7 +12,7 @@ public class UI_EquipmentSlot : UI_ItemSlot
         if (item != null && item.data is ItemData_equipment equipmentData)
         {
             NotifyUnequipItem?.Invoke(equipmentData);
-            NotifyEquipItem?.Invoke(item.data);
+            //NotifyEquipItem?.Invoke(item.data);
             Debug.Log("Thao trang bi");
             CleanUpSlot();
         }

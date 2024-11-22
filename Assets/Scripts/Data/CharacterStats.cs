@@ -6,7 +6,7 @@ public class CharacterStats : MonoBehaviour
     public PlayerData playerData;
     public PlayerInputHandler inputHandler;
     public event Action OnStatsChanged;
-
+    public Player player;
     private void Awake()
     {
         playerData.CurrentMana = playerData.MaxMana;
@@ -36,6 +36,26 @@ public class CharacterStats : MonoBehaviour
     {
         if (playerData.CurrentStamina > amount)
             playerData.CurrentStamina += amount;
+    }
+
+    public void OnCurrentHPChange(float amount)
+    {
+        if (playerData.CurrentHP > amount)
+            playerData.CurrentHP += amount;
+        player.TakeDamage();
+    }
+
+    public void OnChangeMaxHP(int amount)
+    {
+        if (playerData.MaxHP > amount)
+        {
+            playerData.MaxHP += amount * 5;
+            if (playerData.MaxHP < playerData.CurrentHP)
+            {
+                playerData.CurrentHP = playerData.MaxHP;
+            }
+        }
+        NotifyStatChange();
     }
 
     public void OnChangeMaxMana(int amount)

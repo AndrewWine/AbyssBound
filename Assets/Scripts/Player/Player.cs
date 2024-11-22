@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     public PlayerState playerState;
     public PlayerStateMachine stateMachine;
     public PlayerData playerData;
-    public UnitHP unitHP;
     public Stats stats;
+
     public System.Action isDeath;
 
 
@@ -31,12 +31,6 @@ public class Player : MonoBehaviour
         fx = GetComponent<EntityFX>();
         PlayerStatsInfor();
         //ebug.Log("Total Damage: " + playerData.DMG.GetValue());
-        unitHP.BeingHit += TakeDamage;
-
-    }
-    private void OnDisable()
-    {
-        unitHP.BeingHit -= TakeDamage;
 
     }
 
@@ -77,13 +71,13 @@ public class Player : MonoBehaviour
 
     public void RegenHP()
     {
-        if (unitHP.CurrentHP < unitHP.MaxHP)
+        if (playerData.CurrentHP < playerData.MaxHP)
         {
             RegenTimer += Time.deltaTime;
 
             if (RegenTimer >= regenInterval)
             {
-                unitHP.CurrentHP += playerData.lifesteal * playerData.Damage; // Regenerate 5 stamina points
+                playerData.CurrentHP += playerData.lifesteal * playerData.Damage; // Regenerate 5 stamina points
                 if (playerData.CurrentStamina > playerData.MaxStamina)
                 {
                     playerData.CurrentStamina = playerData.MaxStamina; // Cap at MaxStamina
@@ -103,7 +97,7 @@ public class Player : MonoBehaviour
         playerData.CurrentStamina = playerData.MaxStamina ;
         playerData.MaxMana = playerData.intelligence * 2 +30;
         playerData.MaxStamina = playerData.vitallity * 3 + 50;
-        unitHP.MaxHP = playerData.vitallity * 5 + 100;
+        playerData.MaxHP = playerData.vitallity * 5 + 100;
         playerData.Damage = playerData.strength + 10;
         playerData.evasion = playerData.agility * 0.1f;
         playerData.CritChance = playerData.agility * 0.1f ;
@@ -117,7 +111,7 @@ public class Player : MonoBehaviour
         playerData.staminaRegenRate = 1;
 
         blackBoard.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
-        unitHP.CurrentHP = unitHP.MaxHP;
+        playerData.CurrentHP = playerData.MaxHP;
 
 
     }
@@ -143,7 +137,7 @@ public class Player : MonoBehaviour
     #region DeathState
     public void Death()
     {
-        if(unitHP.CurrentHP <= 0 )
+        if(playerData.CurrentHP <= 0 )
         {
             stateMachine.ChangeState(blackBoard.playerDeathState);
         }

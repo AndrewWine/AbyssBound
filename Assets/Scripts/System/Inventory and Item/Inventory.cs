@@ -143,6 +143,7 @@ public class Inventory : MonoBehaviour
         Debug.Log("Applying stats: " + item.name + " with multiplier: " + multiplier);
 
         // Reset the stats to the base value (can be retrieved from the character or item)
+        characterStats.OnChangeMaxHP((int)(item.vitallity * multiplier ));
         characterStats.OnChangeMaxStamina((int)(item.vitallity * 3 * multiplier));
         characterStats.OnChangeMaxMana((int)(item.intelligence * multiplier));
         characterStats.OnChangeDamage((int)((item.Damage + item.strength) * multiplier));  // Cast to int
