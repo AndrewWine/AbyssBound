@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fa814db9a11e8498a246a06b171e71, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  UsageTimer: 31.291391
-  PassingTime: 29.129808
+  UsageTimer: 64.37153
+  PassingTime: 53.539494
   dashCoolDown: 3
   dashSpeed: 35
   dashDuration: 0.2
   CountAttack: 0
   TimeCondition: 0
-  CountClick: 2
+  CountClick: 1
   SlideSpeed: 20
   slideCoolDown: 0
   slideDuration: 0.2
@@ -39,23 +39,25 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  MaxHP: 100
+  CurrentHP: 50
   MaxMana: 30
-  CurrentMana: 30
+  CurrentMana: 0
   MaxStamina: 50
-  CurrentStamina: 7
+  CurrentStamina: 50
   strength: 0
   agility: 0
   intelligence: 0
   vitallity: 0
-  Damage: 130
+  Damage: 10
   MagicDamage: 10
-  CritChance: 300
+  CritChance: 0
   CritPower: 1.5
   armor: 0
   magicArmor: 0
   evasion: 0
-  movementSpeed: 3
-  staminaRegenRate: 3
+  movementSpeed: 5
+  staminaRegenRate: 1
   hpRegenRate: 30
   manaRegenRate: 0
   lifesteal: 0

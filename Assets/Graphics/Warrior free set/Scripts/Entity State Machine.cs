@@ -9,6 +9,7 @@ public class EntityStateMachine<TBlackboard> : MonoBehaviour where TBlackboard :
     public List<State<TBlackboard>> listOfStates = new(); // Riêng cho mỗi Enemy
     public TBlackboard blackboard;
     public State<TBlackboard> StartingState;
+    private bool isStateLocked = false;
 
 
     private void Awake()
@@ -42,8 +43,16 @@ public class EntityStateMachine<TBlackboard> : MonoBehaviour where TBlackboard :
 
     public void ChangeState(State<TBlackboard> newState)
     {
+        if (isStateLocked)
+            return; // Không cho phép chuyển trạng thái nếu đã bị khóa.
+
         CurrentState.Exit();
         CurrentState = newState;
         CurrentState.Enter();
     }
+    public void LockState()
+    {
+        isStateLocked = true;
+    }
+
 }

@@ -35,28 +35,34 @@ public class AnimationTriggersDamageOfPlayer : MonoBehaviour
             return;
         }
 
+        // Tìm tất cả các đối tượng trong phạm vi tấn công
         Collider2D[] colliders = Physics2D.OverlapCircleAll(blackBoard.attackCheck.position, player.playerData.attackCheckRadius);
 
         foreach (var hit in colliders)
         {
-            Enemy _target = hit.GetComponent<Enemy>();
+            // Lấy các thành phần liên quan trên đối tượng bị va chạm
+            Enemy enemy = hit.GetComponent<Enemy>();
             UnitHP unitHP = hit.GetComponent<UnitHP>();
-            if (_target != null)
-            {
-                if (player.playerData.CritChance > Random.Range(0, 100))
-                {
-                    unitHP.OnCurrentHPChange(player.playerData.Damage + player.playerData.Damage * player.playerData.CritPower);
-                    Debug.Log("Crit hit");
-                    Debug.Log(player.playerData.Damage + player.playerData.Damage * player.playerData.CritPower);
-                    Debug.Log($"Damage: {player.playerData.Damage}, CritPower: {player.playerData.CritPower}");
-                    Debug.Log($"Total Damage: {player.playerData.Damage + player.playerData.Damage * player.playerData.CritPower}");
 
+            if (enemy != null && unitHP != null)
+            {
+                // Tính toán sát thương (Crit hoặc không)
+                float damage = player.playerData.Damage;
+                if (Random.Range(0, 100) < player.playerData.CritChance)
+                {
+                    damage += damage * player.playerData.CritPower;
+                    Debug.Log("Crit Hit! Damage: " + damage);
                 }
-                else
-                    unitHP.OnCurrentHPChange(player.playerData.Damage);
+
+                // Áp dụng sát thương
+                unitHP.OnCurrentHPChange(damage);
+                enemy.TakeDamage();
+
+                Debug.Log($"Applied {damage} damage to {enemy.name}.");
             }
         }
     }
+
 
 
 

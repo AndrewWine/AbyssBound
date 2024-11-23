@@ -11,6 +11,7 @@
     {
         base.LogicUpdate();
 
+       
         // Chỉ thay đổi trạng thái nếu animation đã kết thúc
         if (isAnimationFinished)
         {

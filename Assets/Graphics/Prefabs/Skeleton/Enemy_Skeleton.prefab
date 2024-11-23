@@ -513,6 +513,7 @@ MonoBehaviour:
   enemystateMachine: {fileID: 1716857037850906338}
   enemyData: {fileID: 11400000, guid: 95c425d138c3fb442a9c7e195266b45c, type: 2}
   BeingHit: {fileID: 7210906363579201784}
+  stunCooldown: 2
   distanceBattle: 0
 --- !u!114 &4430530368772632371
 MonoBehaviour:
@@ -610,8 +611,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbe5b39cbb91bc4cb66a08de14d491e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfItems: 0
-  possibleItemDrop: []
+  amountOfItems: 4
+  possibleItemDrop:
+  - {fileID: 11400000, guid: 28d3389d7e4f3734aa7f9acc5902dcd2, type: 2}
+  - {fileID: 11400000, guid: ee984af7d460a3d48800231eed0bfe05, type: 2}
+  - {fileID: 11400000, guid: a347cd03de298984b90425cf910c27d6, type: 2}
+  - {fileID: 11400000, guid: 35c11ade953d30c40b7e9a26c7ede5f5, type: 2}
   dropPrefab: {fileID: 1994577373792236157, guid: 55d1d780f04f2a445b43551482416bae, type: 3}
   item: {fileID: 11400000, guid: 35c11ade953d30c40b7e9a26c7ede5f5, type: 2}
 --- !u!1 &4922734322651650100

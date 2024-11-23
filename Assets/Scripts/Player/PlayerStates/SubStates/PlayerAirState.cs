@@ -20,7 +20,6 @@ public class PlayerAirState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
         // Kiểm tra nếu nhân vật đã chạm đất
         if (blackboard.isGrounded)
         {
@@ -32,6 +31,7 @@ public class PlayerAirState : PlayerState
             {
                 stateMachine.ChangeState(blackboard.idleState);
             }
+
         }
         if (blackboard.PlayerInputHandler.JumpInput && blackboard.playerData.amountOfJump > 0)
         {
@@ -53,6 +53,11 @@ public class PlayerAirState : PlayerState
         if (blackboard.isWall)
         {
             stateMachine.ChangeState(blackboard.WallSlideState);
+        }
+        if(blackboard.PlayerInputHandler.LeftClick)
+        {
+            stateMachine.ChangeState(blackboard.playerairAttack);
+
         }
     }
 

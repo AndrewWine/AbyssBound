@@ -6,7 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class UnitHP: MonoBehaviour
 {
-    public Action BeingHit;
+
     public float MaxHP = 100;
     public float CurrentHP;
    
@@ -16,7 +16,7 @@ public class UnitHP: MonoBehaviour
     }
     public void OnCurrentHPChange(float damage)
     {
-        BeingHit?.Invoke();
+ 
         CurrentHP -= damage;
     }
 

@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     protected float lastStunTime;  // Thời gian bị stun gần nhất
     public float stunCooldown = 2f; // Thời gian hồi trước khi có thể bị stun lại
-    protected bool canBeStunned = true; // Cờ kiểm tra stun
+
 
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
@@ -33,19 +33,17 @@ public class Enemy : MonoBehaviour
     }
     protected virtual void Awake()
     {
+
         fx = GetComponent<EntityFX>();
         entity.animator = GetComponentInChildren<Animator>();
         entity.RB = GetComponent<Rigidbody2D>();
         // Gán EntityData dựa trên EntityType
         entity.FacingDirection = transform.localScale.x > 0 ? 1 : -1;
         myDropSystem = GetComponent<ItemDrop>();
-        BeingHit.BeingHit += TakeDamage;
+        
     }
 
-    private void Disable()
-    {
-        BeingHit.BeingHit -= TakeDamage;
-    }
+    
     protected virtual void Update()
     {
         Death();
@@ -66,6 +64,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void TakeDamage()
     {
+        enemystateMachine.ChangeState(entity.enemyHitState);
         fx.StartCoroutine("FlashFX");
         StartCoroutine("HitKnockback");
     }
@@ -79,10 +78,12 @@ public class Enemy : MonoBehaviour
     
     protected virtual IEnumerator HitKnockback()
     {
+
         entity.isKnocked  = true;
         entity.RB.velocity = new Vector2(entity.knockbackDirection.x * -entity.FacingDirection,entity.knockbackDirection.y);
         yield return new WaitForSeconds(entity.knockbackDuration);
         entity.isKnocked = false;
+
     }
 
     public bool CanAttack()
@@ -121,7 +122,7 @@ public class Enemy : MonoBehaviour
             return false;
 
         // Các điều kiện khác (ví dụ: chỉ stun khi nhận sát thương từ counter)
-        if (!canBeStunned)
+        if (!entity.canBeStunned)
             return false;
 
         // Cập nhật thời gian bị stun gần nhất

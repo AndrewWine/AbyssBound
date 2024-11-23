@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
+    [SerializeField] private GameObject characterUI;
 
-    // Update is called once per frame
-    void Update()
+    public UI_ItemTooltip itemTooltip;
+
+    private void Awake()
     {
-        // Kiểm tra nếu nhấn phím I
-      
+        if (itemTooltip == null)
+        {
+            // Tự động tìm GameObject có Item_Tooltip
+            itemTooltip = FindObjectOfType<UI_ItemTooltip>();
+
+            if (itemTooltip == null)
+            {
+                Debug.Log("Không tìm thấy Item Tooltip trong scene!");
+            }
+            else
+            {
+                Debug.Log("Item Tooltip đã được tự động gán.");
+            }
+        }
     }
 
     public void SwitchTo(GameObject _menu)

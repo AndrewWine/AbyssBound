@@ -50,5 +50,6 @@ public class PlayerBlackBoard : EntityBlackboard
     public ThrowSwordState throwSword;
     public CatchSwordState catchSword;
     public PlayerDeathState playerDeathState;
+    public AirAttack playerairAttack;
     #endregion
 }

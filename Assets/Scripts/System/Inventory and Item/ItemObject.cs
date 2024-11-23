@@ -4,6 +4,20 @@ public class ItemObject : MonoBehaviour
 {
     [SerializeReference] private Rigidbody2D rb;
     [SerializeField] private ItemData itemData;
+    private Inventory inventory;
+    private void Awake()
+    {
+        GameObject inventoryObject = GameObject.Find("Inventory");
+        if (inventoryObject != null)
+        {
+            inventory = inventoryObject.GetComponent<Inventory>();
+        }
+        else
+        {
+            Debug.LogError("No GameObject named 'Inventory' found in the scene.");
+        }
+    }
+
     private void SetupVisuals()
     {
         if(itemData == null)
@@ -26,6 +40,11 @@ public class ItemObject : MonoBehaviour
     }
     public void PickupItem()
     {
+        if(!inventory.CanAddItem() && itemData.itemtype == ItemType.Equipment)
+        {
+            rb.velocity = new Vector2(0, 15);
+            return;
+        }
         itemData.PickUpItem();  // Kích hoạt sự kiện thêm vào inventory
         Debug.Log("Picked up item " + itemData.itemName);
         Destroy(gameObject);  // Xóa object sau khi nhặt

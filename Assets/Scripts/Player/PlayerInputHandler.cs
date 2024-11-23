@@ -62,15 +62,16 @@ public class PlayerInputHandler : MonoBehaviour
     }
     public void ClonePlayer()
     {
-        if (Input.GetKeyDown(KeyCode.E) && playerData.CurrentMana > 0)
+        if (Input.GetKeyDown
+            (KeyCode.E) && playerData.CurrentMana >= 5)
         {
             skillManager.ActivateDashCloneAttack();
-            UseMana?.Invoke(-10);
+            UseMana?.Invoke(-5);
         }
     }
     public void AimSword()
     {
-        if(Input.GetKeyDown(KeyCode.Q) && playerData.CurrentStamina > 10)
+        if(Input.GetKeyDown(KeyCode.Q) && playerData.CurrentStamina >= 10)
         {
             PressedKeyQ = true;
             UseStamina?.Invoke(-10);
@@ -92,10 +93,10 @@ public class PlayerInputHandler : MonoBehaviour
     }
     public void JumpInputFunction()
     {
-        if (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.Space) && playerData.amountOfJump > 1 && playerData.CurrentStamina > 5))
+        if (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.Space) && playerData.amountOfJump > 1 && playerData.CurrentStamina > 3))
         { 
             JumpInput = true;
-            UseStamina?.Invoke(-5);
+            UseStamina?.Invoke(-3);
             jumpInputStartTime = Time.time; // Record the time when the jump input was pressed
         }
     }   
@@ -103,31 +104,31 @@ public class PlayerInputHandler : MonoBehaviour
     public void DashInputFunction()
     {
         // Handle Dash input, and ensure the dash cooldown is respected
-        if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.CurrentStamina > 20)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.CurrentStamina >= 7)
         {
            skillManager.ActivateDash();
-           UseStamina?.Invoke(-20);
+           UseStamina?.Invoke(-7);
         }
     }
 
     public void SlideInputFunction()
     {
-        if (Input.GetKeyDown(KeyCode.S) && playerData.UsageTimer >= playerData.slideCoolDown && playerData.CurrentStamina > 20)
+        if (Input.GetKeyDown(KeyCode.S) && playerData.UsageTimer >= playerData.slideCoolDown && playerData.CurrentStamina >= 3)
         {
             SlideInput = true; // Allow slide
             slideInputStartTime = Time.time; // Record the time when slide input was pressed
             playerData.UsageTimer = 0; // Reset slide cooldown timer
-            UseStamina?.Invoke(-20);
+            UseStamina?.Invoke(-3);
         }
     }
 
     public void RightClickFunction()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse1) && playerData.CurrentStamina > 20)
+        if(Input.GetKeyDown(KeyCode.Mouse1) && playerData.CurrentStamina > 10)
         {
             RightClick = true;
             righttclickInputStartTime = playerData.UsageTimer;
-            UseStamina?.Invoke(-20);
+            UseStamina?.Invoke(-10);
 
             playerData.PassingTime = righttclickInputStartTime;
         }    

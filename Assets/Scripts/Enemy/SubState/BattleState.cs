@@ -19,9 +19,9 @@ public class BattleState : EnemyState
         {
             stateMachine.ChangeState(blackboard.enemyWalkState);
         }
+     
         if (blackboard.isPlayer)
         {
-          
                 stateMachine.ChangeState(blackboard.enemyAttackState);
         }
     }

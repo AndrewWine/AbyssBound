@@ -123,7 +123,7 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(ItemData item)
     {
-        if (item.itemtype == ItemType.Equipment)
+        if (item.itemtype == ItemType.Equipment && CanAddItem())
         {
             AddToInventory(item);
         }
@@ -171,7 +171,7 @@ public class Inventory : MonoBehaviour
     // Hàm trang bị item
     public void EquipItem(ItemData _item)
     {
-        // Chuyển kiểu sang ItemData_equipment để kiểm tra
+        // Kiểm tra nếu vật phẩm là loại Equipment
         if (_item is ItemData_equipment newEquipment)
         {
             InventoryItem newItem = new InventoryItem(newEquipment);
@@ -191,14 +191,24 @@ public class Inventory : MonoBehaviour
             // Nếu có trang bị cũ, gỡ nó ra
             if (oldEquipment != null)
             {
-                UnEquipItem(oldEquipment); // Gọi hàm UnEquipItem để hủy bỏ chỉ số và cập nhật UI
+                UnEquipItem(oldEquipment);
             }
 
             // Thêm trang bị mới vào danh sách
             equipment.Add(newItem);
             equipmentDictionory[newEquipment] = newItem;
-            // Loại bỏ call AddItem ở đây để tránh vòng lặp vô hạn
-            RemoveItem(_item); // Xóa trang bị mới khỏi inventory
+
+            // Giảm số lượng vật phẩm trong inventory
+            if (inventoryDictionory.TryGetValue(_item, out InventoryItem inventoryItem))
+            {
+                inventoryItem.RemoveStack(); // Giảm số lượng vật phẩm
+                if (inventoryItem.stackSize <= 0)
+                {
+                    inventory.Remove(inventoryItem); // Xóa vật phẩm khỏi inventory nếu số lượng = 0
+                    inventoryDictionory.Remove(_item);
+                }
+              
+            }
 
             // Áp dụng chỉ số của trang bị mới
             ApplyItemStats(newEquipment, true);
@@ -207,6 +217,7 @@ public class Inventory : MonoBehaviour
             UpdateSlotUI();
         }
     }
+
 
     // Hàm gỡ trang bị
     public void UnEquipItem(ItemData_equipment itemToRemove)
@@ -289,6 +300,15 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool CanAddItem()
+    {
+        if (inventory.Count >= inventoryItemSlot.Length)
+        {
+            Debug.Log("No more space");
+            return false;  // Trả về false khi không đủ chỗ
+        }
+        return true;  // Nếu có chỗ trống, trả về true
+    }
 
 
     // Phương thức kiểm tra khả năng chế tạo
@@ -331,9 +351,5 @@ public class Inventory : MonoBehaviour
 
         // Thông báo thành công chế tạo vật phẩm
     }
-
-
-
-
 
 }
