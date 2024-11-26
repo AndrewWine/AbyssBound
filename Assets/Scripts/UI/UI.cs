@@ -5,11 +5,16 @@ using UnityEngine;
 public class UI : MonoBehaviour
 {
     [SerializeField] private GameObject characterUI;
+  
 
+
+    public UI_StatTooltip statTooltip;
     public UI_ItemTooltip itemTooltip;
-
+    public UI_CraftWindow craftWindow;
+    
     private void Awake()
     {
+       
         if (itemTooltip == null)
         {
             // Tự động tìm GameObject có Item_Tooltip
@@ -26,6 +31,7 @@ public class UI : MonoBehaviour
         }
     }
 
+ 
     public void SwitchTo(GameObject _menu)
     {
         for (int i = 0; i < transform.childCount; i++)
@@ -38,5 +44,7 @@ public class UI : MonoBehaviour
             _menu.SetActive(true);
         }
     }
+
+
 }
     

@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
     private UI_ItemSlot NotifyEquipItem;
     private UI_ItemSlot NotifyRemoveItem;
     public Action UpdateStats;
-
+ 
 
     private void Awake()
     {
@@ -64,6 +64,7 @@ public class Inventory : MonoBehaviour
         UI_EquipmentSlot.NotifyUnequipItem += UnEquipItem;
         UI_CraftSlot.NotifyCraftingItem += CanCraft;  // Đăng ký vào sự kiện
         UI_ItemSlot.NotifyRemoveItem += RemoveItem;
+        UI_CraftWindow.NotifyCraftingItem += CanCraft;
     }
 
     private void OnDisable()
@@ -73,6 +74,7 @@ public class Inventory : MonoBehaviour
         UI_EquipmentSlot.NotifyUnequipItem -= UnEquipItem;
         UI_CraftSlot.NotifyCraftingItem -= CanCraft;  // Hủy đăng ký sự kiện
         UI_ItemSlot.NotifyRemoveItem -= RemoveItem;
+        UI_CraftWindow.NotifyCraftingItem -= CanCraft;
 
     }
 
