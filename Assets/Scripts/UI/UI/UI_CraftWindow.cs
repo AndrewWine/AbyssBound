@@ -32,17 +32,16 @@ public class UI_CraftWindow : MonoBehaviour
         for (int i = 0; i < _data.craftingMaterials.Count; i++)
         {
             if (_data.craftingMaterials.Count > materialImage.Length)
-            {
                 Debug.LogWarning("You have more materials amount than you have material slots in craft window");
-                materialImage[i].sprite = _data.craftingMaterials[i].data.icon;
-                materialImage[i].color = Color.white;
+            
+            materialImage[i].sprite = _data.craftingMaterials[i].data.icon;
+            materialImage[i].color = Color.white;
 
-                TextMeshProUGUI materialSlotText = materialImage[i].GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI materialSlotText = materialImage[i].GetComponentInChildren<TextMeshProUGUI>();
 
-                materialImage[i].GetComponentInChildren<TextMeshProUGUI>().text = _data.craftingMaterials[i].stackSize.ToString();
-                materialImage[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
-
-            }
+           materialSlotText.text = _data.craftingMaterials[i].stackSize.ToString();
+            materialSlotText.color = Color.white;
+            
 
             itemIcon.sprite = _data.icon;
             itemName.text = _data.name;

@@ -46,29 +46,21 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
     }
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        if (item != null && item.data != null) // Kiểm tra item và item.data
-        {
-            if (item.data.itemtype == ItemType.Equipment)
-            {
-                NotifyEquipItem?.Invoke(item.data);
-                Debug.Log("Trang bi Item");
-                //CleanUpSlot();
-            }
-            else
-            {
-                Debug.Log("Chưa trang bị Item");
-            }
+        if(item == null) return;
 
-            if (Input.GetKey(KeyCode.LeftControl))
-            {
-                NotifyRemoveItem?.Invoke(item.data);
-            }
-        }
-        else
+        if (Input.GetKey(KeyCode.LeftControl))
         {
-            // Xử lý khi item hoặc item.data là null
-            Debug.LogWarning("Item hoặc ItemData không hợp lệ.");
+            NotifyRemoveItem?.Invoke(item.data);
+            return;
         }
+
+        if (item.data.itemtype == ItemType.Equipment)
+        {
+            NotifyEquipItem?.Invoke(item.data);
+            Debug.Log("Trang bi Item");
+        }
+        ui.itemTooltip.HideToolTip();
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)

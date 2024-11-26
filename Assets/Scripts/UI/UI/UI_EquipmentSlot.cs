@@ -14,6 +14,8 @@ public class UI_EquipmentSlot : UI_ItemSlot
             NotifyUnequipItem?.Invoke(equipmentData);
             //NotifyEquipItem?.Invoke(item.data);
             Debug.Log("Thao trang bi");
+
+            ui.itemTooltip.HideToolTip();
             CleanUpSlot();
         }
     }

@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8598a9fbdf8a6c546959f05f5017cdad, type: 3}
-  m_Name: Iron Armor
+  m_Name: Stamina Flask
   m_EditorClassIdentifier: 
   itemtype: 1
-  itemName: Iron Armor
-  icon: {fileID: -731431441, guid: 9c7355b0cb8a5024bba44738f70d9e74, type: 3}
-  dropChance: 100
-  strength: 3
-  agility: 2
+  itemName: Stamina Flask
+  icon: {fileID: 23200006, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 0
+  strength: 0
+  agility: 0
   intelligence: 0
-  vitallity: 5
+  vitallity: 0
   Damage: 0
   MagicDamage: 0
   CritChance: 0
   CritPower: 0
-  armor: 5
-  magicArmor: 2
-  evasion: 10
+  armor: 0
+  magicArmor: 0
+  evasion: 0
   movementSpeed: 0
-  staminaRegenRate: 5
-  hpRegenRate: 5
+  staminaRegenRate: 20
+  hpRegenRate: 0
   manaRegenRate: 0
   lifesteal: 0
   canIgnite: 0
@@ -40,8 +40,10 @@ MonoBehaviour:
   Shock: 0
   Chill: 0
   craftingMaterials:
-  - data: {fileID: 11400000, guid: ee984af7d460a3d48800231eed0bfe05, type: 2}
-    stackSize: 5
-  - data: {fileID: 11400000, guid: 28d3389d7e4f3734aa7f9acc5902dcd2, type: 2}
-    stackSize: 10
-  equipmentType: 2
+  - data: {fileID: 11400000, guid: c3b60689c032ac34095fdc9dbc05cec1, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: c709128a7e1613c4baf2fc4f9c71c5c1, type: 2}
+    stackSize: 3
+  - data: {fileID: 11400000, guid: 8a3347725005ad74e9da1ac3b24a3450, type: 2}
+    stackSize: 3
+  equipmentType: 8
