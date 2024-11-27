@@ -26,6 +26,30 @@ public class CharacterStats : MonoBehaviour
         OnStatsChanged?.Invoke(); // Kích hoạt sự kiện khi có thay đổi chỉ số
     }
 
+    public void OnchangeSTRENGTH(int amount)
+    {
+        playerData.strength += amount;
+        NotifyStatChange();
+    }
+
+
+    public void OnchangeAGILITY(int amount)
+    {
+        playerData.agility += amount;
+        NotifyStatChange();
+    }
+
+    public void OnchangeINTELLIGENCE(int amount)
+    {
+        playerData.intelligence += amount;
+        NotifyStatChange();
+    }
+
+    public void OnchangeVITALITY(int amount)
+    {
+        playerData.vitallity += amount;
+        NotifyStatChange();
+    }
     public void OnCurrentManaChange(int amount)
     {
         playerData.CurrentMana += amount;

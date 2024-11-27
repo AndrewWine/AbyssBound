@@ -11,7 +11,7 @@ public class UI : MonoBehaviour
     public UI_StatTooltip statTooltip;
     public UI_ItemTooltip itemTooltip;
     public UI_CraftWindow craftWindow;
-    
+    public UI_SKillToolTip sKillToolTip;
     private void Awake()
     {
        

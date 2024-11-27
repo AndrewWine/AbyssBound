@@ -65,35 +65,20 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Pointer Enter Called");
+        if (item == null) return;
+        Vector2 mousePosition = Input.mousePosition;
 
-        if (ui == null)
-        {
-            Debug.Log("UI không được gán!");
-            return;
-        }
+        float xOffset = 0;
+       
 
-        if (ui.itemTooltip == null)
-        {
-            Debug.Log("Item Tooltip không được gán trong UI!");
-            return;
-        }
-
-        if (item == null || item.data == null)
-        {
-            Debug.Log("Item hoặc Item.data là null!");
-            return;
-        }
-
-        if (item.data is ItemData_equipment equipmentData)
-        {
-            Debug.Log($"Hiển thị tooltip cho item: {equipmentData.itemName}");
-            ui.itemTooltip.ShowToolTip(equipmentData);
-        }
+        if (mousePosition.x > 600)
+            xOffset = -145;
         else
-        {
-            Debug.Log("Item.data không phải là kiểu ItemData_equipment.");
-        }
+            xOffset = -145;
+
+       
+        ui.itemTooltip.ShowToolTip(item.data as ItemData_equipment);
+        ui.itemTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + -35);
     }
 
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemtype: 1
   itemName: Wings Capture
-  icon: {fileID: 0}
+  icon: {fileID: 417484221, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   dropChance: 5
   strength: 2
   agility: 15

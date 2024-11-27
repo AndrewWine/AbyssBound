@@ -10,36 +10,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8598a9fbdf8a6c546959f05f5017cdad, type: 3}
-  m_Name: Iron Armor
+  m_Name: Moonlit Ring
   m_EditorClassIdentifier: 
   itemtype: 1
-  itemName: Iron Armor
-  icon: {fileID: -1581127718, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
-  dropChance: 10
-  strength: 1
+  itemName: Moonlit Ring
+  icon: {fileID: 1595223582, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 5
+  strength: 0
   agility: 0
-  intelligence: 0
-  vitallity: 5
+  intelligence: 17
+  vitallity: 0
   Damage: 0
-  MagicDamage: 0
+  MagicDamage: 5
   CritChance: 0
   CritPower: 0
-  armor: 7
+  armor: 0
   magicArmor: 0
-  evasion: 2
+  evasion: 0
   movementSpeed: 0
   staminaRegenRate: 0
   hpRegenRate: 0
-  manaRegenRate: 0
+  manaRegenRate: 5
   lifesteal: 0
   canIgnite: 0
   canFreaze: 0
-  canShock: 0
+  canShock: 20
   Ignite: 0
   Freaze: 0
   Shock: 0
   Chill: 0
   craftingMaterials:
-  - data: {fileID: 11400000, guid: ee984af7d460a3d48800231eed0bfe05, type: 2}
+  - data: {fileID: 11400000, guid: c3b60689c032ac34095fdc9dbc05cec1, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 889cf58fc39c58e4fbdc5e18db5127cb, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: 7828b67139c154e46a37d5afc77ed84f, type: 2}
     stackSize: 5
-  equipmentType: 2
+  - data: {fileID: 11400000, guid: 0c6ebc6fa83e2204ea456f485cd9f57a, type: 2}
+    stackSize: 3
+  equipmentType: 7

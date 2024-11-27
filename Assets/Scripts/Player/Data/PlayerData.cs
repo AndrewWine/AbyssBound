@@ -60,10 +60,10 @@ public class PlayerData : ScriptableObject
     public float CurrentStamina;
 
     [Header("Major Stats")]
-    public float strength; //1 point increase damage by 1 and crit.power by 1%
-    public float agility;  // 1 point increase evasion by 1%, move speed 1% and crit.chance by 1%
-    public float intelligence;// 1 point increase magic damage by 1, magic resistance by 3 and MaxMana by 2
-    public float vitallity;// 1 point increase health by 5 point and increase stamina by 3 point
+    public float strength = 1; //1 point increase damage by 1 and crit.power by 1%
+    public float agility = 1;  // 1 point increase evasion by 1%, move speed 1% and crit.chance by 1%
+    public float intelligence = 1;// 1 point increase magic damage by 1, magic resistance by 3 and MaxMana by 2
+    public float vitallity = 1;// 1 point increase health by 5 point and increase stamina by 3 point
 
     [Header("Offensive Staff")]
     public float Damage;

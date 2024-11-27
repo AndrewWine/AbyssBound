@@ -18,7 +18,7 @@ public class UI_ItemTooltip : MonoBehaviour
     {
         if (data == null)
         {
-            Debug.LogError("Dữ liệu item là null!");
+          
             return;
         }
 

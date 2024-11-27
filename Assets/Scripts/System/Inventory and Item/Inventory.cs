@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
 
     public List<InventoryItem> stash;
     public Dictionary<ItemData, InventoryItem> stashDictionary;
+    public List<ItemData> startingItems;
 
     [Header("Inventory UI")]
     [SerializeField] private Transform inventorySlotParent;
@@ -55,6 +56,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         inventoryItemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
+        AddStartingItems();
     }
 
     private void OnEnable()
@@ -140,7 +142,7 @@ public class Inventory : MonoBehaviour
 
     private void ApplyItemStats(ItemData_equipment item, bool isEquipping)
     {
-        float multiplier = isEquipping ? 1 : -1;
+        int multiplier = isEquipping ? 1 : -1;
         
         Debug.Log("Applying stats: " + item.name + " with multiplier: " + multiplier);
 
@@ -156,6 +158,10 @@ public class Inventory : MonoBehaviour
         characterStats.OnChangeMagicArmor((int)(item.magicArmor * multiplier));  // Cast to int
         characterStats.OnChangeEvasion();
         characterStats.OnChangeMovementSpeed(item.movementSpeed * multiplier);
+        characterStats.OnchangeSTRENGTH((int)(item.strength  * multiplier));
+        characterStats.OnchangeAGILITY((int)(item.agility * multiplier));
+        characterStats.OnchangeINTELLIGENCE((int)(item.intelligence * multiplier));
+        characterStats.OnchangeVITALITY((int)(item.vitallity * multiplier));
 
         // Additional effects
         characterStats.OnChangeCanIgnite(item.canIgnite * multiplier);
@@ -214,7 +220,7 @@ public class Inventory : MonoBehaviour
 
             // Áp dụng chỉ số của trang bị mới
             ApplyItemStats(newEquipment, true);
-
+            Debug.Log("Da them chi so");
             // Cập nhật giao diện
             UpdateSlotUI();
         }
@@ -229,7 +235,7 @@ public class Inventory : MonoBehaviour
         {
             // Hủy bỏ các chỉ số của trang bị
             ApplyItemStats(itemToRemove, false);
-
+            Debug.Log("Da xoa chi so");
             // Xóa trang bị khỏi danh sách và từ điển
             equipment.Remove(value);
             equipmentDictionory.Remove(itemToRemove);
@@ -354,4 +360,12 @@ public class Inventory : MonoBehaviour
         // Thông báo thành công chế tạo vật phẩm
     }
 
+    private void AddStartingItems()
+    {
+        for (int i = 0; i < startingItems.Count; i++)
+        {
+            if (startingItems[i] != null)
+                AddItem(startingItems[i]);
+        }
+    }
 }

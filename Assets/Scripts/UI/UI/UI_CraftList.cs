@@ -9,30 +9,23 @@ public class UI_CraftList : MonoBehaviour, IPointerDownHandler
     [SerializeField] private GameObject craftSlotPrefab;
     [SerializeField] private GameObject craftWindow;
     [SerializeField] private List<ItemData_equipment> craftEquipment;
-    [SerializeField] private List<UI_CraftSlot> craftSlots;
     void Start()
     {
         craftWindow.SetActive(false);
-
-        AssingCraftSlots();
+        transform.parent.GetChild(0).GetComponent<UI_CraftList>().SetupCraftList();
+        SetupDefaultCraftWindow();
     }
 
-    private void AssingCraftSlots()
-    {
-        for (int i = 0; i < craftSlotParent.childCount; i++)
-        {
-            craftSlots.Add(craftSlotParent.GetChild(i).GetComponent<UI_CraftSlot>());
-        }
-    }
+
     
     public void SetupCraftList()
     {
-        for (int i = 0; i< craftSlots.Count; i++)
+        for (int i = 0; i< craftSlotParent.childCount; i++)
         {
-            Destroy(craftSlots[i].gameObject);
+            Destroy(craftSlotParent.GetChild(i).gameObject);
 
         }
-        craftSlots = new List<UI_CraftSlot> ();
+       
 
         for( int i = 0; i< craftEquipment.Count; i++)
         {
@@ -48,5 +41,10 @@ public class UI_CraftList : MonoBehaviour, IPointerDownHandler
         if (craftSlotPrefab != null)
             craftWindow.SetActive(true);
         else craftWindow.SetActive(false); ;
+    }
+
+    public void SetupDefaultCraftWindow()
+    {
+        GetComponentInParent<UI>().craftWindow.SetupCraftWindow(craftEquipment[0]);
     }
 }

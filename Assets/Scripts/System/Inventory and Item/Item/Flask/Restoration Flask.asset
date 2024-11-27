@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemtype: 0
   itemName: 
-  icon: {fileID: 0}
+  icon: {fileID: 1463097486, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   dropChance: 0
   strength: 0
   agility: 0
