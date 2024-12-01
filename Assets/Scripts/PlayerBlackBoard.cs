@@ -11,6 +11,7 @@ public class PlayerBlackBoard : EntityBlackboard
     public Animator animator;
     public Rigidbody2D RB;
     public PlayerData playerData;
+    
 
     [Header("Check Variable of Player")]
     public bool JumpInput;
@@ -51,5 +52,6 @@ public class PlayerBlackBoard : EntityBlackboard
     public CatchSwordState catchSword;
     public PlayerDeathState playerDeathState;
     public AirAttack playerairAttack;
+    public FallBack fallBack;
     #endregion
 }

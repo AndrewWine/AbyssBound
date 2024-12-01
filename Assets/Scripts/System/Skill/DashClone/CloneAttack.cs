@@ -13,6 +13,8 @@ public class CloneAttack : Skill
     protected override void Start()
     {
         // Initialize the object pool
+        cooldown = 2;
+        cooldownTimer = 0;
         clonePool = new ObjectPool<CloneSkill_Controller>(clonePrefab.GetComponent<CloneSkill_Controller>(), 1); // Initial pool size is 1
     }
 
@@ -36,6 +38,8 @@ public class CloneAttack : Skill
 
     protected override void Awake()
     {
+        cooldown = 2;
+        cooldownTimer = 0;
         base.Awake();
     }
 
@@ -51,8 +55,9 @@ public class CloneAttack : Skill
 
     public override void ActivateSkill()
     {
-        
-        base.ActivateSkill();
+        UseSkill();
+
+
     }
 
     public override void UseSkill()

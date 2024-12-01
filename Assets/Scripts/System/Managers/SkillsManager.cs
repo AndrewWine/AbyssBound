@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 public class SkillsManager : MonoBehaviour
 {
@@ -16,6 +18,12 @@ public class SkillsManager : MonoBehaviour
     private ObjectPool<CloneSkill_Controller> clonePool;
     private ObjectPool<SwordSkill_Controller> swordPool;
 
+    public Action<int> UseMana;
+    public Action<int> UseStamina;
+    public Action DashSkillCoolDown;
+    public Action CloneSkillCoolDown;
+    public Action ThrowSwordCooolDown;
+
     #region Skills
     public Dash_Skill dash { get; private set; }
     public CloneAttack clone { get; private set; }
@@ -31,10 +39,14 @@ public class SkillsManager : MonoBehaviour
 
         // Initialize pool with clone prefab and initial size
         clonePool = new ObjectPool<CloneSkill_Controller>(clonePrefab, 1); // Initial pool size is 1
-        swordPool = new ObjectPool<SwordSkill_Controller>(swordPrefab, 1); // Initial pool size is 1
+        swordPool = new ObjectPool<SwordSkill_Controller>(swordPrefab, 0); // Initial pool size is 1
       
     }
- 
+    private void OnEnable()
+    {
+        skillController.CallCatchState += ChangeCatchState;
+    }
+
     private void OnDestroy()
     {
         skillController.CallCatchState -= ChangeCatchState;
@@ -46,14 +58,11 @@ public class SkillsManager : MonoBehaviour
         stateMachine.ChangeState(blackBoard.catchSword);
     }
     // Method to activate dash skill   
-    public void ActivateDashCloneAttack()
+    public void ActivateCloneAttack()
     {
-        if (dash.CanUseSkill())
+        if (clone.CanUseSkill())
         {
-            playerInputHandler.DashInput = true; // Set DashInput
-            dash.ActivateSkill();
-            stateMachine.ChangeState(blackBoard.DashState);
-
+          
             // Create clone based on the playerPos's position
             CloneSkill_Controller cloneInstance = clonePool.Get();
 
@@ -61,9 +70,11 @@ public class SkillsManager : MonoBehaviour
             {
                 cloneInstance.transform.position = player.transform.position; // Place clone at playerPos's position
                 cloneInstance.SetPool(clonePool); // Set the pool reference
-                clone.CreateClone(player.transform.position); // Call CreateClone on the CloneAttack instance
+                clone.CreateClone(player.transform.position ); // Call CreateClone on the CloneAttack instance
                 clone.ActivateSkill();
-
+                stateMachine.ChangeState(blackBoard.fallBack);
+                UseMana?.Invoke(-1);
+                CloneSkillCoolDown?.Invoke();
             }
             else
             {
@@ -81,9 +92,13 @@ public class SkillsManager : MonoBehaviour
         if (dash.CanUseSkill())
         {
             Debug.Log("Dax dash");
-            playerInputHandler.DashInput = true; // Set DashInput
+            playerInputHandler.DashInput = true; // Cập nhật DashInput
             dash.ActivateSkill();
             stateMachine.ChangeState(blackBoard.DashState);
+
+            // Kích hoạt sự kiện UseStamina
+            UseStamina?.Invoke(-10); // Ví dụ là lượng stamina sử dụng, cần truyền đúng giá trị
+            DashSkillCoolDown?.Invoke();
         }
         else
         {
@@ -91,9 +106,15 @@ public class SkillsManager : MonoBehaviour
         }
     }
 
+
+
     public void ActivateThrowSword()
     {
-        sword_Skill.CreateSword();
+
+        sword_Skill.ActivateSkill();
+        ThrowSwordCooolDown?.Invoke();
+        UseStamina?.Invoke(-5);
         Debug.Log("Active thanh cong");
+
     }
 }

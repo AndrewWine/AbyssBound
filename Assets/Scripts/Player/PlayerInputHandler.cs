@@ -20,6 +20,7 @@ public class PlayerInputHandler : MonoBehaviour
     public bool DashInput;
     public bool DashInputStop { get; private set; }
     public bool SlideInput { get; private set; }
+    public bool FallBackInput { get; private set; }
     public bool LeftClick {  get; set; }
     public bool RightClick { get; set; }
     public bool PressedKeyQ;
@@ -30,6 +31,7 @@ public class PlayerInputHandler : MonoBehaviour
     private float jumpInputStartTime;
     private float dashInputStartTime;
     private float slideInputStartTime;
+    private float fallbackStartTime;
     private float leftclickInputStartTime = 0;
     private float righttclickInputStartTime = 0;
 
@@ -65,8 +67,9 @@ public class PlayerInputHandler : MonoBehaviour
         if (Input.GetKeyDown
             (KeyCode.E) && playerData.CurrentMana >= 5)
         {
-            skillManager.ActivateDashCloneAttack();
-            UseMana?.Invoke(-5);
+           
+            skillManager.ActivateCloneAttack();
+
         }
     }
     public void AimSword()
@@ -74,7 +77,7 @@ public class PlayerInputHandler : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q) && playerData.CurrentStamina >= 10)
         {
             PressedKeyQ = true;
-            UseStamina?.Invoke(-10);
+   
 
         }
         else if(Input.GetKeyUp(KeyCode.Q))
@@ -107,7 +110,6 @@ public class PlayerInputHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && playerData.CurrentStamina >= 7)
         {
            skillManager.ActivateDash();
-           UseStamina?.Invoke(-7);
         }
     }
 
@@ -166,6 +168,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     // Method to reset Slide input after it's been used
     public void UseSlideInput() => SlideInput = false;
+    public void UseFallBackInput() =>FallBackInput = false;
     //public void UseLeftClickInput() => LeftClick = false;
 
     // Method to check if the jump input hold time has passed, and reset it if so

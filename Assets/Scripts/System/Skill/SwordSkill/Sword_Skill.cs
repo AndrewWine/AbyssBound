@@ -38,11 +38,11 @@ public class Sword_Skill : Skill
         // Ensure dotsParent is inactive at the start
         DotsActive(false);
 
-        base.Start();
     }
 
     protected override void Update()
     {
+        cooldown -= Time.deltaTime;
         // Khi bấm Q, di chuyển dotParent theo chuột
         if (Input.GetKey(KeyCode.Q))
         {
@@ -127,19 +127,22 @@ public class Sword_Skill : Skill
         return Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    public override bool CanUseSkill()
-    {
-        return base.CanUseSkill();
-    }
 
     public override void ActivateSkill()
     {
-        base.ActivateSkill();
+        CreateSword();
+        UseSkill();
     }
 
     public override void UseSkill()
     {
         // Reset cooldown time
-        base.UseSkill();
+        cooldownTimer = cooldown;
+    }
+
+    protected override void Start()
+    {
+        cooldown = 10;
+        cooldownTimer = 0;
     }
 }

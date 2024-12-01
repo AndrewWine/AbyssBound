@@ -3,7 +3,8 @@
 [CreateAssetMenu(fileName = "newPlayerData", menuName = "Data/Player Data/ Base Data")]
 public class PlayerData : ScriptableObject
 {
-   
+    [Header("Currency")]
+    public float AbyssEssence = 100;
     [Header("Time Counter")]
     public float UsageTimer;
     public float PassingTime = 0;
@@ -22,6 +23,7 @@ public class PlayerData : ScriptableObject
     public float SlideSpeed = 10f;
     public float slideCoolDown;
     public float slideDuration = 0.2f;
+    public float fallbackDuration = 0.2f;
 
     [Header("Jump State")]
     public float jumpVelocity;

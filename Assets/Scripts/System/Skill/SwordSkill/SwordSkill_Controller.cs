@@ -6,6 +6,7 @@ using System;
 public class SwordSkill_Controller : MonoBehaviour
 {
     public Action CallCatchState;
+    public static Action<bool> CheckSword;
 
     [Header("Component")]
     private Animator animator;
@@ -34,6 +35,7 @@ public class SwordSkill_Controller : MonoBehaviour
 
     private void Awake()
     {
+        
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         cd = GetComponent<CircleCollider2D>();
@@ -75,6 +77,7 @@ public class SwordSkill_Controller : MonoBehaviour
         enemyTarget.Clear(); // Clear the list of targets
         amountOfBounce = 0; // Reset bounce amount
         isBouncing = true; // Enable bouncing again
+        CheckSword?.Invoke(false);
     }
 
     private void Update()
@@ -102,7 +105,9 @@ public class SwordSkill_Controller : MonoBehaviour
                 CallCatchState?.Invoke();
                 Debug.Log("CallCatchState invoked.");
                 ReturnToPool();
+                CheckSword?.Invoke(true);
             }
+           
         }
         lifetime = Time.deltaTime;
         if (lifetime > 10)

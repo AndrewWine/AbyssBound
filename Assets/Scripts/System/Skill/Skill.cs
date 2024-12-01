@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Pool;
+using Unity.VisualScripting;
 
 public class Skill : MonoBehaviour
 {
@@ -14,8 +15,8 @@ public class Skill : MonoBehaviour
 
 
     [Header("Cooldown Variable")]
-    [SerializeField] protected float cooldown = 3; // Cooldown time
-    [SerializeField] protected float cooldownTimer = 3; // Timer for cooldown
+    [SerializeField] public float cooldown; // Cooldown time
+    [SerializeField] protected float cooldownTimer = 0; // Timer for cooldown starts at 0
 
     [Header("Component")]
     protected PlayerBlackBoard blackBoard;
@@ -23,7 +24,8 @@ public class Skill : MonoBehaviour
 
     protected virtual void Start()
     {
-
+        cooldown = 3;
+        cooldownTimer = 0;
     }
     protected virtual void Awake()
     {

@@ -11,10 +11,15 @@ public class ObjectPool<T> where T : MonoBehaviour
         this.prefab = prefab;
         for (int i = 0; i < initialCapacity; i++)
         {
-            T obj = GameObject.Instantiate(prefab);
-            obj.gameObject.SetActive(false);
-            objects.Enqueue(obj);
+            CreateNewObject();
         }
+    }
+
+    private void CreateNewObject()
+    {
+        T obj = GameObject.Instantiate(prefab);
+        obj.gameObject.SetActive(false);
+        objects.Enqueue(obj);
     }
 
     public T Get()
@@ -27,7 +32,9 @@ public class ObjectPool<T> where T : MonoBehaviour
         }
         else
         {
-          return null;
+            Debug.LogWarning("Pool is empty. Creating a new instance.");
+            CreateNewObject();
+            return Get();
         }
     }
 
@@ -38,4 +45,10 @@ public class ObjectPool<T> where T : MonoBehaviour
         Debug.Log("Đối tượng đã được trả về pool: " + obj.name);
     }
 
+ 
+
+
 }
+
+
+

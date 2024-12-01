@@ -5,6 +5,7 @@ public class CharacterStats : MonoBehaviour
 {
     public PlayerData playerData;
     public PlayerInputHandler inputHandler;
+    public SkillsManager skillsManager;
     public event Action OnStatsChanged;
     public Player player;
     private void Awake()
@@ -13,12 +14,16 @@ public class CharacterStats : MonoBehaviour
         playerData.CurrentStamina = playerData.MaxStamina;
         inputHandler.UseStamina += OnCurrentStaminaChange;
         inputHandler.UseMana += OnCurrentManaChange;
+        skillsManager.UseMana += OnCurrentManaChange;
+        skillsManager.UseStamina += OnCurrentStaminaChange;
     }
 
     private void OnDisable()
     {
         inputHandler.UseStamina -= OnCurrentStaminaChange;
         inputHandler.UseMana -= OnCurrentManaChange;
+        skillsManager.UseMana -= OnCurrentManaChange;
+        skillsManager.UseStamina -= OnCurrentStaminaChange;
     }
 
     private void NotifyStatChange()
