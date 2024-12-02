@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static UnityEditor.Progress;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, ISaveManager
 {
     public List<InventoryItem> equipment;
     public Dictionary<ItemData_equipment, InventoryItem> equipmentDictionory;
@@ -21,6 +22,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform equipmentSlotParent;
 
     [SerializeField]public CharacterStats characterStats;
+    [SerializeField] public PlayerManager playerManager;
 
     //Oserver
     private UI_ItemSlot[] inventoryItemSlot;
@@ -29,8 +31,10 @@ public class Inventory : MonoBehaviour
     private UI_ItemSlot NotifyEquipItem;
     private UI_ItemSlot NotifyRemoveItem;
     public Action UpdateStats;
- 
 
+    [Header("data base")]
+    public List<InventoryItem> loadedItems;
+    public List<ItemData_equipment> loadEquipment;
     private void Awake()
     {
         inventory = new List<InventoryItem>();
@@ -125,6 +129,8 @@ public class Inventory : MonoBehaviour
      
     }
 
+   
+
     public void AddItem(ItemData item)
     {
         if (item.itemtype == ItemType.Equipment && CanAddItem())
@@ -134,6 +140,10 @@ public class Inventory : MonoBehaviour
         else if (item.itemtype == ItemType.Material)
         {
             AddToStash(item);
+        }
+        else if (item.itemtype == ItemType.Currency)
+        {
+            playerManager.OnCurrencyChange((int)(item.AbyssEssence));
         }
 
         UpdateSlotUI();
@@ -362,10 +372,86 @@ public class Inventory : MonoBehaviour
 
     private void AddStartingItems()
     {
+        foreach(ItemData_equipment item in loadEquipment)
+        {
+            EquipItem(item);
+        }
+
+        if(loadedItems.Count > 0)
+        {
+            foreach(InventoryItem item in loadedItems)
+            {
+                for(int i = 0; i < item.stackSize; i++)
+                {
+                    AddItem(item.data);
+                }
+            }
+            return;
+
+        }
         for (int i = 0; i < startingItems.Count; i++)
         {
             if (startingItems[i] != null)
                 AddItem(startingItems[i]);
         }
+    }
+
+    public void LoadData(GameData _data)
+    {
+        foreach(KeyValuePair<string,int> pair in _data.inventory)
+        {
+            foreach(var item in GetItemDataBase())
+            {
+                if(item != null && item.itemId == pair.Key)
+                {
+                    InventoryItem itemToLoad = new InventoryItem(item);
+                    itemToLoad.stackSize = pair.Value;
+                    loadedItems.Add(itemToLoad);
+                }
+            }
+        }
+
+        foreach(string loadedItemId in _data.equipmentID)
+        {
+            foreach(var item in GetItemDataBase())
+            {
+                if(item != null && loadedItemId == item.itemId)
+                {
+                    loadEquipment.Add(item as ItemData_equipment);
+                }
+            }
+        }
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        _data.inventory.Clear();
+        foreach(KeyValuePair<ItemData, InventoryItem> pair in inventoryDictionory)
+        {
+            _data.inventory.Add(pair.Key.itemId,pair.Value.stackSize);
+        }
+
+        foreach(KeyValuePair<ItemData,InventoryItem> pair in stashDictionary)
+        {
+            _data.inventory.Add(pair.Key.itemId, pair.Value.stackSize);
+        }
+
+        foreach(KeyValuePair<ItemData_equipment,InventoryItem> pair in equipmentDictionory)
+        { 
+            _data.equipmentID.Add(pair.Key.itemId);
+        }
+    }
+    private List<ItemData> GetItemDataBase()
+    {
+        List<ItemData> itemDataBase = new List<ItemData>();
+        string[] assetNames = AssetDatabase.FindAssets("", new[] { "Assets/Scripts/System/InventoryAndItem/Item" });
+
+        foreach (string SOName in assetNames)
+        {
+            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+            var itemData = AssetDatabase.LoadAssetAtPath<ItemData>(SOpath);
+            itemDataBase.Add(itemData);
+        }
+        return itemDataBase;
     }
 }

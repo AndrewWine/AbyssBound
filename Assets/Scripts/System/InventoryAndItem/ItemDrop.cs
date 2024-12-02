@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class ItemDrop : MonoBehaviour
 {
     [SerializeField] private int amountOfItems;
@@ -8,10 +9,14 @@ public class ItemDrop : MonoBehaviour
     private List<ItemData> dropList = new List<ItemData>();
     [SerializeField] private GameObject dropPrefab;
     [SerializeField] private ItemData item;
-
+    [SerializeField] private ItemData AbyssEssence;  // Thêm AbyssEssence vào đây
 
     public void GenerateDrop()
     {
+        // Đảm bảo AbyssEssence luôn có mặt trong drop list
+        dropList.Clear();  // Làm sạch danh sách trước khi thêm vật phẩm mới
+        dropList.Add(AbyssEssence);  // Thêm AbyssEssence vào danh sách drop
+
         // Thêm các vật phẩm có khả năng rơi vào danh sách
         for (int i = 0; i < possibleItemDrop.Length; i++)
         {
@@ -29,16 +34,21 @@ public class ItemDrop : MonoBehaviour
         // Sinh các vật phẩm rơi
         for (int i = 0; i < amountOfItems; i++)
         {
-            ItemData randomItem = dropList[Random.Range(0, dropList.Count - 1)];
-            DropItem(randomItem);
+            ItemData randomItem = dropList[Random.Range(0, dropList.Count)];  // Chọn vật phẩm ngẫu nhiên
+            DropItem(randomItem);  // Drop vật phẩm
         }
     }
 
-
     public void DropItem(ItemData _itemdata)
     {
+        if (_itemdata == null)
+        {
+            Debug.LogError("Vật phẩm không hợp lệ, không thể rơi!");
+            return;
+        }
+
         GameObject newDrop = Instantiate(dropPrefab, transform.position, Quaternion.identity);
-        Vector2 randomVelocity = new Vector2(Random.Range(-5,5), Random.Range(15,25));
+        Vector2 randomVelocity = new Vector2(Random.Range(-5, 5), Random.Range(15, 25));
         newDrop.GetComponent<ItemObject>().SetupItem(_itemdata, randomVelocity);
     }
 }

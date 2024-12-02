@@ -4,9 +4,11 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEditorInternal;
 using UnityEngine;
-
+using System;
 public class Enemy : MonoBehaviour
 {
+
+
     [Header("Component")]
     public EnemyBlackBoard entity;
     public EnemyStateMachine enemystateMachine;
@@ -51,7 +53,7 @@ public class Enemy : MonoBehaviour
         CanAttack();
     }
 
-    private void Death()
+    protected virtual void Death()
     {
         // Chỉ thực hiện khi enemy chưa chết
         if (!isDead && BeingHit.CurrentHP <= 0)
@@ -59,6 +61,8 @@ public class Enemy : MonoBehaviour
             isDead = true; // Đánh dấu enemy đã chết
             enemystateMachine.ChangeState(entity.enemyDeathState);
             myDropSystem.GenerateDrop(); // Gọi phương thức rơi đồ
+        
+
         }
     }
 

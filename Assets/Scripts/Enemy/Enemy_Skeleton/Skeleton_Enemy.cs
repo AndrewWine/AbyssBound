@@ -46,6 +46,11 @@ public class Skeleton_Enemy : Enemy
         base.Awake();
     }
 
+    protected override void Death()
+    {
+        base.Death();
+    }
+
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();

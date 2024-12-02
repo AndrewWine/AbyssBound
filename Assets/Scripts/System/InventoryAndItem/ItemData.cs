@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEditor;
 
 public enum ItemType
 {
     Material,
-    Equipment
+    Equipment,
+    Currency
 }
 
 [CreateAssetMenu(fileName = "New Item Data", menuName = "Data/Item")]
@@ -15,6 +17,7 @@ public class ItemData : ScriptableObject
     public ItemType itemtype;
     public string itemName;
     public Sprite icon;
+    public string itemId;
     public static Action<ItemData> getItem;
 
     protected StringBuilder sb = new StringBuilder();
@@ -29,7 +32,8 @@ public class ItemData : ScriptableObject
         getItem?.Invoke(this);
     }
 
-
+    [Header("Currency")]
+    public float AbyssEssence;
 
     [Header("Major Stats")]
     public float strength; //1 point increase damage by 1 and crit.power by 1%
@@ -122,5 +126,13 @@ public class ItemData : ScriptableObject
                 sb.AppendLine("+ " + _value + " " + _name);
 
         }
+    }
+
+    public void OnValidate()
+    {
+#if UNITY_EDITOR
+        string path = AssetDatabase.GetAssetPath(this);
+        itemId = AssetDatabase.AssetPathToGUID(path);
+#endif
     }
 }

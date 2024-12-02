@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb2f8bc4d719d31429807120284479ac, type: 3}
   m_Name: AbyssEssence
   m_EditorClassIdentifier: 
-  itemtype: 0
-  itemName: 
+  itemtype: 2
+  itemName: AbyssEssence
   icon: {fileID: -809361918, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  dropChance: 0
+  dropChance: 100
+  AbyssEssence: 20
   strength: 0
   agility: 0
   intelligence: 0

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fa814db9a11e8498a246a06b171e71, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  UsageTimer: 64.37153
-  PassingTime: 53.539494
+  AbyssEssence: 412
+  UsageTimer: 4.3225317
+  PassingTime: 1.3133624
   dashCoolDown: 3
   dashSpeed: 35
   dashDuration: 0.2
@@ -23,11 +24,12 @@ MonoBehaviour:
   SlideSpeed: 20
   slideCoolDown: 0
   slideDuration: 0.2
+  fallbackDuration: 0.2
   jumpVelocity: 15
   amountOfJump: 2
   coyoteTime: 0.2
   wallSlideVelocity: 3
-  CurrentFacing: -1
+  CurrentFacing: 1
   startOffset: {x: 0, y: 0}
   stopOffset: {x: 0, y: 0}
   WallJumpForce: 0
@@ -39,27 +41,27 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  MaxHP: 100
-  CurrentHP: 50
-  MaxMana: 30
-  CurrentMana: 0
-  MaxStamina: 50
-  CurrentStamina: 50
-  strength: 0
-  agility: 0
-  intelligence: 0
-  vitallity: 0
-  Damage: 10
+  MaxHP: 105
+  CurrentHP: 105
+  MaxMana: 38
+  CurrentMana: 38
+  MaxStamina: 53
+  CurrentStamina: 32
+  strength: 13
+  agility: 7
+  intelligence: 4
+  vitallity: 1
+  Damage: 23
   MagicDamage: 10
-  CritChance: 0
-  CritPower: 1.5
+  CritChance: 0.7
+  CritPower: 2.8
   armor: 0
   magicArmor: 0
-  evasion: 0
-  movementSpeed: 5
+  evasion: 0.7
+  movementSpeed: 3.7
   staminaRegenRate: 1
-  hpRegenRate: 30
-  manaRegenRate: 0
+  hpRegenRate: 1
+  manaRegenRate: 1
   lifesteal: 0
   canIgnite: 0
   canFreaze: 0

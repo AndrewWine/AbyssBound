@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UI_InGame : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
+    public PlayerManager playerManager;
     [Header("Skill Image")]
     [SerializeField] private Image dashSkillImage;
     [SerializeField] private Image throwSwordImage;
@@ -20,6 +21,8 @@ public class UI_InGame : MonoBehaviour
     public SkillsManager skillsManager ;
     private void OnEnable()
     {
+        
+        playerManager.NotifyUpdateCurrency += UpdateAbyssEssence;
         SwordSkill_Controller.CheckSword += SetCoolDownOfThrowSword;
         skillsManager.CloneSkillCoolDown += SetCoolDownOfClone;
         skillsManager.DashSkillCoolDown += SetCoolDownOfDashSkill;
@@ -27,6 +30,7 @@ public class UI_InGame : MonoBehaviour
 
     private void OnDisable()
     {
+        playerManager.NotifyUpdateCurrency -= UpdateAbyssEssence;
         skillsManager.CloneSkillCoolDown -= SetCoolDownOfClone;
         skillsManager.DashSkillCoolDown -= SetCoolDownOfDashSkill;
         SwordSkill_Controller.CheckSword -= SetCoolDownOfThrowSword;
@@ -35,16 +39,12 @@ public class UI_InGame : MonoBehaviour
 
     private void Awake()
     {
-        if (playerData.AbyssEssence == 0)
-        {
-            playerData.AbyssEssence = 100; // Giá trị khởi tạo
-        }
+        UpdateAbyssEssence();
     }
 
     private void Start()
     {
-        UpdateAbyssEssence();
-
+     
     }
     private void Update()
     {

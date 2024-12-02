@@ -4,7 +4,7 @@
 public class PlayerData : ScriptableObject
 {
     [Header("Currency")]
-    public float AbyssEssence = 100;
+    public float AbyssEssence;
     [Header("Time Counter")]
     public float UsageTimer;
     public float PassingTime = 0;

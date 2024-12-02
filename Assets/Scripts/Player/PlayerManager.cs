@@ -1,10 +1,23 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class PlayerManager : MonoBehaviour
+using System;
+public class PlayerManager : MonoBehaviour,ISaveManager
 {
-    // Start is called before the first frame update
+    [Header("Component")]
+    public PlayerData playerData;
+
+    [Header("Action Observer")]
+    public Action NotifyUpdateCurrency;
+
+    //Quản lý sự tăng giảm soul của player
+    private void OnEnable()
+    {
+    }
+
+    private void OnDisable()
+    {
+    }
     void Start()
     {
         
@@ -13,6 +26,22 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
+    }
+    public void OnCurrencyChange(float amount)
+    {
+        playerData.AbyssEssence += amount;
+        NotifyUpdateCurrency?.Invoke();
+        Debug.Log("Đã +");
+    }
+
+    public void LoadData(GameData _data)
+    {
+        this.playerData.AbyssEssence = _data.AbyssEssence;
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        _data.AbyssEssence = this.playerData.AbyssEssence;
     }
 }

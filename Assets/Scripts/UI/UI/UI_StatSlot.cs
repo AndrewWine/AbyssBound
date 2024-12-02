@@ -2,12 +2,30 @@
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine;
-
+using UnityEngine.UI;
+using System;
 public class UI_StatSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     protected StringBuilder sb = new StringBuilder();
+    public CharacterStats character;
+    public PlayerManager playerManager;
     private UI ui;
+
+    [Header("variable")]
+    public float growthRate = 0.2f; // Hệ số tăng trưởng, bạn có thể điều chỉnh giá trị này
+    public float STRPointUsed;
+    public float AGLPointUsed;
+    public float INTPointUsed;
+    public float VITPointUsed;
+
     [SerializeField] private string statDescription;
+
+    [Header("Button Increase Stat points")]
+    [SerializeField] private Button strengthButton;
+    [SerializeField] private Button agilitythButton;
+    [SerializeField] private Button intelligenceButton;
+    [SerializeField] private Button vitalityButton;
+
 
 
     [SerializeField] private PlayerData playerData;
@@ -51,9 +69,13 @@ public class UI_StatSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     private void Awake()
     {
+        SetPointRequireToUpgradeStat();
+        CheckButtonPlusStatsPress(); // Đăng ký sự kiện một lần tại đây
         ui = GetComponentInParent<UI>();
         OnValidate();
     }
+
+  
 
 
     private void OnEnable()
@@ -116,11 +138,11 @@ public class UI_StatSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerEnter(PointerEventData eventData)
     {
         string description = GetHoveredStatDescription(eventData.pointerEnter);
-
         if (!string.IsNullOrEmpty(description)) // Chỉ hiển thị nếu description không null
         {
             ui.statTooltip.ShowStatToolTip(description);
         }
+     
     }
 
 
@@ -134,17 +156,76 @@ public class UI_StatSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     private string GetHoveredStatDescription(GameObject hoveredObject)
     {
         if (hoveredObject == strengthText.gameObject)
-            return "1 điểm Strength tăng 1 damage và 1% crit power.";
+            return "1 điểm Strength tăng 1 damage và 1% crit power." + "Need " + STRPointUsed + " to upgrade this stat";
         else if (hoveredObject == agilityText.gameObject)
-            return "1 điểm Agility tăng 1% né tránh, 1% tốc độ di chuyển và 1% crit chance.";
+            return "1 điểm Agility tăng 1% né tránh, 1% tốc độ di chuyển và 1% crit chance." + "Need " + AGLPointUsed + " to upgrade this stat";
         else if (hoveredObject == intelligenceText.gameObject)
-            return "1 điểm Intelligence tăng 1 magic damage, 3 magic resistance và 2 Max Mana.";
+            return "1 điểm Intelligence tăng 1 magic damage, 3 magic resistance và 2 Max Mana." + "Need " + INTPointUsed + " to upgrade this stat";
         else if (hoveredObject == vitalityText.gameObject)
-            return "1 điểm Vitality tăng 5 HP và 3 Stamina.";
+            return "1 điểm Vitality tăng 5 HP và 3 Stamina." + "Need " + VITPointUsed + " to upgrade this stat";
         else
             return null; // Không hiển thị tooltip cho các chỉ số khác
     }
 
+  
 
 
+    //Cộng chỉ số bằng nút bấm
+    public void CheckButtonPlusStatsPress()
+    {
+        strengthButton.onClick.AddListener(() => {
+            if (STRPointUsed <= playerData.AbyssEssence) 
+            {
+                character.OnchangeSTRENGTH(1);
+                playerManager.OnCurrencyChange(-STRPointUsed);
+                SetPointRequireToUpgradeStat();
+                OnValidate();
+
+            }
+        });
+
+        agilitythButton.onClick.AddListener(() => {
+            if (AGLPointUsed <= playerData.AbyssEssence)
+            {
+                character.OnchangeAGILITY(1);
+                playerManager.OnCurrencyChange(-AGLPointUsed);
+                SetPointRequireToUpgradeStat();
+                OnValidate();
+
+            }
+        });
+
+        intelligenceButton.onClick.AddListener(() => {
+            if (INTPointUsed <= playerData.AbyssEssence)
+            {
+                character.OnchangeINTELLIGENCE(1);
+                playerManager.OnCurrencyChange(-INTPointUsed);
+                SetPointRequireToUpgradeStat();
+                OnValidate();
+
+            }
+        });
+
+        vitalityButton.onClick.AddListener(() => {
+            if (VITPointUsed <= playerData.AbyssEssence)
+            {
+                character.OnchangeVITALITY(1);
+                playerManager.OnCurrencyChange(-VITPointUsed);
+                SetPointRequireToUpgradeStat();
+                OnValidate();
+
+            }
+        });
+
+
+    }
+
+    public void SetPointRequireToUpgradeStat()
+    {
+        STRPointUsed = Mathf.RoundToInt(10 * playerData.strength * (1 + growthRate * playerData.strength));
+        AGLPointUsed = Mathf.RoundToInt(10 * playerData.agility * (1 + growthRate * playerData.agility));
+        INTPointUsed = Mathf.RoundToInt(10 * playerData.intelligence * (1 + growthRate * playerData.intelligence));
+        VITPointUsed = Mathf.RoundToInt(10 * playerData.vitallity * (1 + growthRate * playerData.vitallity));
+    }
 }
+
