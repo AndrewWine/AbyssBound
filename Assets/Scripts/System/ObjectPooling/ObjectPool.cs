@@ -42,7 +42,6 @@ public class ObjectPool<T> where T : MonoBehaviour
     {
         obj.gameObject.SetActive(false);
         objects.Enqueue(obj);
-        Debug.Log("Đối tượng đã được trả về pool: " + obj.name);
     }
 
  

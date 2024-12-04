@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-
+using System;
 public class Player : MonoBehaviour
 {
+    public Action<bool> DropCurrency;
+    public Action isDeath;
     [Header("Component")]
     public PlayerBlackBoard blackBoard;
     public PlayerState playerState;
@@ -13,7 +15,6 @@ public class Player : MonoBehaviour
     public PlayerData playerData;
     public Stats stats;
 
-    public System.Action isDeath;
 
 
     private int currentHP;
@@ -140,7 +141,9 @@ public class Player : MonoBehaviour
         if(playerData.CurrentHP <= 0 )
         {
             stateMachine.ChangeState(blackBoard.playerDeathState);
+            DropCurrency?.Invoke(true);
         }
+     
     }
     #endregion
     #region Flip

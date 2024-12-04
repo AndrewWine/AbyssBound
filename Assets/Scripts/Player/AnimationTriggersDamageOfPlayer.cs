@@ -42,7 +42,7 @@ public class AnimationTriggersDamageOfPlayer : MonoBehaviour
         {
             // Lấy các thành phần liên quan trên đối tượng bị va chạm
             Enemy enemy = hit.GetComponent<Enemy>();
-            UnitHP unitHP = hit.GetComponent<UnitHP>();
+            EnemyStat unitHP = hit.GetComponent<EnemyStat>();
 
             if (enemy != null && unitHP != null)
             {
@@ -52,11 +52,16 @@ public class AnimationTriggersDamageOfPlayer : MonoBehaviour
                 {
                     damage += damage * player.playerData.CritPower;
                     Debug.Log("Crit Hit! Damage: " + damage);
+                    unitHP.OnCurrentHPChange(damage - unitHP.enemyData.Armor);
+                    enemy.TakeDamage();
                 }
 
-                // Áp dụng sát thương
-                unitHP.OnCurrentHPChange(damage);
-                enemy.TakeDamage();
+                else
+                {
+                    // Áp dụng sát thương
+                    unitHP.OnCurrentHPChange(damage);
+                    enemy.TakeDamage();
+                }
 
                 Debug.Log($"Applied {damage} damage to {enemy.name}.");
             }

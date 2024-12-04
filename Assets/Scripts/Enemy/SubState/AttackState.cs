@@ -23,7 +23,7 @@
     {
         base.AnimationFinishTrigger();
         isAnimationFinished = true; // Đánh dấu rằng animation đã kết thúc
-        Debug.Log("Animation finished: " + isAnimationFinished);
+        
 
     }
 

@@ -43,7 +43,7 @@ public class CloneAttackTrigger : MonoBehaviour
         foreach (var hit in colliders)
         {
             Enemy _target = hit.GetComponent<Enemy>();
-            UnitHP unitHP = hit.GetComponent<UnitHP>();
+            EnemyStat unitHP = hit.GetComponent<EnemyStat>();
             if (_target != null)
             {
                 if (player.playerData.CritChance > Random.Range(0, 100))

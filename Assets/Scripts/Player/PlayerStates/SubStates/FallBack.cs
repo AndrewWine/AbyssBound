@@ -9,7 +9,7 @@ public class FallBack : PlayerState
         duration = 1;  // Đặt thời gian kết thúc
 
         blackboard.animator.Play("FallBack");  // Chơi animation "FallBack"
-        blackboard.player.SetVelocityX(blackboard.playerData.dashSpeed * 3 *  -blackboard.FacingDirection); 
+        blackboard.player.SetVelocityX(blackboard.playerData.dashSpeed * 2 *  -blackboard.FacingDirection); 
         blackboard.player.SetVelocityY(0); // Ngăn nhân vật rơi trong khi dash
         base.Enter();
     }

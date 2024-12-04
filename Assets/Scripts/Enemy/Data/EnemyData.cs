@@ -3,12 +3,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newEnemyData", menuName = "Data/Enemy Data/ Base Data")]
 public class EnemyData : ScriptableObject
 {
-    [Header("Moving")]
-    public float MovementSpeed = 5;
-
-    public float damage = 10;
+    [Header("Stats")]
+    public float MovementSpeed = 4.5f;
+    public float MaxHP;
+    public float damage;
     public float magicDamage;
+    public float Armor = 1;
+    public float MagicArmor;
 
+    [Header("Soul drop")]
+    public float AbyssEssenceDropAmount;
     [Header("Check Variables")]
     public LayerMask whatIsGround;
     public LayerMask whatIsPlayer;

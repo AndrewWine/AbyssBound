@@ -18,6 +18,9 @@ public class UI_InGame : MonoBehaviour
     public bool DashCheck = false;
     public bool CloneCheck = false;
 
+    private float displayedAbyssEssence;
+    [SerializeField] private float updateSpeed = 1.0f; // Tốc độ thay đổi giá trị
+
     public SkillsManager skillsManager ;
     private void OnEnable()
     {
@@ -70,8 +73,13 @@ public class UI_InGame : MonoBehaviour
 
     private void UpdateAbyssEssence()
     {
-        AbyssEssenceText.text  = playerData.AbyssEssence.ToString();
+        // Nội suy giá trị hiển thị dần dần đến giá trị thực tế
+        displayedAbyssEssence = Mathf.Lerp(displayedAbyssEssence, playerData.AbyssEssence, Time.deltaTime * updateSpeed);
+
+        // Hiển thị giá trị đã nội suy
+        AbyssEssenceText.text = Mathf.RoundToInt(displayedAbyssEssence).ToString();
     }
+
     public void SetCoolDownOfDashSkill()
     {
         SetCoolDownOf(dashSkillImage);

@@ -141,10 +141,6 @@ public class Inventory : MonoBehaviour, ISaveManager
         {
             AddToStash(item);
         }
-        else if (item.itemtype == ItemType.Currency)
-        {
-            playerManager.OnCurrencyChange((int)(item.AbyssEssence));
-        }
 
         UpdateSlotUI();
     }

@@ -6,6 +6,7 @@ public class PlayerManager : MonoBehaviour,ISaveManager
 {
     [Header("Component")]
     public PlayerData playerData;
+    public Player player;
 
     [Header("Action Observer")]
     public Action NotifyUpdateCurrency;
@@ -13,10 +14,16 @@ public class PlayerManager : MonoBehaviour,ISaveManager
     //Quản lý sự tăng giảm soul của player
     private void OnEnable()
     {
+        EnemyStat.DropAbyssEssence += OnCurrencyChange;
+        LostCurrencyController.pickedCurrency += OnCurrencyChange;
     }
 
     private void OnDisable()
     {
+        EnemyStat.DropAbyssEssence -= OnCurrencyChange;
+        LostCurrencyController.pickedCurrency -= OnCurrencyChange;
+
+
     }
     void Start()
     {
@@ -28,11 +35,12 @@ public class PlayerManager : MonoBehaviour,ISaveManager
     {
        
     }
+
+
     public void OnCurrencyChange(float amount)
     {
-        playerData.AbyssEssence += amount;
-        NotifyUpdateCurrency?.Invoke();
-        Debug.Log("Đã +");
+        playerData.AbyssEssence += amount; // Hoàn lại AbyssEssence
+        NotifyUpdateCurrency?.Invoke(); // Cập nhật UI
     }
 
     public void LoadData(GameData _data)

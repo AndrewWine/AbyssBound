@@ -41,20 +41,31 @@ public class PlayerBarUI : MonoBehaviour
     private void UpdatePlayerBarUI()
     {
         // Làm mượt giá trị HP
-        displayedHP = Mathf.Lerp(displayedHP, playerData.CurrentHP, smoothSpeed * Time.deltaTime);
+        if (Mathf.Abs(displayedHP - playerData.CurrentHP) < 0.01f)
+            displayedHP = playerData.CurrentHP;
+        else
+            displayedHP = Mathf.Lerp(displayedHP, playerData.CurrentHP, smoothSpeed * Time.deltaTime);
+
         HPslider.maxValue = playerData.MaxHP;
         HPslider.value = displayedHP;
 
         // Làm mượt giá trị MP
-        displayedMP = Mathf.Lerp(displayedMP, playerData.CurrentMana, smoothSpeed * Time.deltaTime);
+        if (Mathf.Abs(displayedMP - playerData.CurrentMana) < 0.01f)
+            displayedMP = playerData.CurrentMana;
+        else
+            displayedMP = Mathf.Lerp(displayedMP, playerData.CurrentMana, smoothSpeed * Time.deltaTime);
+
         MPslider.maxValue = playerData.MaxMana;
         MPslider.value = displayedMP;
 
         // Làm mượt giá trị Stamina
-        displayedStamina = Mathf.Lerp(displayedStamina, playerData.CurrentStamina, smoothSpeed * Time.deltaTime);
+        if (Mathf.Abs(displayedStamina - playerData.CurrentStamina) < 0.01f)
+            displayedStamina = playerData.CurrentStamina;
+        else
+            displayedStamina = Mathf.Lerp(displayedStamina, playerData.CurrentStamina, smoothSpeed * Time.deltaTime);
+
         STMslider.maxValue = playerData.MaxStamina;
         STMslider.value = displayedStamina;
-
-       
     }
+
 }

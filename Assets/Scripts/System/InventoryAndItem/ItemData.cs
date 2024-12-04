@@ -33,7 +33,7 @@ public class ItemData : ScriptableObject
     }
 
     [Header("Currency")]
-    public float AbyssEssence;
+    public float Silver;
 
     [Header("Major Stats")]
     public float strength; //1 point increase damage by 1 and crit.power by 1%

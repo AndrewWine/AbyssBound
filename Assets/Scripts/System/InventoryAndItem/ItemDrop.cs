@@ -9,13 +9,11 @@ public class ItemDrop : MonoBehaviour
     private List<ItemData> dropList = new List<ItemData>();
     [SerializeField] private GameObject dropPrefab;
     [SerializeField] private ItemData item;
-    [SerializeField] private ItemData AbyssEssence;  // Thêm AbyssEssence vào đây
 
     public void GenerateDrop()
     {
         // Đảm bảo AbyssEssence luôn có mặt trong drop list
         dropList.Clear();  // Làm sạch danh sách trước khi thêm vật phẩm mới
-        dropList.Add(AbyssEssence);  // Thêm AbyssEssence vào danh sách drop
 
         // Thêm các vật phẩm có khả năng rơi vào danh sách
         for (int i = 0; i < possibleItemDrop.Length; i++)

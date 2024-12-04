@@ -43,7 +43,7 @@ public class AnimationTriggerofSword : MonoBehaviour
 
         foreach (var hit in colliders)
         {
-            UnitHP unitHP = hit.GetComponent<UnitHP>();
+            EnemyStat unitHP = hit.GetComponent<EnemyStat>();
             Enemy enemy = hit.GetComponent<Enemy>();
             if (enemy != null)
             {

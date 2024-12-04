@@ -146,7 +146,6 @@ public class SwordSkill_Controller : MonoBehaviour
                 hit.GetComponent<Enemy>().Damage();
             }
         }
-        Debug.Log("Sword collided with: " + collision.name);
 
         if (collision.GetComponent<Enemy>() != null)
         {

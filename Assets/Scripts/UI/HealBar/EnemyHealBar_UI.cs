@@ -8,12 +8,13 @@ public class EnemyHealBar_UI : MonoBehaviour
 {
     private Enemy enemy;
     private Slider slider;
-    private UnitHP HP;
+    private EnemyStat HP;
+    public EnemyData enemyData;
     private void Awake()
     {
         enemy = GetComponentInParent<Enemy>();
         slider = GetComponentInChildren<Slider>();
-        HP = GetComponent<UnitHP>();
+        HP = GetComponent<EnemyStat>();
     }
 
     private void Update()
@@ -23,7 +24,7 @@ public class EnemyHealBar_UI : MonoBehaviour
 
     private void UpdateHealthUI()
     {
-        slider.maxValue = HP.MaxHP;
+        slider.maxValue = enemyData.MaxHP;
         slider.value = HP.CurrentHP;
     }
 
