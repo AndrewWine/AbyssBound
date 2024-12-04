@@ -2,15 +2,23 @@
 
 public class PlayerMoveState : PlayerState
 {
+   
     public override void Enter()
     {
         base.Enter();
         // Chạy animation Run
+  
         if(blackboard.isGrounded)
         {
             blackboard.animator.Play("Run");
         }
         blackboard.player.SetVelocityY(0);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+   
     }
 
     public override void LogicUpdate()

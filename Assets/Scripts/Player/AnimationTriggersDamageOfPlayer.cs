@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class AnimationTriggersDamageOfPlayer : MonoBehaviour
 {
+    public System.Action<int,Transform> PlayerSFXAtk;
     private Player player;
     private PlayerBlackBoard blackBoard;
 
@@ -54,6 +54,8 @@ public class AnimationTriggersDamageOfPlayer : MonoBehaviour
                     Debug.Log("Crit Hit! Damage: " + damage);
                     unitHP.OnCurrentHPChange(damage - unitHP.enemyData.Armor);
                     enemy.TakeDamage();
+                    PlayerSFXAtk?.Invoke(0, null);
+
                 }
 
                 else
@@ -61,6 +63,7 @@ public class AnimationTriggersDamageOfPlayer : MonoBehaviour
                     // Áp dụng sát thương
                     unitHP.OnCurrentHPChange(damage);
                     enemy.TakeDamage();
+                    PlayerSFXAtk?.Invoke(0, null);
                 }
 
                 Debug.Log($"Applied {damage} damage to {enemy.name}.");

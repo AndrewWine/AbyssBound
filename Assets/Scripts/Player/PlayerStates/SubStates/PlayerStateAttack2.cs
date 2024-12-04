@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerStateAttack2 : PlayerState
 {
-
+    public Action<int, Transform> PlaySfxAtk; 
     public override void Enter()
     {
         base.Enter();
         blackboard.animator.Play("Attack2");
+        PlaySfxAtk?.Invoke(36, null);
         blackboard.playerData.CountClick++;
         blackboard.PlayerInputHandler.LeftClick = false; // Reset click input để chuẩn bị cho combo tiếp theo
     }

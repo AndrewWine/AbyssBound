@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &490422965824023740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8278941722713842273}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8278941722713842273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490422965824023740}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -10.622847, y: 2.0979664, z: -0.19964981}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4277125686494971894}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3355392369739255367
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,8 +64,62 @@ Transform:
   - {fileID: 631702529480011955}
   - {fileID: 5709901051155056347}
   - {fileID: 5669315752099100179}
+  - {fileID: 5867235536181317755}
+  - {fileID: 8278941722713842273}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7197100886081384922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5867235536181317755}
+  - component: {fileID: 3585172984967100758}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5867235536181317755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7197100886081384922}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.746077, y: 3.864274, z: -0.10223692}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4277125686494971894}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3585172984967100758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7197100886081384922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74573156b39876344a7429e3794faa01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ui: {fileID: 0}
+  playerData: {fileID: 11400000, guid: 07fd336f866cecb4293f0b04a36b68d6, type: 2}
+  checkPoints: []
+  closestCheckpointId: 
+  lostCurrencyPrefab: {fileID: 4277352733673021299, guid: 31cc192ad3d065c47bebb9b81ebbb2d4, type: 3}
+  lostCurrencyX: 0
+  lostCurrencyY: 0
+  lostCurrencyAmount: 0
 --- !u!1001 &2427917856234860049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46,6 +131,18 @@ PrefabInstance:
     - target: {fileID: 310811606304716730, guid: 1bf0ad5d30751904fa3d94042cb424e7, type: 3}
       propertyPath: m_Name
       value: SaveManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1317865098610617095, guid: 1bf0ad5d30751904fa3d94042cb424e7, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 3585172984967100758}
+    - target: {fileID: 1317865098610617095, guid: 1bf0ad5d30751904fa3d94042cb424e7, type: 3}
+      propertyPath: gameData.AbyssEssence
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1317865098610617095, guid: 1bf0ad5d30751904fa3d94042cb424e7, type: 3}
+      propertyPath: gameData.lostCurrencyAmount
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 8006492828170475522, guid: 1bf0ad5d30751904fa3d94042cb424e7, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using System;
+using UnityEngine;
 
 public class PlayerPrimaryAttack : PlayerState
 {
+    public Action<int, Transform> PlaySfxAtk;
     public override void Enter()
     {
         base.Enter();
-       
         blackboard.animator.Play("Attack1");
+        PlaySfxAtk?.Invoke(36, null);
         blackboard.playerData.CountClick++;
         isAnimationFinished = false;
         // Không reset CountClick ở đây

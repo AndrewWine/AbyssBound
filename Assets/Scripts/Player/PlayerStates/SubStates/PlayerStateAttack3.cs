@@ -1,13 +1,16 @@
-﻿using Unity.Burst.CompilerServices;
+﻿using System;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class PlayerStateAttack3 : PlayerState
 {
+    public Action<int,Transform> PlaySfxAtk;
     public override void Enter()
     {
         base.Enter();
         blackboard.playerData.CountClick++;
         blackboard.animator.Play("Attack3"); // Phát animation Attack3
+        PlaySfxAtk?.Invoke(36,null);
         blackboard.PlayerInputHandler.LeftClick = false; // Reset click input để chuẩn bị cho combo tiếp theo
     }
 
