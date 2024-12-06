@@ -8,11 +8,13 @@ public class EntityFX : MonoBehaviour
     [Header("Flash FX")]
     [SerializeField] private float flashDuration;
     [SerializeField] private Material hitMat;
+    private GameObject myHealthBar;
     private Material originalMat;
     private void Start()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         originalMat = sr.material;
+      
     }
 
     private IEnumerator FlashFX()
@@ -34,5 +36,19 @@ public class EntityFX : MonoBehaviour
     {
         CancelInvoke();
         sr.color = Color.white ;
+    }
+
+    public void MakeTransperent(bool _transprent){
+        if(_transprent)
+        {
+        myHealthBar.SetActive(false);
+        sr.color = Color.clear;
+        }
+        else
+        {
+            myHealthBar.SetActive(true);
+            sr.color = Color.white;
+
+        }
     }
 }

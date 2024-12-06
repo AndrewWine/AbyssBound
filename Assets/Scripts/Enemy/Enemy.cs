@@ -8,27 +8,33 @@ using System;
 public class Enemy : MonoBehaviour
 {
     public Action isDeath;
-
+    public Action isFlip;
     [Header("Component")]
-    public EnemyBlackBoard entity;
+    public EntityBlackboard entity;
     public EnemyStateMachine enemystateMachine;
     public EnemyData enemyData;
     public EnemyStat BeingHit;
-    private ItemDrop myDropSystem;
-
+    protected ItemDrop myDropSystem;
+    public int countAttack;
+    [SerializeField] public float lastTimeAttacked;
+    [SerializeField] public float attackCooldown;
     public EntityFX fx { get; private set; }
 
+    [Header("Check Variable")]
+    protected bool isDead = false; // Cờ kiểm tra trạng thái chết
 
-    private bool isDead = false; // Cờ kiểm tra trạng thái chết
-
+    [Header("Other Variable")]
     protected float lastStunTime;  // Thời gian bị stun gần nhất
     public float stunCooldown = 2f; // Thời gian hồi trước khi có thể bị stun lại
-
-
+    public float RangeBattleState;
     public Vector2 CurrentVelocity { get; private set; }
     private Vector2 workspace;
-    public float distanceBattle;
-
+ 
+    protected virtual void CheckCountAttack()
+    {
+        if (countAttack > 5)
+            countAttack = 0;
+    }
     public void AnimationFinishTrigger()
     {
         enemystateMachine.CurrentState.AnimationFinishTrigger();
@@ -51,6 +57,7 @@ public class Enemy : MonoBehaviour
         Death();
         CheckObject();
         CanAttack();
+        CheckCountAttack();
     }
 
     protected virtual void Death()
@@ -59,7 +66,7 @@ public class Enemy : MonoBehaviour
         if (!isDead && BeingHit.CurrentHP <= 0)
         {
             isDead = true; // Đánh dấu enemy đã chết
-            enemystateMachine.ChangeState(entity.enemyDeathState);
+            //enemystateMachine.ChangeState(entity.enemyDeathState);
             myDropSystem.GenerateDrop(); // Gọi phương thức rơi đồ
             isDeath?.Invoke();
         }
@@ -67,7 +74,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void TakeDamage()
     {
-        enemystateMachine.ChangeState(entity.enemyHitState);
+        //enemystateMachine.ChangeState(entity.enemyHitState);
         fx.StartCoroutine("FlashFX");
         StartCoroutine("HitKnockback");
     }
@@ -88,11 +95,11 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public bool CanAttack()
+    public virtual bool CanAttack()
     {
         if (Time.time >= enemyData.lastTimeAttacked + enemyData.attackCooldown)
         {
-            enemyData.lastTimeAttacked = Time.time;
+            //enemyData.lastTimeAttacked = Time.time;
             return true;
         }
         return false;
@@ -116,8 +123,8 @@ public class Enemy : MonoBehaviour
     public virtual bool CanBeStunned()
     {
         // Không thể bị stun nếu đang trong trạng thái stun
-        if (enemystateMachine.CurrentState == entity.enemystunState)
-            return false;
+        //if (enemystateMachine.CurrentState == entity.enemystunState)
+           // return false;
 
         // Thời gian hồi trước khi có thể bị stun lại
         if (Time.time < lastStunTime + stunCooldown)
@@ -140,13 +147,13 @@ public class Enemy : MonoBehaviour
         Vector3 rotation = transform.eulerAngles;
         rotation.y += 180f;
         transform.eulerAngles = rotation;
-       
+        isFlip?.Invoke();
     }
 
     protected virtual void CheckObject()
     {
         // Perform OverlapCircle to check for playerPos
-        Collider2D playerCollider = Physics2D.OverlapCircle(entity.RB.position, 10f, entity.playerLayer);
+        Collider2D playerCollider = Physics2D.OverlapCircle(entity.RB.position, RangeBattleState, entity.playerLayer);
         if (playerCollider != null)
         {
             // Nếu phát hiện playerPos, lấy Transform của playerPos
@@ -179,7 +186,7 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawLine(entity.wallCheck.position, entity.wallCheck.position + Vector3.right * entity.FacingDirection * enemyData.WallCheckDistance);
         // Draw the overlap circle to visualize detection range
         Gizmos.color = Color.yellow; // Change color for the overlap circle
-        Gizmos.DrawWireSphere(entity.RB.position, 10f); // Draw wire sphere to visualize the overlap range
+        Gizmos.DrawWireSphere(entity.RB.position, RangeBattleState); // Draw wire sphere to visualize the overlap range
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(entity.attackCheck.position, enemyData.attackCheckRadius);
         //Draw playerPos check ray

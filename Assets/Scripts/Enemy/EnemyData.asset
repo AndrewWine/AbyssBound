@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: EnemyData
   m_EditorClassIdentifier: 
   MovementSpeed: 3
-  MaxHP: 133.1
-  damage: 13.31
+  MaxHP: 210
+  damage: 35
   magicDamage: 1
-  Armor: 1.030301
-  MagicArmor: 1.0201336
+  Armor: 5.2
+  MagicArmor: 3.08
+  Level: 2
+  AbyssEssenceDropAmount: 24
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
@@ -25,7 +27,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   attackCooldown: 0.4
-  lastTimeAttacked: 10.857411
+  lastTimeAttacked: 65.02676
   attackCheckRadius: 2
   groundCheckDistance: 0.3
   WallCheckDistance: 3

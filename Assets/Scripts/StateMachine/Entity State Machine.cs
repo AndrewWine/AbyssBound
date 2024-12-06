@@ -11,19 +11,32 @@ public class EntityStateMachine<TBlackboard> : MonoBehaviour where TBlackboard :
     public State<TBlackboard> StartingState;
     private bool isStateLocked = false;
 
-
     private void Awake()
     {
+        if (blackboard == null)
+        {
+            Debug.LogError("Blackboard is not assigned.");
+            return;
+        }
+
+        if (StartingState == null)
+        {
+            Debug.LogError("StartingState is not assigned.");
+            return;
+        }
 
         State<TBlackboard>[] states = blackboard.statesParent.GetComponentsInChildren<State<TBlackboard>>();
         listOfStates = states.ToList();
+
         foreach (var state in listOfStates)
         {
             state.Initialzie(blackboard, this);
         }
+
         CurrentState = StartingState;
         CurrentState.Enter();
     }
+
     public void Update()
     {
         CurrentState.LogicUpdate();

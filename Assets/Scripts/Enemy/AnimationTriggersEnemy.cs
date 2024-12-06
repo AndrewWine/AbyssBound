@@ -4,38 +4,40 @@ using UnityEngine;
 
 public class AnimationFinishTriggerEnemy : MonoBehaviour
 {
-    private Enemy enemy => GetComponentInParent<Skeleton_Enemy>();
-    private EnemyBlackBoard entity;
-    private EnemyData enemyData;
+    private Enemy enemy;
+    private EntityBlackboard entityblackBoard;
+    public EnemyData enemyData;
 
     private void Awake()
     {
-        entity = GetComponentInParent<EnemyBlackBoard>();
-        if (entity == null)
+        entityblackBoard = GetComponentInParent<EntityBlackboard>();
+        enemy = GetComponentInParent<Enemy>();
+
+     
+    }
+
+    private void Start()
+    {
+        if (entityblackBoard == null)
         {
-            Debug.LogError("EnemyBlackBoard không được tìm thấy trong cha của đối tượng.");
+            Debug.LogError("Không tìm thấy entityblackBoard trong GameObject cha.");
         }
         else
         {
-            enemyData = entity.enemyData;
-            if (enemyData == null)
-            {
-                Debug.LogError("EnemyData chưa được gán trong EnemyBlackBoard.");
-            }
+            Debug.Log("entityblackBoard đã được tìm thấy: " + entityblackBoard.gameObject.name);
         }
     }
-
     private void AttackTrigger()
     {
         Debug.Log("Attack Trigger Called");
 
-        if (entity == null || entity.attackCheck == null)
+        if (entityblackBoard == null || entityblackBoard.attackCheck == null)
         {
-            Debug.LogError("attackCheck is not assigned in EnemyBlackBoard.");
+            Debug.LogError("attackCheck is not assigned in entityblackBoard.");
             return;
         }
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(entity.attackCheck.position, enemyData.attackCheckRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(entityblackBoard.attackCheck.position, enemyData.attackCheckRadius);
    
 
         foreach (var hit in colliders)

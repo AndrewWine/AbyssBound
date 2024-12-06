@@ -10,6 +10,7 @@ public class EnemyData : ScriptableObject
     public float magicDamage;
     public float Armor = 1;
     public float MagicArmor;
+    public float Level;
 
     [Header("Soul drop")]
     public float AbyssEssenceDropAmount;

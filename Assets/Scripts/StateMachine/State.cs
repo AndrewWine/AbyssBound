@@ -9,7 +9,6 @@ public class State<TBlackboard> : MonoBehaviour where TBlackboard : EntityBlackb
     protected float startTime;
     protected TBlackboard blackboard;
     protected EntityStateMachine<TBlackboard> stateMachine;
-
     public void Initialzie(TBlackboard blackboard, EntityStateMachine<TBlackboard> stateMachine)
     {
         this.blackboard = blackboard;

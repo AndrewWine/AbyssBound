@@ -8,8 +8,6 @@ public class PlayerBlackBoard : EntityBlackboard
     public SkillsManager skillManager;
     [Header("Collision")]
     public PlayerInputHandler PlayerInputHandler;
-    public Animator animator;
-    public Rigidbody2D RB;
     public PlayerData playerData;
     
 
@@ -18,12 +16,8 @@ public class PlayerBlackBoard : EntityBlackboard
     public bool DashInput;
     public bool WallDetected;
 
-    [Header("Transform of Player")]
-    public Transform attackCheck;
 
-    [Header("KnockBack infor")]
-    [SerializeField] protected Vector2 knockbackDirection;
-    protected bool isKnocked;
+  
 
     [Header("ColliderSize")]
     public Vector2 originalColliderSize;

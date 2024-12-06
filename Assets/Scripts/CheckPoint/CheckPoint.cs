@@ -4,13 +4,16 @@ using UnityEngine;
 using System;
 public class CheckPoint : MonoBehaviour
 {
-    public Animator anim;
+    private Animator anim;
     public string id;
     public bool activationStatus;
 
     public Action NotifySaveGame;
 
-
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     [ContextMenu("Generate checkpoint id")]
     private void GenerateID()

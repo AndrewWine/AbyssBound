@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using TMPro;
 public class EnemyStat : MonoBehaviour
 {
     public static Action<float> DropAbyssEssence;
@@ -7,8 +8,9 @@ public class EnemyStat : MonoBehaviour
     public EnemyData enemyData;
     public Enemy enemy;
 
+    [SerializeField] private TextMeshProUGUI levelText;
+
     [Header("Enemy stats")]
-    public float Level;
     public float CurrentHP;
     public float RatePowerLevel;
     private float baseMaxHP = 150;
@@ -28,8 +30,8 @@ public class EnemyStat : MonoBehaviour
     }
     private void Awake()
     {
-      
-        RatePowerLevel = Level / 10f;
+        levelText.text = "Level: " + enemyData.Level;
+        RatePowerLevel = enemyData.Level / 10f;
     }
 
     private void Start()
@@ -46,16 +48,16 @@ public class EnemyStat : MonoBehaviour
 
     public void ModifyStatBaseOnLV()
     {
-        if (Level > 1)
+        if (enemyData.Level > 1)
         {
             // Kiểm tra giá trị trung gian
-            Debug.Log($"Level: {Level}, RatePowerLevel: {RatePowerLevel}");
+            Debug.Log($"Level: {enemyData.Level}, RatePowerLevel: {RatePowerLevel}");
 
             // Cập nhật các giá trị dựa trên giá trị gốc
-            enemyData.MaxHP = baseMaxHP + (baseMaxHP * Level * RatePowerLevel);
-            enemyData.damage = baseDamage + (baseDamage * Level * RatePowerLevel);
-            enemyData.Armor = baseArmor + (baseArmor * Level * RatePowerLevel) / 10f;
-            enemyData.MagicArmor = baseMagicArmor + (baseMagicArmor * Level * RatePowerLevel) / 15f;
+            enemyData.MaxHP = baseMaxHP + (baseMaxHP * enemyData.Level * RatePowerLevel);
+            enemyData.damage = baseDamage + (baseDamage * enemyData.Level * RatePowerLevel);
+            enemyData.Armor = baseArmor + (baseArmor * enemyData.Level * RatePowerLevel) / 10f;
+            enemyData.MagicArmor = baseMagicArmor + (baseMagicArmor * enemyData.Level * RatePowerLevel) / 15f;
             enemyData.AbyssEssenceDropAmount = baseAbyssEssenceDropAmount * (RatePowerLevel + 1);
             CurrentHP = enemyData.MaxHP;
             // Kiểm tra giá trị sau tính toán
