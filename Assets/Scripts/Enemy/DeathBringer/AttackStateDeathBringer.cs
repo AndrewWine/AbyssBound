@@ -18,7 +18,8 @@ public class AttackStateDeathBringer : EnemyState
         // Chỉ thay đổi trạng thái nếu animation đã kết thúc
         if (isAnimationFinished)
         {
-            stateMachine.ChangeState(blackboard.enemyDBWalkState);
+            if(blackboard.enemyData)
+            stateMachine.ChangeState(blackboard.enterTeleportDeathBringer);
         }
     }
 

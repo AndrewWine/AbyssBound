@@ -5,25 +5,32 @@ using UnityEngine;
 
 public class Enemy_DeathBringer : Enemy
 {
+    public static System.Action<bool> canCastSpell;
     [Header("Spell cast details")]
     [SerializeField] private GameObject spellPrefab;
-    private float lastTimeCast;
-    [SerializeField] private float spellCastCooldown;
+    [SerializeField] public float spellCoolDown;
     private Transform player;
+    private float lastTimeCast;
+    public int amountOfspells;
+    public float castCooldown;
 
 
     [Header("Teleport details")]
     [SerializeField] private BoxCollider2D arena;
     [SerializeField] private Vector2 surroundingChecksize;
-
+    public float chanceToTeleport;
+    public float deafaultChantoTeleport;
     private void OnEnable()
     {
         ExitTeleport.NotifyFindPlace += FindPosition;
+        CastingSpellStateDeathBringer.DoSpell += CastSpell;
     }
 
     private void OnDisable()
     {
         ExitTeleport.NotifyFindPlace -= FindPosition;
+        CastingSpellStateDeathBringer.DoSpell -= CastSpell;
+
     }
 
     public override bool CanAttack()
@@ -120,10 +127,27 @@ public class Enemy_DeathBringer : Enemy
         base.CheckCountAttack();
     }
 
+    public void CanDoSpellCast()
+    {
+        if(Time.time >= lastTimeCast + spellCoolDown)
+        {
+            lastTimeCast = Time.time;
+            canCastSpell?.Invoke(true);
+        }
+        else
+        {
+
+        }
+            canCastSpell?.Invoke(false);
+    }
+
+
     public void CastSpell()
     {
-        Vector3 spellPosition =  new Vector3(player.transform.position.x, player.transform.position.y +1);
+        Vector3 spellPosition =  new Vector3(player.transform.position.x, player.transform.position.y +2);
         GameObject newSpell = Instantiate(spellPrefab,spellPosition,Quaternion.identity);
-        //newSpell.GetComponent<DeathBringerSpellController>().set
+        newSpell.GetComponent<DeathBringerSpellController>().SetupSpell(enemyData);
     }
+
+
 }

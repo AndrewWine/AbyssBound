@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CastingSpellStateDeathBringer : EnemyState
 {
+    public static System.Action DoSpell;
     public override void AnimationFinishTrigger()
     {
         base.AnimationFinishTrigger();
@@ -18,6 +19,7 @@ public class CastingSpellStateDeathBringer : EnemyState
     {
         base.Enter();
         blackboard.animator.Play("CastingSpell");
+        DoSpell?.Invoke();
 
     }
 
@@ -29,9 +31,10 @@ public class CastingSpellStateDeathBringer : EnemyState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if(!isAnimationFinished)
+        if(isAnimationFinished)
         {
-
-        }    
+            stateMachine.ChangeState(blackboard.stopCastSpellState);
+        }
+       
     }
 }

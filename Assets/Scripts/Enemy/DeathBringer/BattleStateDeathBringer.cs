@@ -5,28 +5,37 @@ using UnityEngine;
 public class BattleStateDeathBringer : EnemyState
 {
     private float previousX;
-
+    private Enemy_DeathBringer enemy;
+    private int amountOfSpells;
+    private float spellTimer;
+    private void Awake()
+    {
+        enemy = GetComponentInParent<Enemy_DeathBringer>();
+    }
     public override void Enter()
     {
         base.Enter();
         previousX = blackboard.RB.position.x;
         blackboard.animator.Play("Walk");
+        amountOfSpells = enemy.amountOfspells;
+        spellTimer =  0.5f;
     }
 
     public override void LogicUpdate()
     {
-        if (!blackboard.playerDetected)
+        spellTimer -= Time.deltaTime;
+        if (!blackboard.playerDetected && !CanCast())
         {
             stateMachine.ChangeState(blackboard.enterTeleportDeathBringer);
         }
 
-        else if (blackboard.isPlayer && blackboard.enemy.countAttack < 5 && blackboard.enemy.CanAttack())
+        else if (blackboard.isPlayer && blackboard.enemy.countAttack < 5 && blackboard.enemy.CanAttack() && !CanCast())
         {
             stateMachine.ChangeState(blackboard.enemyDBAttackState);
         }
-        else if (blackboard.enemy.countAttack >= 5)
+        else if (CanCast())
         {
-            stateMachine.ChangeState(blackboard.enterTeleportDeathBringer);
+            stateMachine.ChangeState(blackboard.startCastSpellState);
         }
     }
 
@@ -68,6 +77,16 @@ public class BattleStateDeathBringer : EnemyState
         {
             blackboard.enemy.attackCooldown = Random.Range(1, 4);
             blackboard.enemy.lastTimeAttacked = Time.time;
+            return true;
+        }
+        return false;
+    }
+
+    private bool CanCast()
+    {
+        if (amountOfSpells > 0 && spellTimer < 0)
+        {
+            spellTimer = enemy.spellCoolDown;
             return true;
         }
         return false;

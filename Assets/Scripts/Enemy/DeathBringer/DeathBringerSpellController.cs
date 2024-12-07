@@ -14,7 +14,7 @@ public class DeathBringerSpellController : MonoBehaviour
        
     }
 
-    private void SetupSpell(EnemyData _stat) => enemyData = _stat;
+    public void SetupSpell(EnemyData _stat) => enemyData = _stat;
     private void AnimationTrigger()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(check.position, boxSize ,whatisPlayer);

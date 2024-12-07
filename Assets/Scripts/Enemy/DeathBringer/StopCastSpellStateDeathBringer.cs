@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StopCastSpellStateDeathBringer : MonoBehaviour
+public class StopCastSpellStateDeathBringer : EnemyState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void AnimationFinishTrigger()
     {
-        
+        base.AnimationFinishTrigger();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Enter()
     {
-        
+        base.Enter();
+        blackboard.animator.Play("ExitCastSpell");
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+    }
+
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+        if(isAnimationFinished)
+        {
+            stateMachine.ChangeState(blackboard.enemyDBbattleState);
+        }
     }
 }

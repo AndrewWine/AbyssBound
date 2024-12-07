@@ -17,6 +17,7 @@ public class EntityFX : MonoBehaviour
       
     }
 
+
     private IEnumerator FlashFX()
     {
         sr.material = hitMat;

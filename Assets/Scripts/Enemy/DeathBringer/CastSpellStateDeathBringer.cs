@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class CastSpellStateDeathBringer : EnemyState
 {
+
     public override void Enter()
     {
         base.Enter();
         blackboard.animator.Play("StartCastSpell");
+  
     }
     public override void AnimationFinishTrigger()
     {
@@ -24,9 +26,12 @@ public class CastSpellStateDeathBringer : EnemyState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+  
         if(isAnimationFinished)
         {
             stateMachine.ChangeState(blackboard.castingSpellState);
         }
     }
+
+  
 }

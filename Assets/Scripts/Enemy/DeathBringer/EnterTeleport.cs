@@ -3,7 +3,6 @@ using System;
 public class EnterTeleport : EnemyState
 {
 
-
     public override void AnimationFinishTrigger()
     {
         base.AnimationFinishTrigger();
@@ -15,6 +14,8 @@ public class EnterTeleport : EnemyState
         base.Enter();
         blackboard.enemy.countAttack = 0;
         blackboard.animator.Play("EnterTeleport");
+
+
     }
 
     public override void Exit()

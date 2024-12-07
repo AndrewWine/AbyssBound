@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fa814db9a11e8498a246a06b171e71, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  AbyssEssence: 10000
-  UsageTimer: 4.2852917
-  PassingTime: 2.186241
+  AbyssEssence: 0
+  UsageTimer: 3.6182747
+  PassingTime: 0.9298761
   dashCoolDown: 3
   dashSpeed: 35
   dashDuration: 0.2
@@ -26,10 +26,10 @@ MonoBehaviour:
   slideDuration: 0.2
   fallbackDuration: 0.2
   jumpVelocity: 15
-  amountOfJump: 1
+  amountOfJump: 2
   coyoteTime: 0.2
   wallSlideVelocity: 3
-  CurrentFacing: -1
+  CurrentFacing: 1
   startOffset: {x: 0, y: 0}
   stopOffset: {x: 0, y: 0}
   WallJumpForce: 0
@@ -41,24 +41,24 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  MaxHP: 105
-  CurrentHP: 105
+  MaxHP: 150
+  CurrentHP: 150
   MaxMana: 46
   CurrentMana: 46
-  MaxStamina: 53
-  CurrentStamina: 49
-  strength: 8
-  agility: 4
+  MaxStamina: 80
+  CurrentStamina: 80
+  strength: 15
+  agility: 10
   intelligence: 8
-  vitallity: 1
-  Damage: 18
+  vitallity: 10
+  Damage: 25
   MagicDamage: 10
-  CritChance: 0.4
-  CritPower: 2.3
+  CritChance: 1
+  CritPower: 3
   armor: 0
   magicArmor: 0
-  evasion: 0.4
-  movementSpeed: 3.4
+  evasion: 1
+  movementSpeed: 4
   staminaRegenRate: 1
   hpRegenRate: 28
   manaRegenRate: 1
