@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DeathBringerSpellController : MonoBehaviour
 {
+    public static System.Action<int, Transform> spellSFX;
+
     [SerializeField] private Transform check;
     [SerializeField] private Vector2 boxSize;
     [SerializeField] private LayerMask whatisPlayer;
@@ -18,6 +20,7 @@ public class DeathBringerSpellController : MonoBehaviour
     private void AnimationTrigger()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(check.position, boxSize ,whatisPlayer);
+        spellSFX?.Invoke(23, null);
 
 
         foreach (var hit in colliders)

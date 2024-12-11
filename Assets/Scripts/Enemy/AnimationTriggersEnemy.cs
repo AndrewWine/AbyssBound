@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AnimationFinishTriggerEnemy : MonoBehaviour
 {
+    public static System.Action<int, Transform> AttackSFX;
+
     private Enemy enemy;
     private EntityBlackboard entityblackBoard;
     public EnemyData enemyData;
@@ -29,6 +31,8 @@ public class AnimationFinishTriggerEnemy : MonoBehaviour
     }
     private void AttackTrigger()
     {
+        AttackSFX?.Invoke(2, null);
+
         Debug.Log("Attack Trigger Called");
 
         if (entityblackBoard == null || entityblackBoard.attackCheck == null)

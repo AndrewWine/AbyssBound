@@ -32,6 +32,7 @@ public class EnemyStat : MonoBehaviour
     {
         levelText.text = "Level: " + enemyData.Level;
         RatePowerLevel = enemyData.Level / 10f;
+        enemyData.Level = UnityEngine.Random.Range(1,5);
     }
 
     private void Start()

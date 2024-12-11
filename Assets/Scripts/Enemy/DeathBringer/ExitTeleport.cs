@@ -5,6 +5,7 @@ using System;
 public class ExitTeleport : EnemyState
 {
     public static Action NotifyFindPlace;
+    public static Action<int, Transform> exitTeleportSFX;
     private bool CheclSpellCD;
     private void OnEnable()
     {
@@ -20,7 +21,7 @@ public class ExitTeleport : EnemyState
         base.Enter();
         blackboard.animator.Play("ExitTeleport");
         NotifyFindPlace?.Invoke();//Dk trong deathbringer script
-
+        exitTeleportSFX(19, null);
     }
     public override void LogicUpdate()
     {

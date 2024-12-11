@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         // Create an ObjectPool for SFX with an initial size of 10
-        sfxPool = new AudioSourcePool(sfxPrefab, 10);
+        sfxPool = new AudioSourcePool(sfxPrefab, 20);
         
     }
 
@@ -41,6 +41,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnEnable()
     {
+        //player
         blackBoard.primaryAttack.PlaySfxAtk += PlaySFX;
         blackBoard.primaryAttack2.PlaySfxAtk += PlaySFX;
         blackBoard.primaryAttack3.PlaySfxAtk += PlaySFX;
@@ -48,10 +49,21 @@ public class AudioManager : MonoBehaviour
         triggersDamageOfPlayer.PlayerSFXAtk += PlaySFX;
         areaSound.soundAction += PlaySFX;
         areaSound.stopSoundAction += StopSFXWithTime;
+
+        //enemy
+        AnimationFinishTriggerEnemy.AttackSFX += PlaySFX;
+        DeathState.deathSFX += PlaySFX;
+        HitState.BeingHit += PlaySFX;
+        
+        //Death Bringer
+        DeathStateDeathBringer.deathBringerDeathSFX += PlaySFX;
+        ExitTeleport.exitTeleportSFX += PlaySFX;
+        DeathBringerSpellController.spellSFX += PlaySFX;
     }
 
     private void OnDisable()
     {
+        //player
         blackBoard.primaryAttack.PlaySfxAtk -= PlaySFX;
         blackBoard.primaryAttack2.PlaySfxAtk -= PlaySFX;
         blackBoard.primaryAttack3.PlaySfxAtk -= PlaySFX;
@@ -59,6 +71,17 @@ public class AudioManager : MonoBehaviour
         triggersDamageOfPlayer.PlayerSFXAtk -= PlaySFX;
         areaSound.soundAction -= PlaySFX;
         areaSound.stopSoundAction -= StopSFXWithTime;
+
+        //enemy
+        AnimationFinishTriggerEnemy.AttackSFX -= PlaySFX;
+        DeathState.deathSFX -= PlaySFX;
+        HitState.BeingHit -= PlaySFX;
+
+        //Death Bringer
+        DeathStateDeathBringer.deathBringerDeathSFX -= PlaySFX;
+        ExitTeleport.exitTeleportSFX -= PlaySFX;
+        DeathBringerSpellController.spellSFX -= PlaySFX;
+
     }
 
     public void PlaySFX(int _sfxIndex, Transform _source)

@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 public class WalkState : EnemyState
 {
-   
     public override void Enter()
     {
         base.Enter();

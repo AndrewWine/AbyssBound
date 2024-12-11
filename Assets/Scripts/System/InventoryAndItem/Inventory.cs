@@ -371,9 +371,11 @@ public class Inventory : MonoBehaviour, ISaveManager
         foreach(ItemData_equipment item in loadEquipment)
         {
             EquipItem(item);
+            UpdateSlotUI();
+
         }
 
-        if(loadedItems.Count > 0)
+        if (loadedItems.Count > 0)
         {
             foreach(InventoryItem item in loadedItems)
             {
@@ -382,6 +384,7 @@ public class Inventory : MonoBehaviour, ISaveManager
                     AddItem(item.data);
                 }
             }
+            UpdateSlotUI();
             return;
 
         }
@@ -390,6 +393,10 @@ public class Inventory : MonoBehaviour, ISaveManager
             if (startingItems[i] != null)
                 AddItem(startingItems[i]);
         }
+
+       
+        UpdateSlotUI();
+
     }
 
     public void LoadData(GameData _data)
@@ -417,6 +424,7 @@ public class Inventory : MonoBehaviour, ISaveManager
                 }
             }
         }
+        AddStartingItems();
     }
 
     public void SaveData(ref GameData _data)

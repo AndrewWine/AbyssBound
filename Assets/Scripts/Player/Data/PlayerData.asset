@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   AbyssEssence: 0
-  UsageTimer: 3.6182747
-  PassingTime: 0.9298761
+  UsageTimer: 16.672253
+  PassingTime: 15.544333
   dashCoolDown: 3
   dashSpeed: 35
   dashDuration: 0.2
@@ -29,7 +29,7 @@ MonoBehaviour:
   amountOfJump: 2
   coyoteTime: 0.2
   wallSlideVelocity: 3
-  CurrentFacing: 1
+  CurrentFacing: -1
   startOffset: {x: 0, y: 0}
   stopOffset: {x: 0, y: 0}
   WallJumpForce: 0
@@ -41,26 +41,26 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  MaxHP: 150
-  CurrentHP: 150
+  MaxHP: 205
+  CurrentHP: 205
   MaxMana: 46
   CurrentMana: 46
-  MaxStamina: 80
-  CurrentStamina: 80
-  strength: 15
-  agility: 10
+  MaxStamina: 113
+  CurrentStamina: 103
+  strength: 27
+  agility: 20
   intelligence: 8
-  vitallity: 10
-  Damage: 25
+  vitallity: 21
+  Damage: 37
   MagicDamage: 10
-  CritChance: 1
-  CritPower: 3
+  CritChance: 2
+  CritPower: 4.2
   armor: 0
   magicArmor: 0
-  evasion: 1
-  movementSpeed: 4
+  evasion: 2
+  movementSpeed: 5
   staminaRegenRate: 1
-  hpRegenRate: 28
+  hpRegenRate: 38
   manaRegenRate: 1
   lifesteal: 0
   canIgnite: 0

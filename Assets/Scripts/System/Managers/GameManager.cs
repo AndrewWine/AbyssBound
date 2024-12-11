@@ -93,6 +93,8 @@ public class GameManager : MonoBehaviour, ISaveManager
 
     public void SaveData(ref GameData _data)
     {
+        if (_data == null)
+            return;
         _data.lostCurrencyAmount = lostCurrencyAmount;
         _data.lostCurrencyX = player.transform.position.x;
         _data.lostCurrencyY = player.transform.position.y;

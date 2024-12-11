@@ -5,16 +5,18 @@
     {
         base.Enter();
         blackboard.animator.Play("Attack");
+
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
-       
+
         // Chỉ thay đổi trạng thái nếu animation đã kết thúc
         if (isAnimationFinished)
         {
+
             stateMachine.ChangeState(blackboard.enemyWalkState);
         }
     }

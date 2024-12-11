@@ -9,11 +9,13 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
     [SerializeField] private List<TValue> values = new List<TValue>();
     public void OnBeforeSerialize()
     {
-        keys.Clear(); values.Clear();
+        keys.Clear(); 
+        values.Clear();
 
         foreach(KeyValuePair<TKey, TValue> pair in this)
         {
-            keys.Add(pair.Key); values.Add(pair.Value);
+            keys.Add(pair.Key); 
+            values.Add(pair.Value);
         }
     }
     public void OnAfterDeserialize()

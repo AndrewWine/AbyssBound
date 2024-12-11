@@ -13,21 +13,21 @@ MonoBehaviour:
   m_Name: DeathBringerData
   m_EditorClassIdentifier: 
   MovementSpeed: 3.5
-  MaxHP: 1650
-  damage: 275
-  magicDamage: 30
-  Armor: 10
-  MagicArmor: 5
-  Level: 10
-  AbyssEssenceDropAmount: 40
+  MaxHP: 285
+  damage: 47.5
+  magicDamage: 5
+  Armor: 5.45
+  MagicArmor: 3.18
+  Level: 3
+  AbyssEssenceDropAmount: 26
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 64
-  attackCooldown: 1
-  lastTimeAttacked: 67.28442
+  attackCooldown: 3
+  lastTimeAttacked: 95.23756
   attackCheckRadius: 5
   groundCheckDistance: 0.3
   WallCheckDistance: 2

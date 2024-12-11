@@ -63,12 +63,24 @@ public class SaveManager : MonoBehaviour
         }
 
         Debug.Log("Load Currency: " + gameData.AbyssEssence);
+
+        Debug.Log("Load item inventory: " + gameData.inventory);
+
+        Debug.Log("Load equipmentID: " + gameData.equipmentID);
+
+
+
     }
 
 
     public void SaveGame()
     {
-        foreach(ISaveManager saveManager in saveManagers)
+        if (saveManagers == null || saveManagers.Count == 0)
+        {
+            Debug.LogError("saveManagers is null or empty. Ensure it is properly initialized.");
+        }
+
+        foreach (ISaveManager saveManager in saveManagers)
         {
             saveManager.SaveData(ref gameData);
             Debug.Log("Game was saved! aaaaa");

@@ -6,6 +6,7 @@ using System;
 public class DeathState : EnemyState
 {
     public static Action ClearHPBar;
+    public static Action<int, Transform> deathSFX;
 
     public override void AnimationFinishTrigger()
     {
@@ -19,6 +20,7 @@ public class DeathState : EnemyState
         // Chạy animation hoặc logic chết
         blackboard.animator.Play("Death");
         ClearHPBar?.Invoke();
+        deathSFX?.Invoke(24, null);
         // Khóa trạng thái
         stateMachine.LockState();
     }

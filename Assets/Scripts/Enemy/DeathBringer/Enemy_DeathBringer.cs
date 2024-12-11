@@ -6,6 +6,7 @@ using UnityEngine;
 public class Enemy_DeathBringer : Enemy
 {
     public static System.Action<bool> canCastSpell;
+
     [Header("Spell cast details")]
     [SerializeField] private GameObject spellPrefab;
     [SerializeField] public float spellCoolDown;
