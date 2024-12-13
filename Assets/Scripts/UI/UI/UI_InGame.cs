@@ -71,6 +71,8 @@ public class UI_InGame : MonoBehaviour
 
     }
 
+    
+
     private void UpdateAbyssEssence()
     {
         // Nội suy giá trị hiển thị dần dần đến giá trị thực tế

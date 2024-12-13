@@ -72,9 +72,9 @@ public class UI_ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
        
 
         if (mousePosition.x > 600)
-            xOffset = -145;
+            xOffset = -245;
         else
-            xOffset = -145;
+            xOffset = -245;
 
        
         ui.itemTooltip.ShowToolTip(item.data as ItemData_equipment);

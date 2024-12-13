@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class PlayerDeathState : PlayerState
 {
+    public Action<int, Transform> playerDeathSFX;
     public override void Enter()
     {
         // Chạy animation chết
         blackboard.animator.Play("Death");
-
+        playerDeathSFX?.Invoke(11, null);
         // Gọi sự kiện chết (nếu có)
         blackboard.player.isDeath?.Invoke();
 

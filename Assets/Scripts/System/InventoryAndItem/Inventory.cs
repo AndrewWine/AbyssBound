@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
+
 using UnityEngine;
-using static UnityEditor.Progress;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 public class Inventory : MonoBehaviour, ISaveManager
 {
@@ -65,6 +68,8 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     private void OnEnable()
     {
+        SaveManager.LoadItemSaved += UpdateSlotUI;
+        GameManager.NotifyRestartGame += UpdateSlotUI;
         ItemData.getItem += AddItem;
         UI_ItemSlot.NotifyEquipItem += EquipItem;
         UI_EquipmentSlot.NotifyUnequipItem += UnEquipItem;
@@ -81,6 +86,8 @@ public class Inventory : MonoBehaviour, ISaveManager
         UI_CraftSlot.NotifyCraftingItem -= CanCraft;  // Hủy đăng ký sự kiện
         UI_ItemSlot.NotifyRemoveItem -= RemoveItem;
         UI_CraftWindow.NotifyCraftingItem -= CanCraft;
+        GameManager.NotifyRestartGame -= UpdateSlotUI;
+        SaveManager.LoadItemSaved -= UpdateSlotUI;
 
     }
 
@@ -329,6 +336,7 @@ public class Inventory : MonoBehaviour, ISaveManager
     public void CanCraft(ItemData _itemToCraft, List<InventoryItem> _requireMaterials)
     {
         List<InventoryItem> materialsToRemove = new List<InventoryItem>();
+        bool canCraft = true;
 
         // Kiểm tra nguyên liệu cần thiết
         for (int i = 0; i < _requireMaterials.Count; i++)
@@ -339,32 +347,51 @@ public class Inventory : MonoBehaviour, ISaveManager
                 {
                     // Nếu không đủ nguyên liệu, trả về false
                     Debug.Log("Not enough materials");
+                    canCraft = false;
+                    break; // Dừng lại nếu không đủ nguyên liệu
                 }
                 else
                 {
-                    // Nếu đủ nguyên liệu, thêm vào danh sách để xóa
-                    materialsToRemove.Add(stashvalue);
-                    AddToInventory(_itemToCraft); // Thêm vật phẩm mới vào kho
+                    // Nếu đủ nguyên liệu, giảm số lượng nguyên liệu trong kho
+                    stashvalue.stackSize -= _requireMaterials[i].stackSize;
 
-                    Debug.Log("Here is your item: " + _itemToCraft.name);
+                    // Nếu nguyên liệu đã hết, thêm vào danh sách để xóa
+                    if (stashvalue.stackSize == 0)
+                    {
+                        materialsToRemove.Add(stashvalue);
+                    }
 
+                    Debug.Log("Sufficient material found: " + stashvalue.data.name);
                 }
             }
             else
             {
                 // Nếu không tìm thấy nguyên liệu trong kho
                 Debug.Log("Not enough materials");
+                canCraft = false;
+                break; // Dừng lại nếu không tìm thấy nguyên liệu
             }
         }
 
-        // Nếu tất cả nguyên liệu có sẵn, tiến hành xóa và chế tạo vật phẩm
-        for (int i = 0; i < materialsToRemove.Count; i++)
+        if (canCraft)
         {
-            RemoveItem(materialsToRemove[i].data); // Xóa nguyên liệu
-        }
+            // Nếu tất cả nguyên liệu có sẵn, tiến hành xóa và chế tạo vật phẩm
+            for (int i = 0; i < materialsToRemove.Count; i++)
+            {
+                RemoveItem(materialsToRemove[i].data); // Xóa nguyên liệu hết số lượng
+            }
 
-        // Thông báo thành công chế tạo vật phẩm
+            // Thêm vật phẩm mới vào kho
+            AddToInventory(_itemToCraft);
+            Debug.Log("Here is your item: " + _itemToCraft.name);
+            UpdateSlotUI();
+        }
+        else
+        {
+            Debug.Log("Crafting failed due to insufficient materials.");
+        }
     }
+
 
     private void AddStartingItems()
     {
@@ -399,7 +426,7 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     }
 
-    public void LoadData(GameData _data)
+   public void LoadData(GameData _data)
     {
         foreach(KeyValuePair<string,int> pair in _data.inventory)
         {
@@ -447,15 +474,16 @@ public class Inventory : MonoBehaviour, ISaveManager
     }
     private List<ItemData> GetItemDataBase()
     {
-        List<ItemData> itemDataBase = new List<ItemData>();
-        string[] assetNames = AssetDatabase.FindAssets("", new[] { "Assets/Scripts/System/InventoryAndItem/Item" });
+        // Load the ItemDatabase ScriptableObject
+        ItemDatabase itemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
 
-        foreach (string SOName in assetNames)
+        if (itemDatabase == null)
         {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var itemData = AssetDatabase.LoadAssetAtPath<ItemData>(SOpath);
-            itemDataBase.Add(itemData);
+            Debug.LogError("ItemDatabase not found. Ensure it is located in a Resources folder and named 'ItemDatabase'."); 
+            return new List<ItemData>();
         }
-        return itemDataBase;
+
+        return new List<ItemData>(itemDatabase.itemDataList);
     }
+
 }

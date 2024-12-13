@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -44,12 +43,12 @@ public class UI_SkillTreeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExi
             }
         }
 
-        for (int i = 0;i < shouldBeLocked.Length; i ++)
+       /* for (int i = 0; i < shouldBeLocked.Length; i++)
         {
             Debug.Log("Cannot unlock skill");
             return;
         }
-
+       */
         unlocked = true;
         skillImage.color = Color.white;
     }

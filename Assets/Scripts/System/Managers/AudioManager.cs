@@ -6,6 +6,7 @@ public class AudioManager : MonoBehaviour
     [Header("Observer Register")]
     public PlayerBlackBoard blackBoard;
     public AreaSound areaSound;
+    public DeathBringerArea bossFightSound;
     public AnimationTriggersDamageOfPlayer triggersDamageOfPlayer;
 
     [SerializeField] private float sfxMinimunDistance;
@@ -45,8 +46,12 @@ public class AudioManager : MonoBehaviour
         blackBoard.primaryAttack.PlaySfxAtk += PlaySFX;
         blackBoard.primaryAttack2.PlaySfxAtk += PlaySFX;
         blackBoard.primaryAttack3.PlaySfxAtk += PlaySFX;
-       
+        blackBoard.playerDeathState.playerDeathSFX += PlaySFX;
         triggersDamageOfPlayer.PlayerSFXAtk += PlaySFX;
+        CharacterStats.playerbeinghit += PlaySFX;
+
+
+        //area
         areaSound.soundAction += PlaySFX;
         areaSound.stopSoundAction += StopSFXWithTime;
 
@@ -59,6 +64,10 @@ public class AudioManager : MonoBehaviour
         DeathStateDeathBringer.deathBringerDeathSFX += PlaySFX;
         ExitTeleport.exitTeleportSFX += PlaySFX;
         DeathBringerSpellController.spellSFX += PlaySFX;
+
+        //battle sound
+        bossFightSound.bosssoundAction += PlayBGM;
+        bossFightSound.stopbossSoundAction += StopBattleFieldSound;
     }
 
     private void OnDisable()
@@ -67,8 +76,11 @@ public class AudioManager : MonoBehaviour
         blackBoard.primaryAttack.PlaySfxAtk -= PlaySFX;
         blackBoard.primaryAttack2.PlaySfxAtk -= PlaySFX;
         blackBoard.primaryAttack3.PlaySfxAtk -= PlaySFX;
-       
+        blackBoard.playerDeathState.playerDeathSFX -= PlaySFX;
+        CharacterStats.playerbeinghit -= PlaySFX;
         triggersDamageOfPlayer.PlayerSFXAtk -= PlaySFX;
+
+        //area
         areaSound.soundAction -= PlaySFX;
         areaSound.stopSoundAction -= StopSFXWithTime;
 
@@ -81,6 +93,8 @@ public class AudioManager : MonoBehaviour
         DeathStateDeathBringer.deathBringerDeathSFX -= PlaySFX;
         ExitTeleport.exitTeleportSFX -= PlaySFX;
         DeathBringerSpellController.spellSFX -= PlaySFX;
+        bossFightSound.bosssoundAction -= PlayBGM;
+        bossFightSound.stopbossSoundAction -= StopBattleFieldSound;
 
     }
 
@@ -149,7 +163,17 @@ public class AudioManager : MonoBehaviour
         StopAllBGM();
         bgm[bgmIndex].Play();
     }
+    public void StopBattleFieldSound()
+    {
+        StopAllBGM();
+        StartCoroutine(WaitAndPlayBGM(5, bgmIndex)); // Gọi sau 5 giây
+    }
 
+    private IEnumerator WaitAndPlayBGM(float waitTime, int _bgmIndex)
+    {
+        yield return new WaitForSeconds(waitTime);
+        PlayRandomBGM();
+    }
     public void StopAllBGM()
     {
         for (int i = 0; i < bgm.Length; i++)

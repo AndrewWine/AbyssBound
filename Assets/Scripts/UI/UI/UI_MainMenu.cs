@@ -8,12 +8,14 @@ public class UI_MainMenu : MonoBehaviour
     [SerializeField] private string sceneName = "MainScene";
     [SerializeField] private GameObject continueButton;
     [SerializeField] UI_FadeScreen fadeScreen;
-    [SerializeField] private SaveManager saveManager;
+    [SerializeField] public SaveManager saveManager;
 
 
-    private void OnEnable()
+    private void Awake()
     {
         saveManager.hasFileSave += SetUpButtonContinue;
+
+
     }
 
     private void OnDisable()
@@ -37,8 +39,8 @@ public class UI_MainMenu : MonoBehaviour
 
     public void NewGame()
     {
-        SaveManager.instance.DeleteSaveData();
-        StartCoroutine(LoadScenceWithFadeEffect(1.5f));
+        saveManager.DeleteSaveData();
+        StartCoroutine(LoadScenceWithFadeEffect(1.0f));
     }
 
     public void ExitGame()

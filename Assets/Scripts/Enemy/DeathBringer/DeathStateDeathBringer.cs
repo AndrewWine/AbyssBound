@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class DeathStateDeathBringer : EnemyState
 {
     public static System.Action clearHealthBar;
     public static System.Action<int, Transform> deathBringerDeathSFX;
+    public static System.Action removeHealthBar;
     public override void AnimationFinishTrigger()
     {
         base.AnimationFinishTrigger();
@@ -15,6 +15,7 @@ public class DeathStateDeathBringer : EnemyState
     {
         base.Enter();
         blackboard.animator.Play("Death");
+        removeHealthBar?.Invoke();
         deathBringerDeathSFX?.Invoke(12,null);
 
 

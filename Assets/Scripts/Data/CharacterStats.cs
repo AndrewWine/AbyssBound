@@ -8,6 +8,7 @@ public class CharacterStats : MonoBehaviour
     public SkillsManager skillsManager;
     public event Action OnStatsChanged;
     public Player player;
+    public static System.Action<int, Transform> playerbeinghit;
     private void Awake()
     {
         playerData.CurrentMana = playerData.MaxMana;
@@ -69,6 +70,10 @@ public class CharacterStats : MonoBehaviour
 
     public void OnCurrentHPChange(float amount)
     {
+        if(amount < 0)
+        {
+            playerbeinghit?.Invoke(33, null);
+        }
         if (playerData.CurrentHP > amount)
             playerData.CurrentHP += amount;
         player.TakeDamage();

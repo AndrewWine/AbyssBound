@@ -6,7 +6,6 @@ public class AreaSound : MonoBehaviour
 {
     public Action<int,Transform> soundAction;
     public Action<int> stopSoundAction;
-    [SerializeField] private int areaSoundIndex;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -17,6 +16,5 @@ public class AreaSound : MonoBehaviour
     {
         if (collision.GetComponent<Player>() != null)
             stopSoundAction?.Invoke(30);
-
     }
 }

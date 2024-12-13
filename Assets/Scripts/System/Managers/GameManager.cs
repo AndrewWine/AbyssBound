@@ -17,8 +17,11 @@ public class GameManager : MonoBehaviour, ISaveManager
 
     public float lostCurrencyAmount;
     public Action NotifySaveGame;
+    public static Action NotifyRestartGame;
     private void Awake()
     {
+        if (ui == null)
+            return;
         ui.PressRestartBtn += RestartScene;
         checkPoints = FindObjectsOfType<CheckPoint>();
         player = GameObject.Find("Player").GetComponent<Transform>();
@@ -33,7 +36,9 @@ public class GameManager : MonoBehaviour, ISaveManager
         NotifySaveGame?.Invoke();
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+        NotifyRestartGame?.Invoke();
         Debug.Log("Restart scene");
+        
     }
 
 

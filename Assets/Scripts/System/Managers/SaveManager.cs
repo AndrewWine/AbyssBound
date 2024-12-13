@@ -5,8 +5,8 @@ using System.Linq;
 using System;
 public class SaveManager : MonoBehaviour
 {
+    public static Action LoadItemSaved;
     public GameData gameData;
-    public UI ui;
     public GameManager gameManager;
     [SerializeField] private string fileName;
 
@@ -30,6 +30,7 @@ public class SaveManager : MonoBehaviour
         dataHandler = new FileDataHandler(Application.persistentDataPath,fileName);
         saveManagers = FindAllSaveManagers();
         LoadGame();
+        HasNoSavedData();
     }
     public void NewGame()
     {
@@ -67,7 +68,7 @@ public class SaveManager : MonoBehaviour
         Debug.Log("Load item inventory: " + gameData.inventory);
 
         Debug.Log("Load equipmentID: " + gameData.equipmentID);
-
+        LoadItemSaved?.Invoke();
 
 
     }
@@ -91,9 +92,17 @@ public class SaveManager : MonoBehaviour
 
     public void QuitGame()
     {
-        SaveGame();
-        Application.Quit();
+        SaveGame(); // Lưu game trước khi thoát
+
+        // Nếu đang chạy trong Editor, dừng game
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    // Nếu game đã build, thoát ứng dụng
+    Application.Quit();
+#endif
     }
+
     private void OnApplicationQuit()
     {
         SaveGame();

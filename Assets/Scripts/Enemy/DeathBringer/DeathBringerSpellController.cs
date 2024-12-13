@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class DeathBringerSpellController : MonoBehaviour
@@ -37,12 +36,12 @@ public class DeathBringerSpellController : MonoBehaviour
 
                 if (roll > player.playerData.evasion)
                 {
-                    float physicalDamage = Mathf.Max(0, enemyData.damage - player.playerData.armor);
+              
                     float magicDamage = Mathf.Max(0, enemyData.magicDamage - player.playerData.magicArmor);
 
 
 
-                    if (physicalDamage > 0) unitHP.OnCurrentHPChange(-physicalDamage);
+                 
                     if (magicDamage > 0) unitHP.OnCurrentHPChange(-magicDamage);
 
 

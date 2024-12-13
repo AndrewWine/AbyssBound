@@ -18,7 +18,7 @@ public class EnemyStat : MonoBehaviour
     private float baseArmor = 5;
     private float baseMagicArmor = 3;
     public float baseAbyssEssenceDropAmount = 20;
-
+    public float BossPower;
     private void OnEnable()
     {
         enemy.isDeath += CheckisDeath;
@@ -32,7 +32,11 @@ public class EnemyStat : MonoBehaviour
     {
         levelText.text = "Level: " + enemyData.Level;
         RatePowerLevel = enemyData.Level / 10f;
-        enemyData.Level = UnityEngine.Random.Range(1,5);
+        BossPower = enemyData.Level / 5f;
+        if (!enemy.isBoss)
+        {
+            enemyData.Level = UnityEngine.Random.Range(1, 5);
+        }
     }
 
     private void Start()
@@ -49,7 +53,7 @@ public class EnemyStat : MonoBehaviour
 
     public void ModifyStatBaseOnLV()
     {
-        if (enemyData.Level > 1)
+        if (enemyData.Level > 1 && !enemy.isBoss)
         {
             // Kiểm tra giá trị trung gian
             Debug.Log($"Level: {enemyData.Level}, RatePowerLevel: {RatePowerLevel}");
@@ -64,6 +68,18 @@ public class EnemyStat : MonoBehaviour
             // Kiểm tra giá trị sau tính toán
             Debug.Log($"Updated MaxHP: {enemyData.MaxHP}");
         }
+        else if (enemyData.Level > 1 && enemy.isBoss) 
+        {
+            // Cập nhật các giá trị dựa trên giá trị gốc
+            enemyData.MaxHP = baseMaxHP + (baseMaxHP * enemyData.Level * BossPower);
+            enemyData.damage = baseDamage + (enemyData.Level * BossPower);
+            enemyData.magicDamage = baseDamage + (enemyData.Level * BossPower);
+            enemyData.Armor = baseArmor + (baseArmor * enemyData.Level * BossPower) / 10f;
+            enemyData.MagicArmor = baseMagicArmor + (baseMagicArmor * enemyData.Level * BossPower) / 15f;
+            enemyData.AbyssEssenceDropAmount = baseAbyssEssenceDropAmount * (BossPower + 10);
+            CurrentHP = enemyData.MaxHP;
+        }
+
        
     }
     

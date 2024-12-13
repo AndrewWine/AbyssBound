@@ -1,8 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditorInternal;
 using UnityEngine;
 using System;
 public class Enemy : MonoBehaviour
@@ -22,7 +18,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Check Variable")]
     protected bool isDead = false; // Cờ kiểm tra trạng thái chết
-
+    public bool isBoss;
     [Header("Other Variable")]
     protected float lastStunTime;  // Thời gian bị stun gần nhất
     public float stunCooldown = 2f; // Thời gian hồi trước khi có thể bị stun lại

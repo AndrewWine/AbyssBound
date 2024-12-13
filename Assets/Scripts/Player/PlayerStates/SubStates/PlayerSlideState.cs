@@ -5,7 +5,7 @@ public class PlayerSlideState : PlayerState
   
 
     // Chỉ thay đổi chiều cao khi trượt
-    private float slideColliderHeight = 0.2338043f; // Chiều cao khi trượt
+    private float slideColliderHeight = 0.0338043f; // Chiều cao khi trượt
     private float slideColliderOffsetY = -0.216456f; // Độ lệch khi trượt (offset Y)
 
     // Tham chiếu đến CapsuleCollider2D

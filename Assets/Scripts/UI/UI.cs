@@ -19,6 +19,7 @@ public class UI : MonoBehaviour, ISaveManager
     [SerializeField] private GameObject craftUI;
     [SerializeField] private GameObject optionsUI;
     [SerializeField] private GameObject inGameUI;
+    [SerializeField] private GameObject buttonSettingUI;
 
 
     public Action PressRestartBtn;
@@ -31,7 +32,7 @@ public class UI : MonoBehaviour, ISaveManager
     [SerializeField] private UI_VolumeSlider[] volumeSetting;
     private void Awake()
     {
-       
+
         if (itemTooltip == null)
         {
             // Tự động tìm GameObject có Item_Tooltip
@@ -76,10 +77,10 @@ public class UI : MonoBehaviour, ISaveManager
 
     public void SwitchWithKeyTo(GameObject _menu)
     {
-        if(_menu != null && _menu.activeSelf)
+        if (_menu != null && _menu.activeSelf)
         {
             _menu.SetActive(false);
-             CheckForInGameUI();
+            CheckForInGameUI();
             return;
         }
         SwitchTo(_menu);
@@ -143,11 +144,11 @@ public class UI : MonoBehaviour, ISaveManager
 
     public void LoadData(GameData _data)
     {
-        foreach(KeyValuePair<string, float> pair in _data.volumeSettings)
+        foreach (KeyValuePair<string, float> pair in _data.volumeSettings)
         {
-            foreach(UI_VolumeSlider item in volumeSetting)
+            foreach (UI_VolumeSlider item in volumeSetting)
             {
-                if(item.parameter == pair.Key)
+                if (item.parameter == pair.Key)
                 {
                     item.LoadSlider(pair.Value);
                 }
@@ -155,6 +156,15 @@ public class UI : MonoBehaviour, ISaveManager
         }
     }
 
+    public void ButtonSetting()
+    {
+        buttonSettingUI.SetActive(true);
+    }
+
+    public void BackButton()
+    {
+        buttonSettingUI.SetActive(false);
+    }
     public void SaveData(ref GameData _data)
     {
         _data.volumeSettings.Clear();
