@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DeathBringerData
   m_EditorClassIdentifier: 
   MovementSpeed: 3.5
-  MaxHP: 3150
+  MaxHP: 4000
   damage: 45
   magicDamage: 45
   Armor: 15
@@ -27,7 +27,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   attackCooldown: 3
-  lastTimeAttacked: 70.576004
+  lastTimeAttacked: 94.096344
   attackCheckRadius: 5
   groundCheckDistance: 0.3
   WallCheckDistance: 2

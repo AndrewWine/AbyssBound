@@ -15,6 +15,16 @@ public class CheckPoint : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void OnEnable()
+    {
+        SaveManager.resetPlayerData += GenerateID;
+    }
+
+    private void OnDisable()
+    {
+        SaveManager.resetPlayerData -= GenerateID;
+    }
+
     [ContextMenu("Generate checkpoint id")]
     private void GenerateID()
     {

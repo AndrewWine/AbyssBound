@@ -11,6 +11,7 @@ public class CharacterStats : MonoBehaviour
     public static System.Action<int, Transform> playerbeinghit;
     private void Awake()
     {
+        SaveManager.resetPlayerData += ResetDefaultStats;
         playerData.CurrentMana = playerData.MaxMana;
         playerData.CurrentStamina = playerData.MaxStamina;
         inputHandler.UseStamina += OnCurrentStaminaChange;
@@ -21,6 +22,7 @@ public class CharacterStats : MonoBehaviour
 
     private void OnDisable()
     {
+        SaveManager.resetPlayerData -= ResetDefaultStats;
         inputHandler.UseStamina -= OnCurrentStaminaChange;
         inputHandler.UseMana -= OnCurrentManaChange;
         skillsManager.UseMana -= OnCurrentManaChange;
@@ -73,10 +75,20 @@ public class CharacterStats : MonoBehaviour
         if(amount < 0)
         {
             playerbeinghit?.Invoke(33, null);
-        }
-        if (playerData.CurrentHP > amount)
             playerData.CurrentHP += amount;
-        player.TakeDamage();
+            player.TakeDamage();
+        }
+       
+        else if (amount > 0) 
+        {
+            playerData.CurrentHP += amount;
+        }
+        if (playerData.CurrentHP > playerData.MaxHP)
+        {
+
+            playerData.CurrentHP = playerData.MaxHP;
+        }
+     
     }
 
     public void OnChangeMaxHP(int amount)
@@ -199,6 +211,52 @@ public class CharacterStats : MonoBehaviour
     public void OnChangeStaminaRegenRate(float amount)
     {
         playerData.staminaRegenRate += amount;
+        NotifyStatChange();
+    }
+
+    public void ResetDefaultStats()
+    {
+        // Reset các chỉ số cơ bản
+        playerData.MaxHP = 100;
+        playerData.CurrentHP = playerData.MaxHP;
+
+        playerData.MaxMana = 30;
+        playerData.CurrentMana = playerData.MaxMana;
+
+        playerData.MaxStamina = 50;
+        playerData.CurrentStamina = playerData.MaxStamina;
+
+        // Reset chỉ số thuộc tính chính
+        playerData.strength = 1;
+        playerData.agility = 1;
+        playerData.intelligence = 1;
+        playerData.vitallity = 1;
+
+        // Reset sát thương và giáp
+        playerData.Damage = 10;
+        playerData.MagicDamage = 5;
+        playerData.armor = 1;
+        playerData.magicArmor = 0;
+
+        // Reset tỷ lệ né tránh, chí mạng
+        playerData.evasion = 5f;
+        playerData.CritChance = 1f; // Tỷ lệ chí mạng 1%
+        playerData.CritPower = 1.5f; // Sát thương chí mạng x1.5
+
+        // Reset tốc độ di chuyển
+        playerData.movementSpeed = 5f;
+
+        // Reset hiệu ứng đặc biệt
+        playerData.canIgnite = 0f;
+        playerData.canFreaze = 0f;
+        playerData.canShock = 0f;
+
+        // Reset tốc độ hồi phục
+        playerData.hpRegenRate = 1f; // Hồi 1 HP mỗi giây
+        playerData.manaRegenRate = 0.5f; // Hồi 0.5 mana mỗi giây
+        playerData.staminaRegenRate = 1f; // Hồi 1 stamina mỗi giây
+
+        // Gọi sự kiện thay đổi chỉ số (nếu có)
         NotifyStatChange();
     }
 }

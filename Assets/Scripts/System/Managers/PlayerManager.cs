@@ -50,6 +50,8 @@ public class PlayerManager : MonoBehaviour,ISaveManager
 
     public void SaveData(ref GameData _data)
     {
+        if( _data == null )
+            return;
         _data.AbyssEssence = this.playerData.AbyssEssence;
     }
 }

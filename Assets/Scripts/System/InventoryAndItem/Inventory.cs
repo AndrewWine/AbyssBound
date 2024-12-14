@@ -38,6 +38,10 @@ public class Inventory : MonoBehaviour, ISaveManager
     [Header("data base")]
     public List<InventoryItem> loadedItems;
     public List<ItemData_equipment> loadEquipment;
+    [SerializeField] private ItemDatabase itemDatabase;
+
+    //variable
+    private float lastTimeUseFlask;
     private void Awake()
     {
         inventory = new List<InventoryItem>();
@@ -68,6 +72,7 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     private void OnEnable()
     {
+        PlayerInputHandler.useFlask += UseFlask;
         SaveManager.LoadItemSaved += UpdateSlotUI;
         GameManager.NotifyRestartGame += UpdateSlotUI;
         ItemData.getItem += AddItem;
@@ -80,6 +85,7 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     private void OnDisable()
     {
+        PlayerInputHandler.useFlask -= UseFlask;
         ItemData.getItem -= AddItem;
         UI_ItemSlot.NotifyEquipItem -= EquipItem;
         UI_EquipmentSlot.NotifyUnequipItem -= UnEquipItem;
@@ -456,9 +462,11 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     public void SaveData(ref GameData _data)
     {
+    
         _data.inventory.Clear();
         foreach(KeyValuePair<ItemData, InventoryItem> pair in inventoryDictionory)
         {
+     
             _data.inventory.Add(pair.Key.itemId,pair.Value.stackSize);
         }
 
@@ -474,16 +482,47 @@ public class Inventory : MonoBehaviour, ISaveManager
     }
     private List<ItemData> GetItemDataBase()
     {
-        // Load the ItemDatabase ScriptableObject
-        ItemDatabase itemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
-
         if (itemDatabase == null)
         {
-            Debug.LogError("ItemDatabase not found. Ensure it is located in a Resources folder and named 'ItemDatabase'."); 
+            Debug.LogError("ItemDatabase is not assigned in the Inspector!");
             return new List<ItemData>();
         }
 
         return new List<ItemData>(itemDatabase.itemDataList);
+    }
+
+    public ItemData_equipment GetEquipment(EquipmentType _type)
+    {
+
+        ItemData_equipment equipmentItem = null;
+        foreach(KeyValuePair<ItemData_equipment,InventoryItem> item in equipmentDictionory)
+        {
+            if(item.Key.equipmentType == _type)
+            {
+                equipmentItem = item.Key;
+            }
+
+        }
+        return equipmentItem;
+
+    }
+
+    public void UseFlask()
+    {
+        ItemData_equipment currenFlask = GetEquipment(EquipmentType.Flask);
+        if (currenFlask == null)
+            return;
+        bool canUseFlask = Time.time > lastTimeUseFlask + currenFlask.itemCooldown;
+        if (canUseFlask)
+        {
+            Debug.Log("use flask");
+            currenFlask.Effect(null);
+            lastTimeUseFlask = Time.time;
+        }
+        else
+        {
+            Debug.Log("Flask on cooldown");
+        }
     }
 
 }

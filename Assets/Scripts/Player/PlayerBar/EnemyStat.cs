@@ -53,7 +53,7 @@ public class EnemyStat : MonoBehaviour
 
     public void ModifyStatBaseOnLV()
     {
-        if (enemyData.Level > 1 && !enemy.isBoss)
+        if (enemyData.Level >= 1 && !enemy.isBoss)
         {
             // Kiểm tra giá trị trung gian
             Debug.Log($"Level: {enemyData.Level}, RatePowerLevel: {RatePowerLevel}");
@@ -68,7 +68,7 @@ public class EnemyStat : MonoBehaviour
             // Kiểm tra giá trị sau tính toán
             Debug.Log($"Updated MaxHP: {enemyData.MaxHP}");
         }
-        else if (enemyData.Level > 1 && enemy.isBoss) 
+        else if (enemyData.Level >= 1 && enemy.isBoss) 
         {
             // Cập nhật các giá trị dựa trên giá trị gốc
             enemyData.MaxHP = baseMaxHP + (baseMaxHP * enemyData.Level * BossPower);

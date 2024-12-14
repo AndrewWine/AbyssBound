@@ -14,12 +14,15 @@ public class GameManager : MonoBehaviour, ISaveManager
     [SerializeField] private GameObject lostCurrencyPrefab;
     [SerializeField] private float lostCurrencyX;
     [SerializeField] private float lostCurrencyY;
+    private GameData currentGameData;
 
     public float lostCurrencyAmount;
     public Action NotifySaveGame;
     public static Action NotifyRestartGame;
     private void Awake()
     {
+        currentGameData = new GameData(); // Khởi tạo GameData mới khi bắt đầu game
+
         if (ui == null)
             return;
         ui.PressRestartBtn += RestartScene;

@@ -15,7 +15,9 @@ MonoBehaviour:
   itemtype: 1
   itemName: Health Flask
   icon: {fileID: -410334530, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: 42750c1b59de72144afd37478874f90c
   dropChance: 0
+  Silver: 0
   strength: 0
   agility: 0
   intelligence: 0
@@ -47,3 +49,6 @@ MonoBehaviour:
   - data: {fileID: 11400000, guid: 8a3347725005ad74e9da1ac3b24a3450, type: 2}
     stackSize: 3
   equipmentType: 8
+  itemCooldown: 5
+  itemEffects:
+  - {fileID: 11400000, guid: 6401934840e42dc438689960b95c4d85, type: 2}

@@ -167,6 +167,7 @@ public class UI : MonoBehaviour, ISaveManager
     }
     public void SaveData(ref GameData _data)
     {
+      
         _data.volumeSettings.Clear();
 
         foreach(UI_VolumeSlider item in volumeSetting)

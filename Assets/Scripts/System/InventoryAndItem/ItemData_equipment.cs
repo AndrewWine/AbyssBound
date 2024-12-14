@@ -17,4 +17,14 @@ public enum EquipmentType
 public class ItemData_equipment : ItemData
 {
    public EquipmentType equipmentType;
+   public float itemCooldown;
+    public ItemEffect[] itemEffects;
+
+    public void Effect(Transform _enemyPosition)
+    {
+        foreach (var effect in itemEffects)
+        {
+            effect.ExecuteEffect(_enemyPosition);
+        }
+    }
 }

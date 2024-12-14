@@ -25,7 +25,6 @@ public class GameData
         equipmentID = new List<string>();
         closestCheckpointID = string.Empty;
         checkpoints = new SerializableDictionary<string, bool>();
-
         volumeSettings = new SerializableDictionary<string, float>();
     }
 }

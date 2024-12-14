@@ -6,6 +6,7 @@ using System;
 public class SaveManager : MonoBehaviour
 {
     public static Action LoadItemSaved;
+    public static Action resetPlayerData;
     public GameData gameData;
     public GameManager gameManager;
     [SerializeField] private string fileName;
@@ -34,7 +35,7 @@ public class SaveManager : MonoBehaviour
     }
     public void NewGame()
     {
-
+        resetPlayerData?.Invoke();
     }
 
     private void OnEnable()
@@ -84,7 +85,7 @@ public class SaveManager : MonoBehaviour
         foreach (ISaveManager saveManager in saveManagers)
         {
             saveManager.SaveData(ref gameData);
-            Debug.Log("Game was saved! aaaaa");
+          
         }
         dataHandler.Save(gameData);
         Debug.Log("Game was saved!");
@@ -101,6 +102,7 @@ public class SaveManager : MonoBehaviour
     // Nếu game đã build, thoát ứng dụng
     Application.Quit();
 #endif
+        Application.Quit();
     }
 
     private void OnApplicationQuit()

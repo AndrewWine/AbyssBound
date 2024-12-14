@@ -10,6 +10,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public Action<int> UseMana;
     public Action<int> UseStamina;
+    public static Action useFlask;
 
     // Input variables
     public Vector2 RawMovementInput { get; private set; }
@@ -59,7 +60,7 @@ public class PlayerInputHandler : MonoBehaviour
         RightClickFunction();
         AimSword();
         ClonePlayer();
-
+        UseFlaskButton();
         playerData.UsageTimer += Time.deltaTime;
     }
     public void ClonePlayer()
@@ -70,6 +71,14 @@ public class PlayerInputHandler : MonoBehaviour
            
             skillManager.ActivateCloneAttack();
 
+        }
+    }
+
+    public void UseFlaskButton()
+    {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            useFlask?.Invoke();
         }
     }
     public void AimSword()

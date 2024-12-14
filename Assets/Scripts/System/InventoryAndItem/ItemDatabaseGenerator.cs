@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class ItemDatabaseGenerator : MonoBehaviour
 {
+#if UNITY_EDITOR
     [MenuItem("Tools/Generate Item Database")]
     private static void GenerateDatabase()
     {
-        // Tìm tất cả các ItemData
+        // Find all ItemData assets
         string[] assetPaths = AssetDatabase.FindAssets("t:ItemData");
         ItemDatabase database = ScriptableObject.CreateInstance<ItemDatabase>();
 
@@ -21,11 +22,12 @@ public class ItemDatabaseGenerator : MonoBehaviour
             }
         }
 
-        // Lưu Database vào Assets
+        // Save the database to Assets
         string savePath = "Assets/ItemDatabase.asset";
         AssetDatabase.CreateAsset(database, savePath);
         AssetDatabase.SaveAssets();
 
         Debug.Log($"Item Database generated and saved to {savePath}");
     }
+#endif
 }

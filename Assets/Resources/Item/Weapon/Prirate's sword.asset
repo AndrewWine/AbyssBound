@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8598a9fbdf8a6c546959f05f5017cdad, type: 3}
+  m_Name: Prirate's sword
+  m_EditorClassIdentifier: 
+  itemtype: 1
+  itemName: Prirate's sword
+  icon: {fileID: 1724600912, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  itemId: 9f7b1c6b6b961ef4ca4196751f90f611
+  dropChance: 2
+  Silver: 0
+  strength: 13
+  agility: 3
+  intelligence: 0
+  vitallity: 5
+  Damage: 16
+  MagicDamage: 0
+  CritChance: 10
+  CritPower: 5
+  armor: 0
+  magicArmor: 0
+  evasion: 0
+  movementSpeed: 0
+  staminaRegenRate: 0
+  hpRegenRate: 0
+  manaRegenRate: 0
+  lifesteal: 0
+  canIgnite: 15
+  canFreaze: 0
+  canShock: 0
+  Ignite: 0
+  Freaze: 0
+  Shock: 0
+  Chill: 0
+  craftingMaterials:
+  - data: {fileID: 11400000, guid: 7828b67139c154e46a37d5afc77ed84f, type: 2}
+    stackSize: 5
+  - data: {fileID: 11400000, guid: 3faa8c009e0828043bc5637713acf785, type: 2}
+    stackSize: 10
+  - data: {fileID: 11400000, guid: 28d3389d7e4f3734aa7f9acc5902dcd2, type: 2}
+    stackSize: 15
+  equipmentType: 0
+  itemCooldown: 0
+  itemEffects: []
