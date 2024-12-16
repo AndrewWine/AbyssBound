@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,19 +13,28 @@ public class UI_InGame : MonoBehaviour
     [Header("Skill Image")]
     [SerializeField] private Image dashSkillImage;
     [SerializeField] private Image throwSwordImage;
-    [SerializeField] private Image CloneSkillImage;
+    [SerializeField] private Image CloneSkillImage; 
+    [SerializeField] private Image flaskImage;
+    public Inventory inventory;
+    [Header("Quantity")]
+    [SerializeField] private TextMeshProUGUI flaskQuantity;
     [SerializeField] private TextMeshProUGUI AbyssEssenceText ;
     public bool SwordCheck = false;
     public bool DashCheck = false;
     public bool CloneCheck = false;
+    public bool flaskCheck = false;
 
+  
+    private ItemData_equipment currentFlask;
     private float displayedAbyssEssence;
     [SerializeField] private float updateSpeed = 1.0f; // Tốc độ thay đổi giá trị
 
     public SkillsManager skillsManager ;
+
+
     private void OnEnable()
     {
-        
+        Inventory.UsedFlask += SetCooldownOfFlask;
         playerManager.NotifyUpdateCurrency += UpdateAbyssEssence;
         SwordSkill_Controller.CheckSword += SetCoolDownOfThrowSword;
         skillsManager.CloneSkillCoolDown += SetCoolDownOfClone;
@@ -33,6 +43,7 @@ public class UI_InGame : MonoBehaviour
 
     private void OnDisable()
     {
+        Inventory.UsedFlask -= SetCooldownOfFlask;
         playerManager.NotifyUpdateCurrency -= UpdateAbyssEssence;
         skillsManager.CloneSkillCoolDown -= SetCoolDownOfClone;
         skillsManager.DashSkillCoolDown -= SetCoolDownOfDashSkill;
@@ -49,6 +60,8 @@ public class UI_InGame : MonoBehaviour
     {
      
     }
+
+
     private void Update()
     {
         UpdateAbyssEssence();
@@ -63,15 +76,31 @@ public class UI_InGame : MonoBehaviour
             CheckCooldownOf(dashSkillImage, 3);
             //DashCheck = false;
         }
-        if (CloneCheck == true) 
+        if (CloneCheck == true)
         {
             CheckCooldownOf(CloneSkillImage, 2);
             //CloneCheck = false;
         }
 
+        if (flaskCheck == true)
+        {
+            CheckCooldownOf(flaskImage, 5);
+        }
+
+        // Pass the currentFlask instance
+        CheckQuantityOfFlask();
     }
 
-    
+
+    private void CheckQuantityOfFlask()
+    {
+
+        // Cập nhật số lượng bình
+        flaskQuantity.text = inventory.flaskQuantity.ToString();
+    }
+
+
+
 
     private void UpdateAbyssEssence()
     {
@@ -105,6 +134,13 @@ public class UI_InGame : MonoBehaviour
         {
             CheckCooldownOf(throwSwordImage, 0);
         }
+
+    }
+
+    public void SetCooldownOfFlask()
+    {
+        SetCoolDownOf(flaskImage);
+        flaskCheck = true;
 
     }
     private void SetCoolDownOf(Image _image)

@@ -8,7 +8,7 @@ public class CheckPoint : MonoBehaviour
     public string id;
     public bool activationStatus;
 
-    public Action NotifySaveGame;
+    public static Action NotifySaveGameatCheckPoint;
 
     private void Awake()
     {
@@ -33,17 +33,39 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<Player>() != null)
+        Player player = collision.GetComponent<Player>();
+        if (player != null)
         {
             ActivateCheckpoint();
         }
+        else
+        {
+            Debug.LogWarning("Collision does not have a Player component.");
+        }
     }
+
 
     public void ActivateCheckpoint()
     {
-        NotifySaveGame?.Invoke();
+        if (NotifySaveGameatCheckPoint != null)
+        {
+            NotifySaveGameatCheckPoint.Invoke();
+        }
+        else
+        {
+            Debug.LogWarning("No subscribers for NotifySaveGameatCheckPoint.");
+        }
+
         activationStatus = true;
-        anim.SetBool("active", true);
-    
+
+        if (anim != null)
+        {
+            anim.SetBool("active", true);
+        }
+        else
+        {
+            Debug.LogError("Animator is not assigned in CheckPoint.");
+        }
     }
+
 }

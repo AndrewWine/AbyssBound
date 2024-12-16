@@ -40,7 +40,8 @@ public class UI_MainMenu : MonoBehaviour
     public void NewGame()
     {
         saveManager.DeleteSaveData();
-        StartCoroutine(LoadScenceWithFadeEffect(1.0f));
+        StartCoroutine(LoadScenceWithFadeEffect(1.5f));
+        saveManager.LoadDefaultGameData();
     }
 
     public void ExitGame()

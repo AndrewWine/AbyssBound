@@ -20,10 +20,10 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
     }
     public void OnAfterDeserialize()
     {
-       this.Clear();
-        if(keys.Count != values.Count)
+        this.Clear();
+        if (keys.Count != values.Count)
         {
-            Debug.Log("Keys count is not equal to values count");
+            throw new Exception("Deserialization error: Keys count does not match values count.");
         }
 
         for (int i = 0; i < keys.Count; i++)
@@ -31,5 +31,6 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
             this.Add(keys[i], values[i]);
         }
     }
+
 
 }

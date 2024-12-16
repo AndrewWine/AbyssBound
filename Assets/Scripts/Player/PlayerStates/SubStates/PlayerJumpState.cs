@@ -15,10 +15,9 @@ public class PlayerJumpState : PlayerState
 
         // Check if player is grounded again
       
-        if (blackboard.isGrounded)
+        if (blackboard.isGrounded && isAnimationFinished)
         {
             // Reset jump count when grounded (2 for double jump)
-            blackboard.playerData.amountOfJump = 1;
 
             // Change state to Idle or Move based on input
             if (blackboard.PlayerInputHandler.NormInputX != 0)
@@ -77,5 +76,10 @@ public class PlayerJumpState : PlayerState
         {
             blackboard.player.SetVelocityY(blackboard.RB.velocity.y);
         }
+    }
+
+    public override void AnimationFinishTrigger()
+    {
+        base.AnimationFinishTrigger();
     }
 }

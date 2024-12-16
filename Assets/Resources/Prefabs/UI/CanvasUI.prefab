@@ -21977,10 +21977,14 @@ MonoBehaviour:
   dashSkillImage: {fileID: 272145034647626007}
   throwSwordImage: {fileID: 33139852353872981}
   CloneSkillImage: {fileID: 6845746955284972533}
+  flaskImage: {fileID: 0}
+  inventory: {fileID: 0}
+  flaskQuantity: {fileID: 0}
   AbyssEssenceText: {fileID: 7943211350978607354}
   SwordCheck: 0
   DashCheck: 0
   CloneCheck: 0
+  flaskCheck: 0
   updateSpeed: 1
   skillsManager: {fileID: 0}
 --- !u!95 &8111673757931687305

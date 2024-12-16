@@ -10,6 +10,8 @@ public class PlayerIdleState : PlayerState
         blackboard.player.SetVelocityX(0);
         blackboard.player.SetVelocityY(0);
         blackboard.animator.Play("Idle"); // Chạy animation Idle
+        blackboard.playerData.amountOfJump = 2;
+
     }
 
     public override void LogicUpdate()

@@ -7,7 +7,7 @@ public class PlayerWallSlideState : PlayerState
         base.Enter();
         blackboard.animator.Play("Wall-Slide");
         blackboard.playerData.CurrentFacing = blackboard.FacingDirection ;
-        blackboard.playerData.amountOfJump = 1;
+        blackboard.playerData.amountOfJump = 2;
 
     }
 

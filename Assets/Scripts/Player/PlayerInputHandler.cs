@@ -76,7 +76,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void UseFlaskButton()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+        if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             useFlask?.Invoke();
         }

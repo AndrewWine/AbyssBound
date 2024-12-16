@@ -34,6 +34,7 @@ public class Inventory : MonoBehaviour, ISaveManager
     private UI_ItemSlot NotifyEquipItem;
     private UI_ItemSlot NotifyRemoveItem;
     public Action UpdateStats;
+    public static Action UsedFlask;
 
     [Header("data base")]
     public List<InventoryItem> loadedItems;
@@ -42,6 +43,9 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     //variable
     private float lastTimeUseFlask;
+    public float flaskQuantity;
+
+
     private void Awake()
     {
         inventory = new List<InventoryItem>();
@@ -509,20 +513,61 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     public void UseFlask()
     {
-        ItemData_equipment currenFlask = GetEquipment(EquipmentType.Flask);
-        if (currenFlask == null)
-            return;
-        bool canUseFlask = Time.time > lastTimeUseFlask + currenFlask.itemCooldown;
-        if (canUseFlask)
+        // Kiểm tra xem có trang bị flask không
+        ItemData_equipment currentFlask = GetEquipment(EquipmentType.Flask);
+
+        // Nếu không có flask được trang bị
+        if (currentFlask == null)
         {
-            Debug.Log("use flask");
-            currenFlask.Effect(null);
-            lastTimeUseFlask = Time.time;
+            Debug.Log("Không có flask nào được trang bị.");
+            return;
+        }
+
+        // Kiểm tra thời gian hồi chiêu
+        bool canUseFlask = Time.time > lastTimeUseFlask + currentFlask.itemCooldown;
+        if (!canUseFlask)
+        {
+            Debug.Log("Flask đang trong thời gian hồi chiêu.");
+            return;
+        }
+
+        // Tìm flask trong inventory
+        CheckFlaskRemain(currentFlask);
+    }
+
+    public void CheckFlaskRemain(ItemData_equipment currentFlask)
+    {
+        if (inventoryDictionory.TryGetValue(currentFlask, out InventoryItem flaskItem))
+        {
+            if (flaskItem.stackSize > 0)    
+            {
+                // Sử dụng flask
+                Debug.Log("Sử dụng flask.");
+                currentFlask.Effect(null);
+                flaskItem.RemoveStack();
+                lastTimeUseFlask = Time.time;
+
+                // Nếu flask hết số lượng, xóa khỏi inventory
+                if (flaskItem.stackSize <= 0)
+                {
+                    inventory.Remove(flaskItem);
+                    inventoryDictionory.Remove(currentFlask);
+                }
+
+                UsedFlask?.Invoke();
+                flaskQuantity = flaskItem.stackSize;
+
+                // Cập nhật giao diện
+                UpdateSlotUI();
+            }
+            else
+            {
+                Debug.Log("Hết flask trong inventory.");
+            }
         }
         else
         {
-            Debug.Log("Flask on cooldown");
+            Debug.Log("Không tìm thấy flask trong inventory.");
         }
     }
-
 }
