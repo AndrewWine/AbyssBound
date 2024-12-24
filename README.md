@@ -14,6 +14,8 @@ Character
 Player Stats
 ![image alt](https://github.com/AndrewWine/AbyssBound/blob/a2b871632c5fec53eff207e2bf954bdc36205ee4/ToolTipstats.png)
 
+Each attribute point will require a certain amount of AbyssSoul, and each time a point is added, a greater amount of AbyssSoul will be needed for subsequent points.
+
 Crafting
 Crafting Weapon
 ![image alt](https://github.com/AndrewWine/AbyssBound/blob/a2b871632c5fec53eff207e2bf954bdc36205ee4/CraftItem.png)
