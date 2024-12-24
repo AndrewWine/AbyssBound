@@ -29,18 +29,25 @@ Crafting flask
 
 Skill Tree
 ![image alt](https://github.com/AndrewWine/AbyssBound/blob/a2b871632c5fec53eff207e2bf954bdc36205ee4/SkillTree.png)
+
 Allow the player to gain more abilities, which require AbyssSoul to unlock.
 
 Game Option
 ![image alt](https://github.com/AndrewWine/AbyssBound/blob/a2b871632c5fec53eff207e2bf954bdc36205ee4/GameSetting.png)
+
 Adjusting Sound 
 Save and quit game.
+
+Player Death Screen.
+![image alt](https://github.com/AndrewWine/AbyssBound/blob/4021451a18f302ad02a7f960bf193128e7a595f4/PlayerDeathScreen.png)
+
 SavePoint
 ![image alt](https://github.com/AndrewWine/AbyssBound/blob/a2b871632c5fec53eff207e2bf954bdc36205ee4/SavePoint.png)
 When the player touches the lantern, it will brighten to show them that the game has been saved successfully.
 
 LostBody
 ![image alt](https://github.com/AndrewWine/AbyssBound/blob/a2b871632c5fec53eff207e2bf954bdc36205ee4/LostCurrency.png)
+
 When the player has an AbyssSoul and dies, it will be created to hold the player's AbyssSoul, 
 giving them a chance to take it back.
 
@@ -51,6 +58,7 @@ Spike Traps
 Mobs
 Skeleton Warrior
 ![image alt](https://github.com/AndrewWine/AbyssBound/blob/a2b871632c5fec53eff207e2bf954bdc36205ee4/Mobs.png)
+
 The Skeleton Warrior will have a random level between 1 and 5.
 
 Boss
